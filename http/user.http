@@ -1,0 +1,46 @@
+### Encode to Base64 format: jan@example.com:MyPassword
+### Result: amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+### get information about me
+GET http://localhost:8080/api/v1/users/me
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic c3RlZmFuQGV4YW1wbGUuY29tOnBhc3N3b3Jk
+
+### get information about me
+GET http://localhost:8080/api/v1/users/me
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+### create user
+POST http://localhost:8080/api/v1/users
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+{
+  "email": "rafal5@gmail.com",
+  "name": "Rafal Nowak",
+  "password": "userPass",
+  "roles": ["STUDENT"]
+}
+
+### get user by id
+GET http://localhost:8080/api/v1/users/622b230ff0150774ceba74c5
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+###Authorization: {{auth_token}}
+
+### get all users
+GET http://localhost:8080/api/v1/users/
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
+
+### get all users
+GET http://localhost:8080/api/v1/users?page=2&size=3
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
