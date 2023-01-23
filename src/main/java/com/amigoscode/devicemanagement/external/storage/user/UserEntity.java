@@ -19,7 +19,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UserEntity {
+class UserEntity {
 
     @Id
     private String id;

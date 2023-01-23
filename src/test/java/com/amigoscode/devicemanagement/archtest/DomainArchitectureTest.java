@@ -10,16 +10,16 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 
 @AnalyzeClasses(packages = "pl.sages.javadevpro.projecttwo",
         importOptions = {ImportOption.DoNotIncludeTests.class})
-public class DomainArchitectureTest {
+class DomainArchitectureTest {
 
 
     @ArchTest
-    public static final ArchRule domain_has_no_external_dependencies = noClasses().that().resideInAPackage("..domain..")
+    static final ArchRule domain_has_no_external_dependencies = noClasses().that().resideInAPackage("..domain..")
             .should().dependOnClassesThat().resideOutsideOfPackages("..domain..", "..java..", "", "..lombok..");
     // the package "" is where byte[] resides (=> https://stackoverflow.com/questions/67298013/archunit-base-type-thrown-wrong)
 
     @ArchTest
-    public static final ArchRule task_is_not_dependent_on_user = noClasses().that().resideInAPackage("..domain.task..")
+    static final ArchRule task_is_not_dependent_on_user = noClasses().that().resideInAPackage("..domain.task..")
             .should().dependOnClassesThat().resideInAPackage("..domain.user..");
 
 

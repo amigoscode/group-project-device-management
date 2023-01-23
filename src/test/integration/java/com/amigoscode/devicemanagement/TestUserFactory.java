@@ -1,4 +1,4 @@
-package com.amigoscode.devicemanagment;
+package com.amigoscode.devicemanagement;
 
 import com.amigoscode.devicemanagement.domain.user.model.User;
 import com.amigoscode.devicemanagement.domain.user.model.UserRole;

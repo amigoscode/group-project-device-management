@@ -8,6 +8,7 @@ import lombok.extern.java.Log;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +16,8 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Log
-public class UserStorageAdapter implements UserRepository {
+@Component
+class UserStorageAdapter implements UserRepository {
 
     private final MongoUserRepository userRepository;
     private final UserEntityMapper mapper;

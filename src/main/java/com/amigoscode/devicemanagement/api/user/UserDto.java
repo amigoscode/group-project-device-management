@@ -1,11 +1,11 @@
-package com.amigoscode.devicemanagement.api.user.dto;
+package com.amigoscode.devicemanagement.api.user;
 
 import lombok.Value;
 
 import java.util.Set;
 
 @Value
-public class UserDto {
+class UserDto {
 
     String id;
     String email;

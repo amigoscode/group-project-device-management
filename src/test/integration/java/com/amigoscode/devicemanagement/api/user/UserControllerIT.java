@@ -1,13 +1,12 @@
-package com.amigoscode.devicemanagment.api;
+package com.amigoscode.devicemanagement.api.user;
 
-import com.amigoscode.devicemanagement.api.user.dto.PageUserDto;
-import com.amigoscode.devicemanagement.api.user.dto.UserDto;
+
 import com.amigoscode.devicemanagement.domain.user.UserService;
 import com.amigoscode.devicemanagement.domain.user.model.User;
 import com.amigoscode.devicemanagement.domain.user.model.UserRole;
 import com.amigoscode.devicemanagement.api.response.ErrorResponse;
-import com.amigoscode.devicemanagment.BaseIT;
-import com.amigoscode.devicemanagment.TestUserFactory;
+import com.amigoscode.devicemanagement.BaseIT;
+import com.amigoscode.devicemanagement.TestUserFactory;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;

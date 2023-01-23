@@ -1,9 +1,9 @@
-package com.amigoscode.devicemanagment.domain;
+package com.amigoscode.devicemanagement.domain;
 
 import com.amigoscode.devicemanagement.domain.user.UserService;
 import com.amigoscode.devicemanagement.domain.user.model.User;
-import com.amigoscode.devicemanagment.BaseIT;
-import com.amigoscode.devicemanagment.TestUserFactory;
+import com.amigoscode.devicemanagement.BaseIT;
+import com.amigoscode.devicemanagement.TestUserFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

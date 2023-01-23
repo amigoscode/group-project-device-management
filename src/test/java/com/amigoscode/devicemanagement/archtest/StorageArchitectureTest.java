@@ -12,18 +12,18 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 
 @AnalyzeClasses(packages = "pl.sages.javadevpro.projecttwo",
         importOptions = {ImportOption.DoNotIncludeTests.class})
-public class StorageArchitectureTest {
+class StorageArchitectureTest {
 
     @ArchTest
-    public static final ArchRule entity_class_names_are_only_used_in_storage_layer = classes().that().haveNameMatching(".*Entity")
+    static final ArchRule entity_class_names_are_only_used_in_storage_layer = classes().that().haveNameMatching(".*Entity")
             .should().resideInAPackage("..storage..");
 
     @ArchTest
-    public static final ArchRule entity_classes_are_not_used_outside_storage_layer = classes().that().areAnnotatedWith(Document.class)
+    static final ArchRule entity_classes_are_not_used_outside_storage_layer = classes().that().areAnnotatedWith(Document.class)
             .should().onlyBeAccessed().byAnyPackage("..storage..");
 
     @ArchTest
-    public static final ArchRule jpa_annotations_are_only_used_in_storage_layer = noClasses().that().resideOutsideOfPackage("..storage..")
+    static final ArchRule jpa_annotations_are_only_used_in_storage_layer = noClasses().that().resideOutsideOfPackage("..storage..")
             .should().dependOnClassesThat().resideInAnyPackage("..javax.persistence..", "..hibernate..");
 
 

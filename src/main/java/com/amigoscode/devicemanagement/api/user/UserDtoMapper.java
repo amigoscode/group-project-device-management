@@ -1,12 +1,11 @@
-package com.amigoscode.devicemanagement.api.user.mapper;
+package com.amigoscode.devicemanagement.api.user;
 
-import com.amigoscode.devicemanagement.api.user.dto.UserDto;
 import com.amigoscode.devicemanagement.domain.user.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
-public interface UserDtoMapper {
+interface UserDtoMapper {
 
     @Mapping(target="password", constant = "######")
     UserDto toDto(User domain);

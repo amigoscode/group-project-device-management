@@ -1,6 +1,5 @@
-package com.amigoscode.devicemanagment;
+package com.amigoscode.devicemanagement;
 
-import com.amigoscode.devicemanagement.DeviceManagementApplication;
 import com.amigoscode.devicemanagement.domain.user.UserService;
 import com.amigoscode.devicemanagement.domain.user.model.User;
 import com.amigoscode.devicemanagement.domain.user.model.UserRole;

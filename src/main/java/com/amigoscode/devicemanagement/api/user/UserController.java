@@ -1,9 +1,5 @@
 package com.amigoscode.devicemanagement.api.user;
 
-import com.amigoscode.devicemanagement.api.user.dto.PageUserDto;
-import com.amigoscode.devicemanagement.api.user.dto.UserDto;
-import com.amigoscode.devicemanagement.api.user.mapper.PageUserDtoMapper;
-import com.amigoscode.devicemanagement.api.user.mapper.UserDtoMapper;
 import com.amigoscode.devicemanagement.domain.user.UserService;
 import com.amigoscode.devicemanagement.domain.user.model.User;
 import com.amigoscode.devicemanagement.security.Security;
@@ -27,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
         produces = "application/json",
         consumes = "application/json"
 )
-public class UserController {
+class UserController {
 
     private final UserService userService;
     private final UserDtoMapper userMapper;

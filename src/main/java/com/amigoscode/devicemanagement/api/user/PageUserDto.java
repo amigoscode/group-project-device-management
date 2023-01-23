@@ -1,11 +1,11 @@
-package com.amigoscode.devicemanagement.api.user.dto;
+package com.amigoscode.devicemanagement.api.user;
 
 import lombok.Value;
 
 import java.util.List;
 
 @Value
-public class PageUserDto {
+class PageUserDto {
 
     List<UserDto> users;
     Integer currentPage;

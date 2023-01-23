@@ -1,7 +1,5 @@
-package com.amigoscode.devicemanagement.api.user.mapper;
+package com.amigoscode.devicemanagement.api.user;
 
-import com.amigoscode.devicemanagement.api.user.dto.PageUserDto;
-import com.amigoscode.devicemanagement.api.user.dto.UserDto;
 import com.amigoscode.devicemanagement.domain.user.model.PageUser;
 import com.amigoscode.devicemanagement.domain.user.model.User;
 import org.mapstruct.IterableMapping;
@@ -12,7 +10,7 @@ import org.mapstruct.Named;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface PageUserDtoMapper {
+interface PageUserDtoMapper {
 
     @Mapping(target = "users", qualifiedByName = "toUserDtoList")
     PageUserDto toPageDto(PageUser domain);
