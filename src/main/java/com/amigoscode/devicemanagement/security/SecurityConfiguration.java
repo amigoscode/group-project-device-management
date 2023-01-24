@@ -32,7 +32,7 @@ public class SecurityConfiguration{
         http.cors().and()
             .csrf().disable()
             .authorizeHttpRequests(requests -> requests
-                    .requestMatchers(HttpMethod.GET, "/api/v1/users/me").hasAnyRole("ADMIN", "STUDENT")
+                    .requestMatchers(HttpMethod.GET, "/api/v1/users/me").hasAnyRole("ADMIN", "DEVICE_OWNER")
                     .requestMatchers("/api/v1/users/**").hasRole("ADMIN")
                     .anyRequest().denyAll())
             .httpBasic();

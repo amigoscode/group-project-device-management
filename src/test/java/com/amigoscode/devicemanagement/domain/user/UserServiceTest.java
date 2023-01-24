@@ -32,7 +32,7 @@ class UserServiceTest {
             "email@email.any",
             "user name",
             "pass",
-            Set.of(UserRole.STUDENT)
+            Set.of(UserRole.DEVICE_OWNER)
     );
 
     @Test

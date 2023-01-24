@@ -27,19 +27,19 @@ public class DefaultUsers implements CommandLineRunner {
         Set.of(UserRole.ADMIN)
     );
 
-    private final User studentUser = new User(
+    private final User deviceOwnerUser = new User(
         null,
         "stefan@example.com",
         "Stefan Burczymucha",
         "password",
-        Set.of(UserRole.STUDENT)
+        Set.of(UserRole.DEVICE_OWNER)
     );
 
     @Override
     public void run(String... args) {
         try {
             addUser(adminUser);
-            addUser(studentUser);
+            addUser(deviceOwnerUser);
         } catch (Exception ex) {
             log.warning("Users already exist");
         }

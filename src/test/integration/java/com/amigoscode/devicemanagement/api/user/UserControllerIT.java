@@ -26,7 +26,7 @@ class UserControllerIT extends BaseIT {
     @Test
     void admin_should_get_information_about_any_user() {
         //given
-        User user = TestUserFactory.createStudent();
+        User user = TestUserFactory.createDeviceOwner();
         service.save(user);
         String token = getTokenForAdmin();
 
@@ -65,10 +65,10 @@ class UserControllerIT extends BaseIT {
     }
 
     @Test
-    void student_should_not_get_information_about_other_student() {
+    void device_owner_should_not_get_information_about_other_device_owner() {
         //given
-        User user1 = TestUserFactory.createStudent();
-        User user2 = TestUserFactory.createStudent();
+        User user1 = TestUserFactory.createDeviceOwner();
+        User user2 = TestUserFactory.createDeviceOwner();
         service.save(user1);
         service.save(user2);
         String accessToken = getAccessTokenForUser(user1.getEmail(), user1.getPassword());
@@ -87,7 +87,7 @@ class UserControllerIT extends BaseIT {
     @Test
     void admin_should_get_response_code_conflict_when_user_is_in_db() {
         //given
-        User user = TestUserFactory.createStudent();
+        User user = TestUserFactory.createDeviceOwner();
         service.save(user);
         String adminToken = getTokenForAdmin();
 
@@ -106,7 +106,7 @@ class UserControllerIT extends BaseIT {
     @Test
     void admin_should_be_able_to_save_new_user() {
         //given
-        User user = TestUserFactory.createStudent();
+        User user = TestUserFactory.createDeviceOwner();
         String adminAccessToken = getTokenForAdmin();
 
         //when
@@ -128,9 +128,9 @@ class UserControllerIT extends BaseIT {
     }
 
     @Test
-    void student_should_get_information_about_himself() {
+    void device_owner_should_get_information_about_himself() {
         //given
-        User user = TestUserFactory.createStudent();
+        User user = TestUserFactory.createDeviceOwner();
         service.save(user);
         String accessToken = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
@@ -156,14 +156,14 @@ class UserControllerIT extends BaseIT {
     @Test
     void admin_should_be_able_to_update_user() {
         //given
-        User user = TestUserFactory.createStudent();
+        User user = TestUserFactory.createDeviceOwner();
         userService.save(user);
         User toUpdate = new User(
                 user.getId(),
                 "email@email.com",
                 "newPerson",
                 "newpassword",
-                Set.of(UserRole.STUDENT)
+                Set.of(UserRole.DEVICE_OWNER)
         );
         String adminAccessToken = getTokenForAdmin();
 
@@ -182,7 +182,7 @@ class UserControllerIT extends BaseIT {
     void admin_should_be_get_response_code_200_when_update_user_not_exits() {
         //given
         String token = getTokenForAdmin();
-        User fakeUser = TestUserFactory.createStudent();
+        User fakeUser = TestUserFactory.createDeviceOwner();
 
         //when
         var response = callHttpMethod(HttpMethod.PUT,
@@ -196,16 +196,16 @@ class UserControllerIT extends BaseIT {
     }
 
     @Test
-    void student_should_be_not_able_to_update_user() {
+    void device_owner_should_be_not_able_to_update_user() {
         //given
-        User user = TestUserFactory.createStudent();
+        User user = TestUserFactory.createDeviceOwner();
         userService.save(user);
         User userToUpdate = new User(
                 user.getId(),
                 "otherUser@email.com",
                 "Person",
                 "password",
-                Set.of(UserRole.STUDENT)
+                Set.of(UserRole.DEVICE_OWNER)
         );
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
@@ -223,7 +223,7 @@ class UserControllerIT extends BaseIT {
     @Test
     void admin_should_be_able_to_delete_user() {
         //given
-        User user = TestUserFactory.createStudent();
+        User user = TestUserFactory.createDeviceOwner();
         String adminAccessToken = getTokenForAdmin();
         userService.save(user);
 
@@ -242,7 +242,7 @@ class UserControllerIT extends BaseIT {
     @Test
     void admin_should_get_response_code_204_when_user_not_exits() {
         //given
-        User user = TestUserFactory.createStudent();
+        User user = TestUserFactory.createDeviceOwner();
         String token = getTokenForAdmin();
 
         //when
@@ -258,10 +258,10 @@ class UserControllerIT extends BaseIT {
     }
 
     @Test
-    void student_should_not_be_able_to_delete_user() {
+    void device_owner_should_not_be_able_to_delete_user() {
         //given
-        User firstUser = TestUserFactory.createStudent();
-        User secondUser = TestUserFactory.createStudent();
+        User firstUser = TestUserFactory.createDeviceOwner();
+        User secondUser = TestUserFactory.createDeviceOwner();
         userService.save(firstUser);
         userService.save(secondUser);
         String token = getAccessTokenForUser(firstUser.getEmail(), firstUser.getPassword());
@@ -281,7 +281,7 @@ class UserControllerIT extends BaseIT {
     @Test
     void admin_should_get_pageable_list_of_users() {
         //give
-        User user = TestUserFactory.createStudent();
+        User user = TestUserFactory.createDeviceOwner();
         String adminAccessToken = getTokenForAdmin();
         userService.save(user);
 

@@ -20,7 +20,7 @@ class UserServiceIT extends BaseIT {
     @Test
     void add_user_test() {
         //given
-        User user = TestUserFactory.createStudent();
+        User user = TestUserFactory.createDeviceOwner();
         service.save(user);
 
         //when
@@ -35,9 +35,9 @@ class UserServiceIT extends BaseIT {
     @Test
     void get_id_should_return_correct_user() {
         //given
-        User user1 = TestUserFactory.createStudent();
-        User user2 = TestUserFactory.createStudent();
-        User user3 = TestUserFactory.createStudent();
+        User user1 = TestUserFactory.createDeviceOwner();
+        User user2 = TestUserFactory.createDeviceOwner();
+        User user3 = TestUserFactory.createDeviceOwner();
         service.save(user1);
         service.save(user2);
         service.save(user3);

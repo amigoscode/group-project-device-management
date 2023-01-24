@@ -1,13 +1,11 @@
 package com.amigoscode.devicemanagement.domain.user;
 
+import com.amigoscode.devicemanagement.domain.user.exception.UserNotFoundException;
 import com.amigoscode.devicemanagement.domain.user.model.PageUser;
 import com.amigoscode.devicemanagement.domain.user.model.User;
-import com.amigoscode.devicemanagement.domain.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
-@Service
 @RequiredArgsConstructor
 public class UserService {
 

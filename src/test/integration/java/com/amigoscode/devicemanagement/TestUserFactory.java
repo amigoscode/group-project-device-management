@@ -9,14 +9,14 @@ public class TestUserFactory {
 
     private static int userSequence = 0;
 
-    public static User createStudent() {
+    public static User createDeviceOwner() {
         userSequence++;
         return new User(
                 "TEST" + userSequence,
                 "newUser" + userSequence + "@example.com",
                 "User Name " + userSequence,
                 "password",
-                Set.of(UserRole.STUDENT)
+                Set.of(UserRole.DEVICE_OWNER)
         );
     }
 

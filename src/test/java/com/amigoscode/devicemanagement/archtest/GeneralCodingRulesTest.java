@@ -8,7 +8,7 @@ import com.tngtech.archunit.library.GeneralCodingRules;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 
-@AnalyzeClasses(packages = "pl.sages.javadevpro.projecttwo",
+@AnalyzeClasses(packages = "com.amigoscode.devicemanagement",
         importOptions = {ImportOption.DoNotIncludeTests.class})
 class GeneralCodingRulesTest {
 
@@ -24,7 +24,7 @@ class GeneralCodingRulesTest {
     @ArchTest
     static final ArchRule deprecated_classes_should_not_be_used = noClasses().that()
             .areAnnotatedWith(Deprecated.class).should()
-            .resideInAnyPackage("pl.sages.javadevpro.projecttwo");
+            .resideInAnyPackage("com.amigoscode.devicemanagement");
 
 
 }

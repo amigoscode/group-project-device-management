@@ -3,7 +3,7 @@ package com.amigoscode.devicemanagement.domain.user.model;
 public enum UserRole {
 
     ADMIN ("ADMIN"),
-    STUDENT ("STUDENT");
+    DEVICE_OWNER("DEVICE_OWNER");
 
     private final String value;
 

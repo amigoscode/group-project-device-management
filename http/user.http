@@ -23,7 +23,7 @@ Authorization: Basic amFuQGV4YW1wbGUuY29tOk15UGFzc3dvcmQ=
   "email": "rafal5@gmail.com",
   "name": "Rafal Nowak",
   "password": "userPass",
-  "roles": ["STUDENT"]
+  "roles": ["DEVICE_OWNER"]
 }
 
 ### get user by id

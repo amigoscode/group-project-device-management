@@ -10,7 +10,7 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 
 
-@AnalyzeClasses(packages = "pl.sages.javadevpro.projecttwo",
+@AnalyzeClasses(packages = "com.amigoscode.devicemanagement",
         importOptions = {ImportOption.DoNotIncludeTests.class})
 class StorageArchitectureTest {
 
