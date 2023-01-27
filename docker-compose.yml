@@ -21,6 +21,7 @@ services:
       - ME_CONFIG_MONGODB_ADMINUSERNAME=rootuser
       - ME_CONFIG_MONGODB_ADMINPASSWORD=rootpass
       - ME_CONFIG_MONGODB_SERVER=mongodb-production
+    restart: unless-stopped
 
   mongodb-it:
     image: mongo
@@ -40,6 +41,7 @@ services:
       - ME_CONFIG_MONGODB_ADMINUSERNAME=rootuser
       - ME_CONFIG_MONGODB_ADMINPASSWORD=rootpass
       - ME_CONFIG_MONGODB_SERVER=mongodb-it
+    restart: unless-stopped
 
 volumes:
   data: {}
