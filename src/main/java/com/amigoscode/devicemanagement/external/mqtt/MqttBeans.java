@@ -83,16 +83,9 @@ class MqttBeans {
 
                     return;
                 }
-                if(topic.equals("myTopic")) {
-                    log.info("This is the topic: myTopic now");
-                }
-                log.info("Message payload: {}", message.getPayload());
 
-//                String topic = message.getHeaders().get(MqttHeaders.RECEIVED_TOPIC).toString();
-//                if(topic.equals("myTopic")) {
-//                    log.info("This is the topic: myTopic now");
-//                }
-//                log.info("Topic: {}; Message payload: {}", topic, message.getPayload());
+                log.info("Message topic: {} | Message payload: {}", topic, message.getPayload());
+
             }
 
         };
