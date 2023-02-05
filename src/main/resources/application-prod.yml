@@ -1,6 +1,6 @@
 mqtt:
   server:
-    uri: tcp://localhost:1883
+    uri: tcp://mqtt:1883
 spring:
   data:
     mongodb:
@@ -9,5 +9,5 @@ spring:
       password: rootpass
       database: projectTwo
       port: 27017
-      host: localhost
+      host: dm-mongodb-production
       auto-index-creation: true

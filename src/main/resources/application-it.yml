@@ -1,3 +1,6 @@
+mqtt:
+  server:
+    uri: tcp://localhost:1883
 server:
   port: 7777
 spring:

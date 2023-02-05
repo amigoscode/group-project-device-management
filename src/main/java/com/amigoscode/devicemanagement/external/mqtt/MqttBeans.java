@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.core.MessageProducer;
@@ -24,13 +25,19 @@ import org.springframework.messaging.MessagingException;
 @Configuration
 class MqttBeans {
 
+    private Environment environment;
+
+    MqttBeans(final Environment environment) {
+        this.environment = environment;
+    }
+
     private static final Logger log = LoggerFactory.getLogger(MqttBeans.class);
     @Bean
     public MqttPahoClientFactory mqttClientFactory() {
         DefaultMqttPahoClientFactory factory = new DefaultMqttPahoClientFactory();
         MqttConnectOptions options = new MqttConnectOptions();
 
-        options.setServerURIs(new String[] { "tcp://localhost:1883" });
+        options.setServerURIs(new String[] { environment.getProperty("mqtt.server.uri") });
         options.setUserName("admin");
         String pass = "qwerty";
         options.setPassword(pass.toCharArray());
@@ -74,10 +81,10 @@ class MqttBeans {
 
                     try {
                         TemperatureMqttDto temperatureMqttDto = mapper.readValue(message.getPayload().toString(), TemperatureMqttDto.class);
-                        log.info("Received TemperatureMqttDto: {}", temperatureMqttDto);
+                        log.info("Message topic: {} | Received TemperatureMqttDto: {}", topic, temperatureMqttDto);
 
                     } catch (JsonProcessingException e) {
-                        throw new RuntimeException(e);
+                        throw new JsonCouldNotBeCreatedException();
                     }
 
 
