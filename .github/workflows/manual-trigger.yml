@@ -14,11 +14,11 @@ jobs:
           MONGO_INITDB_ROOT_PASSWORD: rootpass
         ports:
           - 27016:27017
-#        options: >-
-#          --health-cmd "echo 'db.runCommand("ping").ok' | mongo localhost:27017/test"
-#          --health-interval 10s
-#          --health-timeout 5s
-#          --health-retries 5
+        options: >-
+          --health-cmd `bash -c "if mongo --eval 'quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)'; then exit 0; fi; exit 1;"`
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     defaults:
       run:
         working-directory: ./
