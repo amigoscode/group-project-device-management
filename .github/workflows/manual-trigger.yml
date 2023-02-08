@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       mongodb-it:
-        image: mongo:5.0
+        image: mongo:6.0
         env:
           MONGO_INITDB_ROOT_USERNAME: rootuser
           MONGO_INITDB_ROOT_PASSWORD: rootpass
