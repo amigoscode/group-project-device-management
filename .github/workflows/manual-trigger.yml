@@ -15,7 +15,7 @@ jobs:
         ports:
           - 27016:27017
         options: >-
-          --health-cmd "echo 'db.runCommand("ping").ok' | mongo localhost:27017/test --quiet"
+          --health-cmd "mongo localhost:27017/test --quiet --eval 'quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)'"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
