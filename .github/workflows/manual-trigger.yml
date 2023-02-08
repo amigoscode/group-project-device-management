@@ -15,10 +15,11 @@ jobs:
         ports:
           - 27016:27017
         options: >-
-          --health-cmd "mongo localhost:27017/test --quiet --eval 'quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)'"
+          --health-cmd "mongosh localhost:27017"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+          #          --health-cmd "mongo localhost:27017/test --quiet --eval 'quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)'"
     defaults:
       run:
         working-directory: ./
