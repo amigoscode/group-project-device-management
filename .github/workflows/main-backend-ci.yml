@@ -1,0 +1,38 @@
+name: CI - Build Main Backend
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - backend/device-management-main/**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      mongodb-it:
+        image: mongo:6.0
+        env:
+          MONGO_INITDB_ROOT_USERNAME: rootuser
+          MONGO_INITDB_ROOT_PASSWORD: rootpass
+        ports:
+          - 27016:27017
+#        options: >-
+#          --health-cmd "mongo localhost:27017/test --quiet --eval 'quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)'"
+#          --health-interval 10s
+#          --health-timeout 5s
+#          --health-retries 5
+    defaults:
+      run:
+        working-directory: ./backend/device-management-main
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
+      - name: Build and run Unit/Integration Tests with Maven
+        run: mvn -ntp -B verify

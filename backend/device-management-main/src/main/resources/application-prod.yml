@@ -1,0 +1,13 @@
+mqtt:
+  server:
+    uri: tcp://mqtt:1883
+spring:
+  data:
+    mongodb:
+      authentication-database: admin
+      username: rootuser
+      password: rootpass
+      database: projectTwo
+      port: 27017
+      host: dm-mongodb-production
+      auto-index-creation: true
