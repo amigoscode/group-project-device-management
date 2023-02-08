@@ -15,7 +15,7 @@ jobs:
         ports:
           - 27016:27017
         options: >-
-          --health-cmd "if mongo --eval 'quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)'; then exit 0; fi; exit 1;"
+          --health-cmd "echo 'db.runCommand("ping").ok' | mongo mongo:27017/test --quiet"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
