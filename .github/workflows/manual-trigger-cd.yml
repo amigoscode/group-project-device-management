@@ -1,4 +1,4 @@
-name: Manual CD - Deploy Backend
+name: CD - Manual Actions Workflow - Deploy Backend
 
 on:
   workflow_dispatch
