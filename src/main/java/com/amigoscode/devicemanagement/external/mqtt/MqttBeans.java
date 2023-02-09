@@ -92,6 +92,8 @@ class MqttBeans {
                 }
 
                 log.info("Message topic: {} | Message payload: {}", topic, message.getPayload());
+                //log.info("Message topic: {} | Message payload: {}", topic, message.getPayload());
+                //log.info("Message topic: {} | Message payload: {}", topic, message.getPayload());
 
             }
 
