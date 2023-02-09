@@ -2,8 +2,8 @@ name: CI - Build Backend
 
 on:
   pull_request:
-    branches:
-      - main
+#    branches:
+#      - main
     paths:
       - /**
 
