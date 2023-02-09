@@ -12,17 +12,17 @@ jobs:
     runs-on: ubuntu-latest
     services:
       mongodb-it:
-        image: mongo
+        image: mongo:6.0
         env:
           MONGO_INITDB_ROOT_USERNAME: rootuser
           MONGO_INITDB_ROOT_PASSWORD: rootpass
         ports:
           - 27016:27017
-        options: >-
-          --health-cmd "mongo localhost:27016/test --quiet --eval 'quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)'"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+#        options: >-
+#          --health-cmd "mongo localhost:27017/test --quiet --eval 'quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)'"
+#          --health-interval 10s
+#          --health-timeout 5s
+#          --health-retries 5
     defaults:
       run:
         working-directory: ./
