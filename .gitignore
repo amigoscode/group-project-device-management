@@ -91,15 +91,15 @@ out/
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/src/node_modules
-/src/.pnp
+/backend/main/src/node_modules
+/backend/main/src/.pnp
 .pnp.js
 
 # testing
 /coverage
 
 # production
-/src/build
+/backend/main/src/build
 
 # misc
 .DS_Store
