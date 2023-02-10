@@ -1,4 +1,4 @@
-name: CI - Build Main Backend
+name: CI - Build Simulator Backend
 
 on:
   workflow_dispatch:

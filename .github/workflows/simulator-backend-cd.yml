@@ -1,4 +1,4 @@
-name: CD - Deploy Main Backend
+name: CD - Deploy Simulator Backend
 
 on:
   workflow_dispatch:
