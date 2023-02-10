@@ -1,6 +1,7 @@
 name: CI - Build Backend
 
 on:
+  workflow_dispatch:
   pull_request:
     branches:
       - main
