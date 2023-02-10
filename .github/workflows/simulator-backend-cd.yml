@@ -6,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - backend/simulator/**
+      - backend/device-management-simulator/**
 
 jobs:
   deploy:
@@ -28,7 +28,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./backend/simulator
+        working-directory: ./backend/device-management-simulator
 
     steps:
       - uses: actions/checkout@v3

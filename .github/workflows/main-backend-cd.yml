@@ -6,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - backend/main/**
+      - backend/device-management-main/**
 
 jobs:
   deploy:
@@ -26,7 +26,7 @@ jobs:
 #          --health-retries 5
     defaults:
       run:
-        working-directory: ./backend/main
+        working-directory: ./backend/device-management-main
 
     steps:
       - uses: actions/checkout@v3
