@@ -30,16 +30,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-#      - name: Slack commit message and sha
-#        run: >
-#          curl -X POST -H 'Content-type: application/json'
-#          --data '{"text":":github: https://github.com/amigoscode/spring-boot-full-stack/commit/${{ github.sha }} - ${{ github.event.head_commit.message }}"}' 
-#          ${{ secrets.SLACK_WEBHOOK_URL }}
-#      - name: Send Slack Message
-#        run: >
-#          curl -X POST -H 'Content-type: application/json'
-#          --data '{"text":"Deployment started :progress_bar: :fingerscrossed:"}' 
-#          ${{ secrets.SLACK_WEBHOOK_URL }}
+      - name: Slack commit message and sha
+        run: >
+          curl -X POST -H 'Content-type: application/json'
+          --data '{"text":":github: https://github.com/amigoscode/group-project-device-management/commit/${{ github.sha }} - ${{ github.event.head_commit.message }}"}' 
+          ${{ secrets.SLACK_WEBHOOK_URL }}
+      - name: Send Slack Message
+        run: >
+          curl -X POST -H 'Content-type: application/json'
+          --data '{"text":"Deployment started :progress_bar: :fingerscrossed:"}' 
+          ${{ secrets.SLACK_WEBHOOK_URL }}
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
@@ -53,18 +53,18 @@ jobs:
       - name: Set build number
         id: build-number
         run: echo "BUILD_NUMBER=$(date '+%d.%m.%Y.%H.%M.%S')" >> $GITHUB_OUTPUT
-#      - name: Send Slack Message
-#        run: >
-#          curl -X POST -H 'Content-type: application/json' 
-#          --data '{"text":":maven: Building with Maven"}' 
-#          ${{ secrets.SLACK_WEBHOOK_URL }}
+      - name: Send Slack Message
+        run: >
+          curl -X POST -H 'Content-type: application/json' 
+          --data '{"text":":maven: Building with Maven"}' 
+          ${{ secrets.SLACK_WEBHOOK_URL }}
       - name: Build Package Push with Maven
         run: mvn -ntp -B verify -Ddocker.image.tag=${{steps.build-number.outputs.BUILD_NUMBER}} jib:build
-#      - name: Send Slack Message
-#        run: >
-#          curl -X POST -H 'Content-type: application/json' 
-#          --data '{"text":":docker: Image tag:${{steps.build-number.outputs.BUILD_NUMBER}} pushed to https://hub.docker.com/repository/docker/amigoscode/amigoscode-api"}' 
-#          ${{ secrets.SLACK_WEBHOOK_URL }}
+      - name: Send Slack Message
+        run: >
+          curl -X POST -H 'Content-type: application/json' 
+          --data '{"text":":docker: Image tag:${{steps.build-number.outputs.BUILD_NUMBER}} pushed to https://hub.docker.com/repository/docker/rafalnowak444/device-management"}' 
+          ${{ secrets.SLACK_WEBHOOK_URL }}
 #      - name: Update Dockerrun.aws.json api image tag with new build number
 #        run: |
 #          echo "Dockerrun.aws.json before updating tag"
