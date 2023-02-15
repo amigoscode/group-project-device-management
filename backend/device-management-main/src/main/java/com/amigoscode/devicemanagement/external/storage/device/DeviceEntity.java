@@ -20,7 +20,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Getter
 @Setter
-public class DeviceEntity {
+class DeviceEntity {
 
     @Id
     private String id;
