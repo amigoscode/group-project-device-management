@@ -16,5 +16,7 @@ public interface DeviceRepository {
 
     Optional<Device> findById(String id);
 
+    Optional<Device> findByName(String name);
+
     PageDevice findAll(Pageable pageable);
 }
