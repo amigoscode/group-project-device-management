@@ -4,7 +4,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;
 
-public interface MongoDeviceRepository extends MongoRepository<DeviceEntity, String> {
+interface MongoDeviceRepository extends MongoRepository<DeviceEntity, String> {
 
     Optional<DeviceEntity> findByName(String name);
 
