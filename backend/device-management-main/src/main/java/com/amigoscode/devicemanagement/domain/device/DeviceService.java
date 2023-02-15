@@ -24,6 +24,11 @@ public class DeviceService {
         deviceRepository.remove(id);
     }
 
+    public Device findByName(String name){
+        return deviceRepository.findByName(name)
+                .orElseThrow(DeviceNotFoundException::new);
+    }
+
     public Device findById(String id){
         return deviceRepository.findById(id)
                 .orElseThrow(DeviceNotFoundException::new);
