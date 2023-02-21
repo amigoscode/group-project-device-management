@@ -32,9 +32,11 @@ public class SecurityConfiguration{
         http.cors().and()
             .csrf().disable()
             .authorizeHttpRequests(requests -> requests
+                    .requestMatchers( "/api/v1/devices/**").hasAnyRole("ADMIN", "DEVICE_OWNER")
                     .requestMatchers(HttpMethod.GET, "/api/v1/users/me").hasAnyRole("ADMIN", "DEVICE_OWNER")
                     .requestMatchers("/api/v1/users/**").hasRole("ADMIN")
-                    .anyRequest().denyAll())
+                    .anyRequest().denyAll()
+            )
             .httpBasic();
         return http.build();
     }

@@ -1,17 +1,12 @@
 package com.amigoscode.devicemanagement.external.storage.device;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
-import java.util.Objects;
+import java.time.ZonedDateTime;
 
 @Document("Devices")
 @TypeAlias("DeviceEntity")
@@ -29,9 +24,9 @@ class DeviceEntity {
     private String name;
 
     private String ownerId;
-    private Date createdAt;
-    private Date updatedAt;
-    private Date deletedAt;
+    private ZonedDateTime createdAt;
+    private ZonedDateTime updatedAt;
+    private ZonedDateTime deletedAt;
     private String updatedBy;
 
 
@@ -45,24 +40,10 @@ class DeviceEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DeviceEntity that = (DeviceEntity) o;
-        return id.equals(that.id) && name.equals(that.name) && ownerId.equals(that.ownerId) && createdAt.equals(that.createdAt) && Objects.equals(updatedAt, that.updatedAt) && Objects.equals(deletedAt, that.deletedAt) && Objects.equals(updatedBy, that.updatedBy);
+        return id.equals(that.id);
     }
-
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, ownerId, createdAt, updatedAt, deletedAt, updatedBy);
-    }
-
-    @Override
-    public String toString() {
-        return "DeviceEntity{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", ownerId='" + ownerId + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                ", deletedAt=" + deletedAt +
-                ", updatedBy='" + updatedBy + '\'' +
-                '}';
+        return 0;
     }
 }
