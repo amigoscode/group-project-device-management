@@ -47,11 +47,6 @@ class DeviceStorageAdapter implements DeviceRepository {
     }
 
     @Override
-    public Optional<Device> findByName(String name) {
-        return deviceRepository.findByName(name).map(mapper::toDomain);
-    }
-
-    @Override
     public Optional<Device> findById(String id) {
         return deviceRepository.findById(id).map(mapper::toDomain);
     }

@@ -1,18 +1,17 @@
-package com.amigoscode.devicemanagement.domain.device.model;
+package com.amigoscode.devicemanagement.api.device;
 
 import lombok.Value;
 
-import java.io.Serializable;
 import java.time.ZonedDateTime;
 
 @Value
-public class Device implements Serializable {
+class DeviceDto {
 
     String id;
     String name;
     String ownerId;
     ZonedDateTime createdAt;
-    ZonedDateTime deletedAt;
     ZonedDateTime updatedAt;
+    ZonedDateTime deletedAt;
     String updatedBy;
 }
