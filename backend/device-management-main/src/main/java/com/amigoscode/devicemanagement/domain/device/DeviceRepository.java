@@ -19,4 +19,6 @@ public interface DeviceRepository {
     Optional<Device> findByName(String name);
 
     PageDevice findAll(Pageable pageable);
+
+    PageDevice findAllByOwnerId(Pageable pageable, String userId);
 }
