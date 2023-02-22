@@ -54,7 +54,7 @@ class DeviceControllerIT extends BaseIT {
     }
 
     @Test
-    void user_should_be_able_to_get_information_about_device_he_owns() {
+    void device_owner_should_be_able_to_get_information_about_device_he_owns() {
         User user = TestUserFactory.createDeviceOwner();
         Device device = TestDeviceFactory.createRandom();
         device.setOwnerId(user.getId());
@@ -77,7 +77,7 @@ class DeviceControllerIT extends BaseIT {
     }
 
     @Test
-    void user_should_not_be_able_to_get_information_about_device_he_does_not_own() {
+    void device_owner_should_not_be_able_to_get_information_about_device_he_does_not_own() {
         User user = TestUserFactory.createDeviceOwner();
         Device device = TestDeviceFactory.createRandom();
         device.setOwnerId(user.getId() + "qwerty");
@@ -125,8 +125,34 @@ class DeviceControllerIT extends BaseIT {
     }
 
     @Test
-    void user_should_be_able_to_get_information_about_all_devices_he_owns() {
+    void device_owner_should_be_able_to_get_information_about_all_devices_he_owns() {
+        User user = TestUserFactory.createDeviceOwner();
+        Device device1 = TestDeviceFactory.createRandom();
+        Device device2 = TestDeviceFactory.createRandom();
+        Device device3 = TestDeviceFactory.createRandom();
+        device1.setOwnerId(user.getId());
+        device2.setOwnerId(user.getId());
+        device3.setOwnerId(user.getId() + "qwerty");
+        userService.save(user);
+        deviceService.save(device1);
+        deviceService.save(device2);
+        deviceService.save(device3);
+        String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
+        //when
+        var response = callHttpMethod(HttpMethod.GET,
+                "/api/v1/devices",
+                token,
+                null,
+                PageDeviceDto.class);
+
+        //then
+        PageDeviceDto body = response.getBody();
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        //and
+        assertEquals(2, body.getTotalElements());
+        compareDevices(device1, deviceDtoMapper.toDomain(body.getDevices().get(0)));
+        compareDevices(device2, deviceDtoMapper.toDomain(body.getDevices().get(1)));
     }
 
     @Test
@@ -151,7 +177,7 @@ class DeviceControllerIT extends BaseIT {
     }
 
     @Test
-    void user_should_not_be_able_to_save_new_device() {
+    void device_owner_should_not_be_able_to_save_new_device() {
         //given
         User user = TestUserFactory.createDeviceOwner();
         Device device = TestDeviceFactory.createRandom();
@@ -188,6 +214,68 @@ class DeviceControllerIT extends BaseIT {
     }
 
     @Test
+    void admin_should_be_able_to_update_device() {
+        //given
+        String adminAccessToken = getTokenForAdmin();
+        Device device = TestDeviceFactory.createRandom();
+        deviceService.save(device);
+        Device updatedDevice = new Device(
+                device.getId(),
+                "Updated Name",
+                "Updated Owner Id",
+                device.getCreatedAt().plusDays(7),
+                device.getDeletedAt().plusDays(10),
+                device.getUpdatedAt().plusDays(8),
+                "New Updated By"
+        );
+
+        //when
+        var response = callHttpMethod(HttpMethod.PUT,
+                "/api/v1/devices",
+                adminAccessToken,
+                deviceDtoMapper.toDto(updatedDevice),
+                DeviceDto.class);
+
+        //then
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        //and
+        DeviceDto body = response.getBody();
+        Assertions.assertNull(body);
+        //and
+        Device deviceFromDb = deviceService.findById(device.getId());
+        compareDevices(updatedDevice, deviceFromDb);
+    }
+
+    @Test
+    void device_owner_should_not_be_able_to_update_device() {
+        //given
+        User user = TestUserFactory.createDeviceOwner();
+        Device device = TestDeviceFactory.createRandom();
+        userService.save(user);
+        deviceService.save(device);
+        String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
+        Device updatedDevice = new Device(
+                device.getId(),
+                "Updated Name",
+                "Updated Owner Id",
+                device.getCreatedAt().plusDays(7),
+                device.getDeletedAt().plusDays(10),
+                device.getUpdatedAt().plusDays(8),
+                "New Updated By"
+        );
+
+        //when
+        var response = callHttpMethod(HttpMethod.PUT,
+                "/api/v1/devices",
+                token,
+                deviceDtoMapper.toDto(updatedDevice),
+                DeviceDto.class);
+
+        //then
+        Assertions.assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
+    }
+
+    @Test
     void admin_should_be_able_to_delete_device() {
         //given
         String adminAccessToken = getTokenForAdmin();
@@ -206,7 +294,7 @@ class DeviceControllerIT extends BaseIT {
     }
 
     @Test
-    void user_should_not_be_able_to_delete_device() {
+    void device_owner_should_not_be_able_to_delete_device() {
         //given
         User user = TestUserFactory.createDeviceOwner();
         Device device = TestDeviceFactory.createRandom();
@@ -230,9 +318,9 @@ class DeviceControllerIT extends BaseIT {
         assertEquals(model.getId(), tested.getId());
         assertEquals(model.getName(), tested.getName());
         assertEquals(model.getOwnerId(), tested.getOwnerId());
-        assertEquals(model.getCreatedAt(), tested.getCreatedAt());
-        assertEquals(model.getDeletedAt(), tested.getDeletedAt());
-        assertEquals(model.getUpdatedAt(), tested.getUpdatedAt());
+        assertEquals(model.getCreatedAt().toLocalDateTime(), tested.getCreatedAt().toLocalDateTime());
+        assertEquals(model.getDeletedAt().toLocalDateTime(), tested.getDeletedAt().toLocalDateTime());
+        assertEquals(model.getUpdatedAt().toLocalDateTime(), tested.getUpdatedAt().toLocalDateTime());
         assertEquals(model.getUpdatedBy(), tested.getUpdatedBy());
     }
 

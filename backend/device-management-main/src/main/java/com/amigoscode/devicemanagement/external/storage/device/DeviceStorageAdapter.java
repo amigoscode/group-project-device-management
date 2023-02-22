@@ -70,4 +70,18 @@ class DeviceStorageAdapter implements DeviceRepository {
         );
     }
 
+    @Override
+    public PageDevice findAllByOwnerId(final Pageable pageable, final String userId) {
+        Page<DeviceEntity> pageOfDevicesEntity = deviceRepository.findAllByOwnerId(pageable, userId);
+        List<Device> devicesOnCurrentPage = pageOfDevicesEntity.getContent().stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
+        return new PageDevice(
+                devicesOnCurrentPage,
+                pageable.getPageNumber() + 1,
+                pageOfDevicesEntity.getTotalPages(),
+                pageOfDevicesEntity.getTotalElements()
+        );
+    }
+
 }

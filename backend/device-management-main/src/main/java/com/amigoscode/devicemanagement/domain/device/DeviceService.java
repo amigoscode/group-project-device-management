@@ -36,4 +36,7 @@ public class DeviceService {
         return deviceRepository.findAll(pageable);
     }
 
+    public PageDevice findAllByOwnerId(final Pageable pageable, final String userId) {
+        return deviceRepository.findAllByOwnerId(pageable, userId);
+    }
 }
