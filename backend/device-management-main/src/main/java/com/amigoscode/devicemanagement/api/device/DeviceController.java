@@ -30,9 +30,10 @@ class DeviceController {
     private final DeviceDtoMapper deviceMapper;
     private final PageDeviceDtoMapper pageDeviceDtoMapper;
 
-    @GetMapping( path = "/{id}")
-    public ResponseEntity<DeviceDto> getDevice(@PathVariable String id) {
-        Device device = deviceService.findById(id);
+    @GetMapping( path = "/{deviceId}")
+    @AuthVerifyDevice
+    public ResponseEntity<DeviceDto> getDevice(@PathVariable String deviceId) {
+        Device device = deviceService.findById(deviceId);
         return ResponseEntity
                 .ok(deviceMapper.toDto(device));
     }
@@ -56,6 +57,7 @@ class DeviceController {
     }
 
     @PutMapping
+    @AuthVerifyDevice
     public ResponseEntity<Void> updateDevice(@RequestBody DeviceDto dto) {
         deviceService.update(deviceMapper.toDomain(dto));
 

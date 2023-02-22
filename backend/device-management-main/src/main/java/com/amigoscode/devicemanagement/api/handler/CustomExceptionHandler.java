@@ -1,5 +1,6 @@
 package com.amigoscode.devicemanagement.api.handler;
 
+import com.amigoscode.devicemanagement.api.device.UserIsNotAuthorizedToThisDeviceException;
 import com.amigoscode.devicemanagement.api.response.ErrorResponse;
 import com.amigoscode.devicemanagement.domain.device.DeviceNotFoundException;
 import com.amigoscode.devicemanagement.domain.user.exception.UserNotFoundException;
@@ -37,6 +38,11 @@ class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponse(ex, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(UserIsNotAuthorizedToThisDeviceException.class)
+    public final ResponseEntity<ErrorResponse> handleUserIsNotAuthorizedToThisDeviceException(UserIsNotAuthorizedToThisDeviceException ex) {
+        return buildResponse(ex, HttpStatus.METHOD_NOT_ALLOWED);
+    }
+
     @ExceptionHandler(IOException.class)
     public final ResponseEntity<ErrorResponse> handleCommandNotSupportedException(IOException ex) {
         return ResponseEntity
@@ -49,6 +55,5 @@ class CustomExceptionHandler extends ResponseEntityExceptionHandler {
                 .status(status)
                 .body(new ErrorResponse(exception.getMessage()));
     }
-
 
 }
