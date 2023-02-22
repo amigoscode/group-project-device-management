@@ -1,5 +1,7 @@
 package com.amigoscode.devicemanagement.config;
 
+import com.amigoscode.devicemanagement.domain.device.DeviceRepository;
+import com.amigoscode.devicemanagement.domain.device.DeviceService;
 import com.amigoscode.devicemanagement.domain.user.EncodingService;
 import com.amigoscode.devicemanagement.domain.user.UserRepository;
 import com.amigoscode.devicemanagement.domain.user.UserService;
@@ -15,6 +17,11 @@ public class DomainConfiguration {
     @Bean
     public UserService userService(UserRepository userRepository, EncodingService encoder)  {
         return new UserService(userRepository, encoder);
+    }
+
+    @Bean
+    public DeviceService deviceService(DeviceRepository deviceRepository) {
+        return new DeviceService(deviceRepository);
     }
 
 }

@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
-@Service
 public class DeviceService {
 
     private final DeviceRepository deviceRepository;
