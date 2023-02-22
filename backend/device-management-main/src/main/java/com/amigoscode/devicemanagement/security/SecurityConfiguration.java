@@ -32,6 +32,8 @@ public class SecurityConfiguration{
         http.cors().and()
             .csrf().disable()
             .authorizeHttpRequests(requests -> requests
+                    .requestMatchers(HttpMethod.POST,  "/api/v1/devices").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.DELETE,  "/api/v1/devices/**").hasRole("ADMIN")
                     .requestMatchers( "/api/v1/devices/**").hasAnyRole("ADMIN", "DEVICE_OWNER")
                     .requestMatchers(HttpMethod.GET, "/api/v1/users/me").hasAnyRole("ADMIN", "DEVICE_OWNER")
                     .requestMatchers("/api/v1/users/**").hasRole("ADMIN")
