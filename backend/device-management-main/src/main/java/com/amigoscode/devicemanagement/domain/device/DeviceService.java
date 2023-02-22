@@ -4,7 +4,6 @@ import com.amigoscode.devicemanagement.domain.device.model.Device;
 import com.amigoscode.devicemanagement.domain.device.model.PageDevice;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 public class DeviceService {
@@ -25,6 +24,11 @@ public class DeviceService {
 
     public Device findById(String id){
         return deviceRepository.findById(id)
+                .orElseThrow(DeviceNotFoundException::new);
+    }
+
+    public Device findByName(String name){
+        return deviceRepository.findByName(name)
                 .orElseThrow(DeviceNotFoundException::new);
     }
 

@@ -52,6 +52,11 @@ class DeviceStorageAdapter implements DeviceRepository {
     }
 
     @Override
+    public Optional<Device> findByName(String name) {
+        return deviceRepository.findByName(name).map(mapper::toDomain);
+    }
+
+    @Override
     public PageDevice findAll(Pageable pageable) {
         Page<DeviceEntity> pageOfDevicesEntity = deviceRepository.findAll(pageable);
         List<Device> devicesOnCurrentPage = pageOfDevicesEntity.getContent().stream()
