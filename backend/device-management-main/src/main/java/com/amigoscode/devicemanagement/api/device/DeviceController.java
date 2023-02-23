@@ -75,8 +75,9 @@ class DeviceController {
                 .ok(deviceMapper.toDto(device));
     }
 
-    @PutMapping
-    public ResponseEntity<Void> updateDevice(@RequestBody DeviceDto dto) {
+    @PutMapping( path = "/{deviceId}")
+    @AuthVerifyDevice
+    public ResponseEntity<Void> updateDevice(@PathVariable String deviceId, @RequestBody DeviceDto dto) {
         deviceService.update(deviceMapper.toDomain(dto));
 
         return ResponseEntity.ok().build();

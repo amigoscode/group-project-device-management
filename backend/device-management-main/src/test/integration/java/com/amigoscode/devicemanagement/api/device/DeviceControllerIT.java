@@ -177,7 +177,7 @@ class DeviceControllerIT extends BaseIT {
     }
 
     @Test
-    void device_owner_should_not_be_able_to_save_new_device() {
+    void device_owner_should_be_able_to_save_new_device() {
         //given
         User user = TestUserFactory.createDeviceOwner();
         Device device = TestDeviceFactory.createRandom();
@@ -189,10 +189,14 @@ class DeviceControllerIT extends BaseIT {
                 "/api/v1/devices",
                 token,
                 deviceDtoMapper.toDto(device),
-                ErrorResponse.class);
+                DeviceDto.class);
 
         //then
-        Assertions.assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        //and
+        DeviceDto body = response.getBody();
+        //and
+        compareDevices(device, deviceDtoMapper.toDomain(body));
     }
 
     @Test
@@ -231,7 +235,7 @@ class DeviceControllerIT extends BaseIT {
 
         //when
         var response = callHttpMethod(HttpMethod.PUT,
-                "/api/v1/devices",
+                "/api/v1/devices/" + device.getId(),
                 adminAccessToken,
                 deviceDtoMapper.toDto(updatedDevice),
                 DeviceDto.class);
@@ -247,10 +251,47 @@ class DeviceControllerIT extends BaseIT {
     }
 
     @Test
-    void device_owner_should_not_be_able_to_update_device() {
+    void device_owner_should_be_able_to_update_device_he_owns() {
         //given
         User user = TestUserFactory.createDeviceOwner();
         Device device = TestDeviceFactory.createRandom();
+        device.setOwnerId(user.getId());
+        userService.save(user);
+        deviceService.save(device);
+        String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
+        Device updatedDevice = new Device(
+                device.getId(),
+                "Updated Name",
+                user.getId(),
+                device.getCreatedAt().plusDays(7),
+                device.getDeletedAt().plusDays(10),
+                device.getUpdatedAt().plusDays(8),
+                "New Updated By"
+        );
+
+        //when
+        var response = callHttpMethod(HttpMethod.PUT,
+                "/api/v1/devices/" + device.getId(),
+                token,
+                deviceDtoMapper.toDto(updatedDevice),
+                DeviceDto.class);
+
+        //then
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        //and
+        DeviceDto body = response.getBody();
+        Assertions.assertNull(body);
+        //and
+        Device deviceFromDb = deviceService.findById(device.getId());
+        compareDevices(updatedDevice, deviceFromDb);
+    }
+
+    @Test
+    void device_owner_should_not_be_able_to_update_device_he_does_not_own() {
+        //given
+        User user = TestUserFactory.createDeviceOwner();
+        Device device = TestDeviceFactory.createRandom();
+        device.setOwnerId(user.getId() + "123");
         userService.save(user);
         deviceService.save(device);
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
@@ -266,13 +307,13 @@ class DeviceControllerIT extends BaseIT {
 
         //when
         var response = callHttpMethod(HttpMethod.PUT,
-                "/api/v1/devices",
+                "/api/v1/devices/" + device.getId(),
                 token,
                 deviceDtoMapper.toDto(updatedDevice),
                 DeviceDto.class);
 
         //then
-        Assertions.assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
+        Assertions.assertEquals(HttpStatus.METHOD_NOT_ALLOWED, response.getStatusCode());
     }
 
     @Test
