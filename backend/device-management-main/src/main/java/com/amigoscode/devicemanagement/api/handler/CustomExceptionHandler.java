@@ -1,6 +1,6 @@
 package com.amigoscode.devicemanagement.api.handler;
 
-import com.amigoscode.devicemanagement.api.device.UserIsNotAuthorizedToThisDeviceException;
+import com.amigoscode.devicemanagement.api.verifier.UserIsNotAuthorizedToThisDeviceException;
 import com.amigoscode.devicemanagement.api.response.ErrorResponse;
 import com.amigoscode.devicemanagement.domain.device.DeviceNotFoundException;
 import com.amigoscode.devicemanagement.domain.user.exception.UserNotFoundException;

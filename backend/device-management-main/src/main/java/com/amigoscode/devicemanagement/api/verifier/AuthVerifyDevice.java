@@ -1,4 +1,4 @@
-package com.amigoscode.devicemanagement.api.device;
+package com.amigoscode.devicemanagement.api.verifier;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-@interface AuthVerifyDevice {
+public @interface AuthVerifyDevice {
 
     String deviceIdParamName() default "deviceId";
 }

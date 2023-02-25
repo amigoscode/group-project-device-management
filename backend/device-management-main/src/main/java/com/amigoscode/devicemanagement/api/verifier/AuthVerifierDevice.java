@@ -1,4 +1,4 @@
-package com.amigoscode.devicemanagement.api.device;
+package com.amigoscode.devicemanagement.api.verifier;
 
 import com.amigoscode.devicemanagement.domain.device.DeviceService;
 import com.amigoscode.devicemanagement.domain.user.UserService;
@@ -21,7 +21,7 @@ import static com.amigoscode.devicemanagement.domain.user.model.UserRole.ADMIN;
 @Component
 @Aspect
 @RequiredArgsConstructor
-class AuthVerifierDevice {
+public class AuthVerifierDevice {
 
     private final UserService userService;
     private final DeviceService deviceService;

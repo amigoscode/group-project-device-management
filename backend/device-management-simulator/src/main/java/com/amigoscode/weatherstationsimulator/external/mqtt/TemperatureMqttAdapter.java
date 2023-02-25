@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.time.ZonedDateTime;
+
 
 @Component
 class TemperatureMqttAdapter implements TemperaturePublishing {
@@ -31,15 +33,45 @@ class TemperatureMqttAdapter implements TemperaturePublishing {
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.findAndRegisterModules();
-        String jsonInString = null;
+//        String jsonInString = null;
+//        try {
+//            jsonInString = mapper.writeValueAsString(temperatureMqttDtoMapper.toDto(temperature));
+//        } catch (JsonProcessingException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        String topic = deviceId + "/temperature";
+//        mqtGateway.senToMqtt(jsonInString, topic);
+
+        //fake
+        String measurementTopic = "dm/measurements";
+        String id = temperature.getId().toString();
+        LoactionMqttDto fakeLoaction = new LoactionMqttDto(19.457216f, 51.759445f, 278.0f);
+        WindMqttDto fakeWind = new WindMqttDto(2.57f, 125.1f);
+        String deviceId = "3";
+        Float fakeTemperature = temperature.getValue();
+        Float fakePressure = 1013.0f;
+        Float fakeHumidity = 123.45f;
+        ZonedDateTime timestamp = temperature.getTimestamp();
+
+        MeasurementMqttDto fakeMeasurement = new MeasurementMqttDto(
+                deviceId,
+                fakeTemperature,
+                fakePressure,
+                fakeHumidity,
+                fakeWind,
+                fakeLoaction,
+                timestamp
+        );
+
+        String measurementJsonInString = null;
         try {
-            jsonInString = mapper.writeValueAsString(temperatureMqttDtoMapper.toDto(temperature));
+            measurementJsonInString = mapper.writeValueAsString(fakeMeasurement);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
 
-        String topic = deviceId + "/temperature";
-        mqtGateway.senToMqtt(jsonInString, topic);
+        mqtGateway.senToMqtt(measurementJsonInString, measurementTopic);
 
     }
 }

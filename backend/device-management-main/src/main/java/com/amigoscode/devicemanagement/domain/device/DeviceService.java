@@ -10,6 +10,10 @@ public class DeviceService {
 
     private final DeviceRepository deviceRepository;
 
+    public boolean isDeviceRegistered(String deviceId){
+        return deviceRepository.findById(deviceId).isPresent();
+    }
+
     public Device save(Device device){
         return deviceRepository.save(device);
     }

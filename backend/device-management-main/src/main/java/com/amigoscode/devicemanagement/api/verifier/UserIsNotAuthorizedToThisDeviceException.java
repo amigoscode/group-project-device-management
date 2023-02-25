@@ -1,4 +1,4 @@
-package com.amigoscode.devicemanagement.api.device;
+package com.amigoscode.devicemanagement.api.verifier;
 
 public class UserIsNotAuthorizedToThisDeviceException extends RuntimeException{
 
