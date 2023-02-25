@@ -10,8 +10,12 @@ import java.time.ZonedDateTime;
 @Data
 @AllArgsConstructor
 @ToString
-public class TemperatureMqttDto implements Serializable {
-    Long id;
-    Float value;
+public class MeasurementMqttDto implements Serializable {
+    String deviceId;
+    Float temperature;
+    Float pressure;
+    Float humidity;
+    WindMqttDto wind;
+    LocationMqttDto location;
     ZonedDateTime timestamp;
 }

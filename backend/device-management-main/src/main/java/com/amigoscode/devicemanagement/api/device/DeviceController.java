@@ -1,6 +1,7 @@
 package com.amigoscode.devicemanagement.api.device;
 
 
+import com.amigoscode.devicemanagement.api.verifier.AuthVerifyDevice;
 import com.amigoscode.devicemanagement.domain.device.DeviceService;
 import com.amigoscode.devicemanagement.domain.device.model.Device;
 import com.amigoscode.devicemanagement.domain.user.UserService;
