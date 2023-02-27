@@ -1,6 +1,7 @@
 package com.amigoscode.weatherstationsimulator.api.handler;
 
-import com.amigoscode.weatherstationsimulator.domain.temperature.exceptions.TemperatureNotFoundException;
+import com.amigoscode.weatherstationsimulator.api.response.ErrorResponse;
+import com.amigoscode.weatherstationsimulator.domain.measurement.MeasurementNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -9,8 +10,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class CustomExceptionHandler {
 
-    @ExceptionHandler(TemperatureNotFoundException.class)
-    public final ResponseEntity<ErrorResponse> handleTemperatureNotFoundException(TemperatureNotFoundException ex) {
+    @ExceptionHandler(MeasurementNotFoundException.class)
+    public final ResponseEntity<ErrorResponse> handleTemperatureNotFoundException(MeasurementNotFoundException ex) {
         return buildResponse(ex, HttpStatus.NOT_FOUND);
     }
 
