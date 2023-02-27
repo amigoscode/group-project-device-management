@@ -43,25 +43,25 @@ services:
       - ME_CONFIG_MONGODB_SERVER=mongodb-it
     restart: unless-stopped
 
-  postgres:
-    image: postgres:13-alpine
-    ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_DB=training
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=admin
-      - PGDATA=/database
-    command: [ "postgres", "-c", "log_statement=all" ]
-    #    volumes:
-    #      - ./my-db:/database
-  pgadmin:
-    image: dpage/pgadmin4
-    ports:
-      - 8000:80
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=admin@training.pl
-      - PGADMIN_DEFAULT_PASSWORD=admin
+#  postgres:
+#    image: postgres:13-alpine
+#    ports:
+#      - "5432:5432"
+#    environment:
+#      - POSTGRES_DB=training
+#      - POSTGRES_USER=admin
+#      - POSTGRES_PASSWORD=admin
+#      - PGDATA=/database
+#    command: [ "postgres", "-c", "log_statement=all" ]
+#    #    volumes:
+#    #      - ./my-db:/database
+#  pgadmin:
+#    image: dpage/pgadmin4
+#    ports:
+#      - 8000:80
+#    environment:
+#      - PGADMIN_DEFAULT_EMAIL=admin@training.pl
+#      - PGADMIN_DEFAULT_PASSWORD=admin
 
   mqtt:
     container_name: mqtt

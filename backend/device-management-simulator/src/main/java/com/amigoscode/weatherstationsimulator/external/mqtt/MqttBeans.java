@@ -1,11 +1,8 @@
 package com.amigoscode.weatherstationsimulator.external.mqtt;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -74,23 +71,6 @@ class MqttBeans {
             @Override
             public void handleMessage(Message<?> message) throws MessagingException {
                 String topic = message.getHeaders().get(MqttHeaders.RECEIVED_TOPIC).toString();
-                if(topic.endsWith("/temperature")) {
-
-                    ObjectMapper mapper = new ObjectMapper();
-                    mapper.findAndRegisterModules();
-
-                    try {
-                        TemperatureMqttDto temperatureMqttDto = mapper.readValue(message.getPayload().toString(), TemperatureMqttDto.class);
-                        log.info("Received TemperatureMqttDto: {}", temperatureMqttDto);
-
-                    } catch (JsonProcessingException e) {
-                        throw new RuntimeException(e);
-                    }
-
-
-                    return;
-                }
-
                 log.info("Message topic: {} | Message payload: {}", topic, message.getPayload());
             }
 
