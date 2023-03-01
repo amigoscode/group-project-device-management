@@ -33,6 +33,7 @@ public class DomainConfiguration {
         return new DeviceSettingService(deviceSettingRepository);
     }
 
+    @Bean
     public MeasurementService measurementService(MeasurementRepository measurementRepository) {
         return new MeasurementService(measurementRepository);
     }
