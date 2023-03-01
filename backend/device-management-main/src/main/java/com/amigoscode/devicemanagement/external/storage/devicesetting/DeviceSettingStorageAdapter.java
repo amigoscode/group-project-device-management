@@ -5,6 +5,7 @@ import com.amigoscode.devicemanagement.domain.devicesetting.DeviceSettingReposit
 import com.amigoscode.devicemanagement.domain.devicesetting.model.DeviceSetting;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -18,11 +19,28 @@ public class DeviceSettingStorageAdapter implements DeviceSettingRepository {
     private final  DeviceSettingEntityMapper mapper;
 
     @Override
+    public DeviceSetting save(DeviceSetting deviceSetting){
+        try{
+            DeviceSettingEntity saved = deviceSettingRepository.insert(mapper.toEntity(deviceSetting));
+            log.info("Saved device setting entity" + saved);
+            return mapper.toDomain(saved);
+        } catch (DuplicateKeyException ex) {
+            log.warning("Device Setting " + deviceSetting.getId() + "already exists in db");
+            throw new DeviceSettingAlreadyExistsException();
+
+        }
+    }
+    @Override
     public void update(DeviceSetting deviceSetting) {
         deviceSettingRepository.findById(deviceSetting.getId()).ifPresent(deviceSettingEntity -> deviceSettingRepository.save(mapper.toEntity(deviceSetting)));
     }
 
     @Override
+    public void remove(String id) {
+        deviceSettingRepository.findById(id).ifPresent(deviceSettingEntity -> deviceSettingRepository.deleteById(id));
+    }
+
+        @Override
     public Optional<DeviceSetting> findById(String id) {
         return deviceSettingRepository.findById(id).map((mapper::toDomain));
     }

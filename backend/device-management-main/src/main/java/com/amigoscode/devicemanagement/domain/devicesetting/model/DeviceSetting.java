@@ -1,15 +1,11 @@
 package com.amigoscode.devicemanagement.domain.devicesetting.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.ToString;
+import lombok.Value;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 
-@Data
-@AllArgsConstructor
-@ToString
+@Value
 public class DeviceSetting  implements Serializable {
 
     String id;
