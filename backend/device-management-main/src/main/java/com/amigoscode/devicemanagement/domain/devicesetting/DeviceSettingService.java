@@ -25,8 +25,8 @@ public class DeviceSettingService {
                 .orElseThrow(DeviceSettingNotFoundException::new);
     }
 
-    public DeviceSetting findByDeviceId(String ddviceId){
-        return deviceSettingRepository.findById(ddviceId)
+    public DeviceSetting findByDeviceId(String deviceId){
+        return deviceSettingRepository.findById(deviceId)
                 .orElseThrow(DeviceSettingNotFoundException::new);
     }
 
@@ -35,6 +35,5 @@ public class DeviceSettingService {
         return deviceSettingRepository.findByDeviceId(deviceId)
                 .orElseThrow(DeviceSettingNotFoundException::new);
     }
-
-
+    
 }
