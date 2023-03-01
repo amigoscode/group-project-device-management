@@ -1,4 +1,4 @@
-package com.amigoscode.devicemanagement.domain.device.model;
+package com.amigoscode.devicemanagement.domain.devicesetting.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,20 +10,19 @@ import java.time.ZonedDateTime;
 @Data
 @AllArgsConstructor
 @ToString
-public class
-Device implements Serializable {
+public class DeviceSetting  implements Serializable {
 
     String id;
-    String name;
-    String ownerId;
-    boolean isEnabled;
-    boolean isOnline;
+    String deviceId;
+    Integer measurementPeriod;
+    boolean isMeasurementEnabled;
     ZonedDateTime createdAt;
     ZonedDateTime deletedAt;
     ZonedDateTime updatedAt;
     String updatedBy;
 
-    public boolean isUserTheOwnerOfThisDevice(String userId) {
-        return ownerId.equals(userId);
+    public boolean isDeviceTheOwnerOfThisSetting(String id) {
+        return deviceId.equals(id);
     }
+
 }
