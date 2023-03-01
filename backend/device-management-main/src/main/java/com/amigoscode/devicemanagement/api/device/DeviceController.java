@@ -12,15 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.amigoscode.devicemanagement.domain.user.model.UserRole.ADMIN;
 
@@ -82,6 +74,23 @@ class DeviceController {
 
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping( path = "/{deviceId}/enable")
+    @AuthVerifyDevice
+    public ResponseEntity<Void> enableDevice(@PathVariable String deviceId, @RequestBody DeviceDto dto) {
+        deviceService.update(deviceMapper.toDomain(dto));
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping(path = "/{deviceId}/disable")
+    @AuthVerifyDevice
+    public ResponseEntity<Void> disableDevice(@PathVariable String deviceId, @RequestBody DeviceDto dto) {
+        deviceService.update(deviceMapper.toDomain(dto));
+
+        return ResponseEntity.ok().build();
+    }
+
 
     @DeleteMapping("{deviceId}")
     public ResponseEntity<Void> removeDevice(@PathVariable String deviceId){

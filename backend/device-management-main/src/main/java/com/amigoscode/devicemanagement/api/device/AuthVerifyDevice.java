@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-@interface AuthVerifyDevice {
+public @interface AuthVerifyDevice {
 
     String deviceIdParamName() default "deviceId";
 }

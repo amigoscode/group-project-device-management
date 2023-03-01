@@ -359,6 +359,8 @@ class DeviceControllerIT extends BaseIT {
         assertEquals(model.getId(), tested.getId());
         assertEquals(model.getName(), tested.getName());
         assertEquals(model.getOwnerId(), tested.getOwnerId());
+        assertEquals(model.isEnabled(), tested.isEnabled());
+        assertEquals(model.isOnline(), tested.isOnline());
         assertEquals(model.getCreatedAt().toLocalDateTime(), tested.getCreatedAt().toLocalDateTime());
         assertEquals(model.getDeletedAt().toLocalDateTime(), tested.getDeletedAt().toLocalDateTime());
         assertEquals(model.getUpdatedAt().toLocalDateTime(), tested.getUpdatedAt().toLocalDateTime());

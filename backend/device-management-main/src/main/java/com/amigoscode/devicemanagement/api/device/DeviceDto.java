@@ -16,4 +16,5 @@ class DeviceDto {
     ZonedDateTime updatedAt;
     ZonedDateTime deletedAt;
     String updatedBy;
+
 }

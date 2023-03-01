@@ -17,11 +17,12 @@ public class DefaultDevices  implements CommandLineRunner {
         this.deviceService = deviceService;
     }
 
-    ZonedDateTime zondetDt1 = ZonedDateTime.now();
     private final Device device1 = new Device(
             "3",
             "Weather-Device3",
             "5",
+            true,
+            true,
             ZonedDateTime.now(),
             ZonedDateTime.now(),
             ZonedDateTime.now(),
@@ -30,6 +31,8 @@ public class DefaultDevices  implements CommandLineRunner {
             "4",
             "Weather-Device4",
             "5",
+            true,
+            true,
             ZonedDateTime.now(),
             ZonedDateTime.now(),
             ZonedDateTime.now(),

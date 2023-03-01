@@ -21,7 +21,7 @@ import static com.amigoscode.devicemanagement.domain.user.model.UserRole.ADMIN;
 @Component
 @Aspect
 @RequiredArgsConstructor
-class AuthVerifierDevice {
+public class AuthVerifierDevice {
 
     private final UserService userService;
     private final DeviceService deviceService;
