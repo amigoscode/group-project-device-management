@@ -1,6 +1,5 @@
 package com.amigoscode.devicemanagement.api.devicesetting;
 
-import com.amigoscode.devicemanagement.api.device.AuthVerifyDevice;
 import com.amigoscode.devicemanagement.domain.devicesetting.DeviceSettingService;
 import com.amigoscode.devicemanagement.domain.devicesetting.model.DeviceSetting;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +21,6 @@ class DeviceSettingController {
 
 
     @GetMapping( path = "/{settingId}")
-    @AuthVerifyDevice
     public ResponseEntity<DeviceSettingDto> getDeviceSetting(@PathVariable String deviceId) {
         DeviceSetting deviceSetting = deviceSettingService.findById(deviceId);
         return ResponseEntity
@@ -37,7 +35,6 @@ class DeviceSettingController {
     }
 
     @PutMapping( path = "/{settingId}")
-    @AuthVerifyDevice
     public ResponseEntity<Void> updateDeviceSetting(@PathVariable String settingId, @RequestBody DeviceSettingDto dto) {
         deviceSettingService.update(deviceSettingMapper.toDomain(dto));
 

@@ -7,9 +7,6 @@ import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-
-
-import javax.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
 
 @Document("DeviceSettings")
@@ -21,20 +18,20 @@ import java.time.ZonedDateTime;
 @Setter
 public class DeviceSettingEntity {
 
-    @NotNull(message = "")
+
     @Id
     private String  id;
 
-    @NotNull(message = "")
+
     @Indexed(unique = true)
     private String deviceId;
 
-    @NotNull(message = "")
+
     private Integer measurementPeriod;
-    @NotNull(message = "")
+
     private boolean isMeasurementEnabled;
 
-    @NotNull(message = "")
+
     private ZonedDateTime createdAt;
     private ZonedDateTime deletedAt;
     private ZonedDateTime updatedAt;
