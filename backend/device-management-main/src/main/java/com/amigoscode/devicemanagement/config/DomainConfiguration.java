@@ -4,6 +4,8 @@ import com.amigoscode.devicemanagement.domain.device.DeviceRepository;
 import com.amigoscode.devicemanagement.domain.device.DeviceService;
 import com.amigoscode.devicemanagement.domain.devicesetting.DeviceSettingRepository;
 import com.amigoscode.devicemanagement.domain.devicesetting.DeviceSettingService;
+import com.amigoscode.devicemanagement.domain.measurement.MeasurementRepository;
+import com.amigoscode.devicemanagement.domain.measurement.MeasurementService;
 import com.amigoscode.devicemanagement.domain.user.EncodingService;
 import com.amigoscode.devicemanagement.domain.user.UserRepository;
 import com.amigoscode.devicemanagement.domain.user.UserService;
@@ -29,6 +31,10 @@ public class DomainConfiguration {
     @Bean
     public DeviceSettingService deviceSettingService(DeviceSettingRepository deviceSettingRepository) {
         return new DeviceSettingService(deviceSettingRepository);
+    }
+
+    public MeasurementService measurementService(MeasurementRepository measurementRepository) {
+        return new MeasurementService(measurementRepository);
     }
 
 }

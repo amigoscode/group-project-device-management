@@ -1,0 +1,37 @@
+### get all measurements
+GET http://localhost:8081/api/v1/measurements
+Accept: application/json
+Content-Type: application/json
+
+### get single measurement
+GET http://localhost:8081/api/v1/measurements/0
+Accept: application/json
+Content-Type: application/json
+
+### delete measurement
+DELETE http://localhost:8081/api/v1/measurements/0
+Accept: application/json
+Content-Type: application/json
+
+### create measurement
+POST http://localhost:8081/api/v1/measurements
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": "0",
+  "deviceId": "deviceId",
+  "temperature": 24.85,
+  "pressure": 1013.0,
+  "humidity": 123.45,
+  "wind": {
+    "speed": 2.57,
+    "direction": 125.1
+  },
+  "location": {
+    "longitude": 19.457216,
+    "latitude": 51.759445,
+    "elevation": 278.0
+  },
+  "timestamp": "2023-02-22T12:40:00Z"
+}

@@ -12,6 +12,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     services:
+      mqtt:
+        image: eclipse-mosquitto:2.0.15
+        ports:
+          - 1883:1883
+          - 9001:9001
       mongodb-it:
         image: mongo:6.0
         env:

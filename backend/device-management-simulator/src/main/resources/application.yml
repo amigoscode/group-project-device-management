@@ -1,20 +1,5 @@
 mqtt:
   server:
     uri: tcp://localhost:1883
-device:
-  id: weatherStation123
 server:
   port: 8081
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/training
-    password: admin
-    username: admin
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    generate-ddl: true
-    hibernate:
-      ddl-auto: create-drop
-    open-in-view: false
-  messages:
-    basename: text,exceptions

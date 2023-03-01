@@ -1,10 +1,13 @@
 package com.amigoscode.devicemanagement.external.mqtt;
 
+import com.amigoscode.devicemanagement.domain.device.DeviceService;
+import com.amigoscode.devicemanagement.domain.measurement.MeasurementService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -26,6 +29,20 @@ import org.springframework.messaging.MessagingException;
 class MqttBeans {
 
     private Environment environment;
+
+    private DeviceService deviceService;
+
+    private MeasurementService measurementService;
+
+    private MeasurementMqttMapper measurementMqttMapper;
+
+    @Autowired
+    MqttBeans(final Environment environment, final DeviceService deviceService, final MeasurementService measurementService, final MeasurementMqttMapper measurementMqttMapper) {
+        this.environment = environment;
+        this.deviceService = deviceService;
+        this.measurementService = measurementService;
+        this.measurementMqttMapper = measurementMqttMapper;
+    }
 
     MqttBeans(final Environment environment) {
         this.environment = environment;
@@ -74,26 +91,22 @@ class MqttBeans {
             public void handleMessage(Message<?> message) throws MessagingException {
 
                 String topic = message.getHeaders().get(MqttHeaders.RECEIVED_TOPIC).toString();
-                if(topic.endsWith("/temperature")) {
+                log.info("Message topic: {} | Message payload: {}", topic, message.getPayload());
 
+                if (topic.equals("dm/measurements")) {
                     ObjectMapper mapper = new ObjectMapper();
                     mapper.findAndRegisterModules();
 
                     try {
-                        TemperatureMqttDto temperatureMqttDto = mapper.readValue(message.getPayload().toString(), TemperatureMqttDto.class);
-                        log.info("Message topic: {} | Received TemperatureMqttDto: {}", topic, temperatureMqttDto);
-
-                    } catch (JsonProcessingException e) {
+                        MeasurementMqttDto measurementMqttDto = mapper.readValue(message.getPayload().toString(), MeasurementMqttDto.class);
+                        if (deviceService.isDeviceRegistered(measurementMqttDto.getDeviceId())) {
+                            measurementService.save(measurementMqttMapper.toDomain(measurementMqttDto));
+                        }
+                    }
+                    catch (JsonProcessingException e) {
                         throw new JsonCouldNotBeCreatedException();
                     }
-
-
-                    return;
                 }
-
-                log.info("Message topic: {} | Message payload: {}", topic, message.getPayload());
-                //log.info("Message topic: {} | Message payload: {}", topic, message.getPayload());
-                //log.info("Message topic: {} | Message payload: {}", topic, message.getPayload());
 
             }
 

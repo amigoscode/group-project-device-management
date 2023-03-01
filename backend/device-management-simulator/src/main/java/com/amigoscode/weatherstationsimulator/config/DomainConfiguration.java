@@ -1,13 +1,21 @@
 package com.amigoscode.weatherstationsimulator.config;
 
-import com.amigoscode.weatherstationsimulator.domain.temperature.TemperatureMeasurement;
-import com.amigoscode.weatherstationsimulator.domain.temperature.TemperaturePublishing;
-import com.amigoscode.weatherstationsimulator.domain.temperature.TemperatureRepository;
-import com.amigoscode.weatherstationsimulator.domain.temperature.TemperatureService;
-import com.amigoscode.weatherstationsimulator.external.measurement.temperature.FakeTemperatureMeasurementAdapter;
-import com.amigoscode.weatherstationsimulator.external.storage.temperature.JpaTemperatureRepository;
-import com.amigoscode.weatherstationsimulator.external.storage.temperature.TemperatureEntityMapper;
-import com.amigoscode.weatherstationsimulator.external.storage.temperature.TemperatureStorageAdapter;
+import com.amigoscode.weatherstationsimulator.domain.device.DeviceRepository;
+import com.amigoscode.weatherstationsimulator.domain.device.DeviceService;
+import com.amigoscode.weatherstationsimulator.domain.measurement.MeasurementPublishing;
+import com.amigoscode.weatherstationsimulator.domain.measurement.MeasurementRepository;
+import com.amigoscode.weatherstationsimulator.domain.measurement.MeasurementService;
+import com.amigoscode.weatherstationsimulator.domain.measurement.TakeMeasurement;
+import com.amigoscode.weatherstationsimulator.external.measurement.FakeTakeMeasurementAdapter;
+import com.amigoscode.weatherstationsimulator.external.mqtt.MeasurementMqttAdapter;
+import com.amigoscode.weatherstationsimulator.external.mqtt.MeasurementMqttMapper;
+import com.amigoscode.weatherstationsimulator.external.mqtt.MqttGateway;
+import com.amigoscode.weatherstationsimulator.external.storage.device.DeviceDaoMapper;
+import com.amigoscode.weatherstationsimulator.external.storage.device.DeviceStorageAdapter;
+import com.amigoscode.weatherstationsimulator.external.storage.device.InMemoryDeviceRepository;
+import com.amigoscode.weatherstationsimulator.external.storage.measurement.InMemoryMeasurementRepository;
+import com.amigoscode.weatherstationsimulator.external.storage.measurement.MeasurementDaoMapper;
+import com.amigoscode.weatherstationsimulator.external.storage.measurement.MeasurementStorageAdapter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,17 +25,31 @@ import org.springframework.context.annotation.Configuration;
 class DomainConfiguration {
 
     @Bean
-    public TemperatureMeasurement temperatureMeasurement() {
-        return new FakeTemperatureMeasurementAdapter();
+    public TakeMeasurement takeMeasurement(MeasurementRepository measurementRepository, DeviceService deviceService) {
+        return new FakeTakeMeasurementAdapter(measurementRepository, deviceService);
+    }
+
+    public MeasurementPublishing measurementPublishing(MqttGateway mqttGateway, MeasurementMqttMapper measurementMqttMapper) {
+        return new MeasurementMqttAdapter(mqttGateway, measurementMqttMapper);
     }
 
     @Bean
-    public TemperatureRepository temperatureRepository(JpaTemperatureRepository jpaTemperatureRepository, TemperatureEntityMapper temperatureEntityMapper) {
-        return new TemperatureStorageAdapter(jpaTemperatureRepository, temperatureEntityMapper);
+    public MeasurementRepository measurementRepository(InMemoryMeasurementRepository inMemoryMeasurementRepository, MeasurementDaoMapper measurementDaoMapper) {
+        return new MeasurementStorageAdapter(inMemoryMeasurementRepository, measurementDaoMapper);
     }
 
     @Bean
-    public TemperatureService temperatureService(TemperatureRepository temperatureRepository, TemperatureMeasurement temperatureMeasurement, TemperaturePublishing temperaturePublishing) {
-        return new TemperatureService(temperatureRepository, temperatureMeasurement, temperaturePublishing);
+    public MeasurementService measurementService(MeasurementRepository measurementRepository, TakeMeasurement takeMeasurement, MeasurementPublishing measurementPublishing) {
+        return new MeasurementService(measurementRepository, takeMeasurement, measurementPublishing);
+    }
+
+    @Bean
+    public DeviceRepository deviceRepository(InMemoryDeviceRepository inMemoryDeviceRepository, DeviceDaoMapper deviceDaoMapper) {
+        return new DeviceStorageAdapter(inMemoryDeviceRepository, deviceDaoMapper);
+    }
+
+    @Bean
+    public DeviceService deviceService(DeviceRepository deviceRepository) {
+        return new DeviceService(deviceRepository);
     }
 }
