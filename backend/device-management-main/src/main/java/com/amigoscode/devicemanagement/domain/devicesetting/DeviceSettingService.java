@@ -30,10 +30,4 @@ public class DeviceSettingService {
                 .orElseThrow(DeviceSettingNotFoundException::new);
     }
 
-
-    public DeviceSetting findBydeviceId(String deviceId){
-        return deviceSettingRepository.findByDeviceId(deviceId)
-                .orElseThrow(DeviceSettingNotFoundException::new);
-    }
-    
 }
