@@ -12,11 +12,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     services:
-      mqtt:
-        image: eclipse-mosquitto:2.0.15
-        ports:
-          - 1883:1883
-          - 9001:9001
       mongodb-it:
         image: mongo:6.0
         env:
@@ -34,6 +29,14 @@ jobs:
         working-directory: ./backend/device-management-main
     steps:
       - uses: actions/checkout@v3
+      - name: Start Mosquitto
+        uses: namoshek/mosquitto-github-action@v1
+        with:
+          version: '1.6'
+          ports: '1882:1883 9001:9001'
+          config: ${{ github.workspace }}/mosquitto/ci/config/mosquitto.conf
+          password-file: ${{ github.workspace }}/mosquitto/ci/config/pwfile
+          container-name: 'mqtt-it'
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
