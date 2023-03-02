@@ -1,4 +1,6 @@
 mqtt:
+  username: admin
+  password: qwerty
   server:
     uri: tcp://localhost:1883
 spring:

@@ -20,6 +20,7 @@
         <docker.username>rafalnowak444</docker.username>
         <docker.image.name>weather-station-simulator</docker.image.name>
         <docker.image.tag/>
+        <myTestSourceDirectory>./src/test</myTestSourceDirectory>
     </properties>
     <dependencies>
         <dependency>
@@ -88,6 +89,7 @@
     </dependencies>
 
     <build>
+        <testSourceDirectory>${myTestSourceDirectory}</testSourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

@@ -56,8 +56,8 @@ class MqttIT extends BaseIT {
         MqttConnectOptions options = new MqttConnectOptions();
 
         options.setServerURIs(new String[] { environment.getProperty("mqtt.server.uri") });
-        options.setUserName("admin");
-        String pass = "qwerty";
+        options.setUserName(environment.getProperty("mqtt.username"));
+        String pass = environment.getProperty("mqtt.password");
         options.setPassword(pass.toCharArray());
         options.setCleanSession(true);
 

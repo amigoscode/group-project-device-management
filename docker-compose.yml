@@ -75,6 +75,17 @@ services:
       - 1883:1883
       - 9001:9001
 
+  mqtt-it:
+    container_name: mqtt-it
+    image: eclipse-mosquitto:2.0.15
+    restart: always
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+    ports:
+      - 1882:1883
+
 volumes:
   data: {}
 
