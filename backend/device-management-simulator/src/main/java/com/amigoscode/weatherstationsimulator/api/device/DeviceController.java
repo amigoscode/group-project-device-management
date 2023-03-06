@@ -30,14 +30,6 @@ class DeviceController {
                 .ok(deviceDtoMapper.toDto(device));
     }
 
-//    @GetMapping
-//    public ResponseEntity<Device> getDevice() {
-//        Device device = deviceService.getDevice();
-//
-//        return ResponseEntity
-//                .ok(device);
-//    }
-
     @GetMapping
     public ResponseEntity<DeviceDto> getDevice() {
         Device device = deviceService.getDevice();
