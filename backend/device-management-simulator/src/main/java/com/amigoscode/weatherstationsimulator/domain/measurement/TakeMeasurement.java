@@ -1,5 +1,7 @@
 package com.amigoscode.weatherstationsimulator.domain.measurement;
 
+import java.util.Optional;
+
 public interface TakeMeasurement {
-    Measurement getResult();
+    Optional<Measurement> getResult();
 }

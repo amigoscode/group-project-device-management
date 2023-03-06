@@ -3,6 +3,7 @@ package com.amigoscode.weatherstationsimulator.domain.measurement;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class MeasurementService {
@@ -30,13 +31,12 @@ public class MeasurementService {
         return measurementRepository.findAll();
     }
 
-    public Integer getSizeofRepository() {
-        return measurementRepository.getSize();
-    }
+    public Optional<Measurement> takeAndPublishMeasurement() {
+        final Optional<Measurement> result = takeMeasurement.getResult();
+        if(result.isEmpty())
+            return result;
 
-    public Measurement takeAndPublishMeasurement() {
-        final Measurement result = takeMeasurement.getResult();
-        measurementPublishing.publish(result);
+        measurementPublishing.publish(result.get());
         return result;
     }
 
