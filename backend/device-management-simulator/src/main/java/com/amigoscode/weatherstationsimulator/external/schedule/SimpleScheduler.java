@@ -9,6 +9,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -20,8 +21,8 @@ public class SimpleScheduler {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
     @Scheduled(fixedRate = 5000)
-    public void reportCurrentTime() {
-        final Measurement measurement = measurementService.takeAndPublishMeasurement();
+    public void takeAndPublishMeasurement() {
+        final Optional<Measurement> measurement = measurementService.takeAndPublishMeasurement();
         log.info("The current measurement is {}", measurement);
     }
 }

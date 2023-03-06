@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
+import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
@@ -20,12 +21,12 @@ public class FakeTakeMeasurementAdapter implements TakeMeasurement {
     DeviceService deviceService;
 
     @Override
-    public Measurement getResult() {
+    public Optional<Measurement> getResult() {
+        if (measurementRepository.getSize() == 0)
+            return Optional.empty();
+
         int index = ThreadLocalRandom.current().nextInt(0, measurementRepository.getSize());
-        final Measurement measurement = measurementRepository.findById(index).orElseThrow(() -> new MeasurementNotFoundException());
-        measurement.setDeviceId(deviceService.getDevice().getDeviceId());
-        measurement.setTimestamp(ZonedDateTime.now());
-        return measurement;
+        return measurementRepository.findById(index);
     }
 
 }
