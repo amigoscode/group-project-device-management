@@ -30,14 +30,14 @@ class MeasurementMqttAdapter implements MeasurementPublishing {
 
         MeasurementMqttDto measurementMqttDto = measurementMqttMapper.toMqtt(measurement);
 
-        String measurementJsonInString = null;
         try {
-            measurementJsonInString = mapper.writeValueAsString(measurementMqttDto);
+            String measurementJsonInString = mapper.writeValueAsString(measurementMqttDto);
+            mqtGateway.sendToMqtt(measurementJsonInString, measurementTopic);
         } catch (JsonProcessingException e) {
             throw new JsonCouldNotBeCreatedException();
         }
 
-        mqtGateway.senToMqtt(measurementJsonInString, measurementTopic);
+
     }
 
 }
