@@ -21,19 +21,24 @@ class MeasurementStorageAdapter implements MeasurementRepository {
     private final MeasurementDaoMapper mapper;
 
     @Override
-    public Measurement save(Measurement measurement){
-        MeasurementDao saved = measurementRepository.insert(mapper.toEntity(measurement));
-        log.info("Saved entity" + saved);
-        return mapper.toDomain(saved);
+    public Long save(Measurement measurement){
+        Long id = measurementRepository.insert(mapper.toEntity(measurement));
+        log.info("Saved entity " + measurementRepository.findById(id).get());
+        return id;
     }
 
     @Override
-    public void remove(final Integer id) {
+    public void remove(final Long id) {
         measurementRepository.findById(id).ifPresent(measurementDao -> measurementRepository.deleteById(id));
     }
 
     @Override
-    public Optional<Measurement> findById(final Integer id) {
+    public void removeAll() {
+        measurementRepository.drop();
+    }
+
+    @Override
+    public Optional<Measurement> findById(final Long id) {
         return measurementRepository.findById(id).map(mapper::toDomain);
     }
 

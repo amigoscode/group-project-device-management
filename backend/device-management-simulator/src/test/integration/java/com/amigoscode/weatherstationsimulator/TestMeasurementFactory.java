@@ -1,6 +1,5 @@
 package com.amigoscode.weatherstationsimulator;
 
-import com.amigoscode.weatherstationsimulator.domain.device.Device;
 import com.amigoscode.weatherstationsimulator.domain.measurement.Location;
 import com.amigoscode.weatherstationsimulator.domain.measurement.Measurement;
 import com.amigoscode.weatherstationsimulator.domain.measurement.Wind;
@@ -10,7 +9,7 @@ import java.time.ZonedDateTime;
 
 public class TestMeasurementFactory {
 
-    private static int measurementSequence = 0;
+    private static Long measurementSequence = 0l;
 
     public static Measurement createRandom() {
         measurementSequence++;

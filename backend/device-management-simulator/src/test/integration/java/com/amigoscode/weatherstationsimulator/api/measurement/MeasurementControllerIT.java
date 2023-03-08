@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class MeasurementControllerIT extends BaseIT {
 
@@ -32,12 +33,12 @@ class MeasurementControllerIT extends BaseIT {
     void user_should_be_able_to_get_information_about_measurement() {
         //given
         Measurement measurement = TestMeasurementFactory.createRandom();
-        measurementService.save(measurement);
+        Long id = measurementService.save(measurement);
 
 
         //when
         var response = callHttpMethod(HttpMethod.GET,
-                "/api/v1/measurements/" + 0,
+                "/api/v1/measurements/" + id,
                 null,
                 MeasurementDto.class);
 
@@ -82,13 +83,13 @@ class MeasurementControllerIT extends BaseIT {
         var response = callHttpMethod(HttpMethod.POST,
                 "/api/v1/measurements",
                 measurementDtoMapper.toDto(measurement),
-                MeasurementDto.class);
+                Long.class);
 
         //then
-        MeasurementDto body = response.getBody();
+        Long body = response.getBody();
         assertEquals(HttpStatus.OK, response.getStatusCode());
         //and
-        compareMeasurements(measurement, measurementDtoMapper.toDomain(body));
+        assertNotNull(body);
     }
 
     @Test

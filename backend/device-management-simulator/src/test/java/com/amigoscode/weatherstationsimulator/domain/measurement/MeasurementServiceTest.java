@@ -34,7 +34,7 @@ class MeasurementServiceTest {
     private MeasurementService measurementService;
 
     private final Measurement fakeMeasurement = new Measurement(
-            1,
+            1l,
             "deviceId",
             24.85f,
             1013.0f,
@@ -60,13 +60,13 @@ class MeasurementServiceTest {
     void save_method_should_return_saved_measurement() {
         Mockito.when(measurementRepository.save(
                 fakeMeasurement
-        )).thenReturn(fakeMeasurement);
+        )).thenReturn(fakeMeasurement.getId());
 
         //when
-        Measurement savedMeasurement = measurementService.save(fakeMeasurement);
+        Long returnedId = measurementService.save(fakeMeasurement);
 
         //then
-        compareMeasurements(fakeMeasurement, savedMeasurement);
+        assertEquals(fakeMeasurement.getId(), returnedId);
     }
 
     @Test

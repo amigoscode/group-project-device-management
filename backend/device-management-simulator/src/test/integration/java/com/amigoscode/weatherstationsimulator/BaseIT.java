@@ -44,9 +44,7 @@ public class BaseIT {
     @BeforeEach
     public void setUp() throws Exception {
 
-        while (measurementRepository.getSize() > 0) {
-            measurementRepository.remove(0);
-        }
+        measurementRepository.removeAll();
 
         MqttConnectOptions options = new MqttConnectOptions();
 

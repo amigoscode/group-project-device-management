@@ -5,11 +5,13 @@ import java.util.Optional;
 
 public interface MeasurementRepository {
 
-    Measurement save(Measurement measurement);
+    Long save(Measurement measurement);
 
-    void remove(Integer id);
+    void remove(Long id);
 
-    Optional<Measurement> findById(Integer id);
+    void removeAll();
+
+    Optional<Measurement> findById(Long id);
 
     List<Measurement> findAll();
 

@@ -2,13 +2,11 @@ package com.amigoscode.weatherstationsimulator.external.measurement;
 
 import com.amigoscode.weatherstationsimulator.domain.device.DeviceService;
 import com.amigoscode.weatherstationsimulator.domain.measurement.Measurement;
-import com.amigoscode.weatherstationsimulator.domain.measurement.MeasurementNotFoundException;
 import com.amigoscode.weatherstationsimulator.domain.measurement.MeasurementRepository;
 import com.amigoscode.weatherstationsimulator.domain.measurement.TakeMeasurement;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -26,7 +24,7 @@ public class FakeTakeMeasurementAdapter implements TakeMeasurement {
             return Optional.empty();
 
         int index = ThreadLocalRandom.current().nextInt(0, measurementRepository.getSize());
-        return measurementRepository.findById(index);
+        return Optional.of(measurementRepository.findAll().get(index));
     }
 
 }

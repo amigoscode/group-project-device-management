@@ -16,7 +16,7 @@ import java.time.ZonedDateTime;
 @Setter
 class MeasurementDao {
 
-    Integer id;
+    Long id;
 
     String deviceId;
     Float temperature;

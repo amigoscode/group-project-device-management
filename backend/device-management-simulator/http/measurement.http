@@ -4,7 +4,7 @@ Accept: application/json
 Content-Type: application/json
 
 ### get single measurement
-GET http://localhost:8081/api/v1/measurements/0
+GET http://localhost:8081/api/v1/measurements/1
 Accept: application/json
 Content-Type: application/json
 
