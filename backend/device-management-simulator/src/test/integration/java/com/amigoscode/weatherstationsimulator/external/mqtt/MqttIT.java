@@ -13,6 +13,7 @@ import org.eclipse.paho.client.mqttv3.MqttAsyncClient;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,7 +23,7 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class MqttIT extends BaseIT {
 
@@ -67,14 +68,14 @@ class MqttIT extends BaseIT {
 
         //then
         TimeUnit.SECONDS.sleep(1);
-//        assertEquals(1, mqttCallback.measurements.size());
-//        compareMeasurements(measurement.get(), mqttCallback.measurements.get(0));
-        assertTrue(mqttCallback.measurements.stream().anyMatch(measurement1 -> areMeasurementsEqual(measurement.get(), measurement1)));
+        assertFalse(mqttCallback.measurements.size() == 0);
+        compareMeasurements(measurement.get(), mqttCallback.measurements.get(0));
     }
 
     @Test
     void take_and_publish_measurement_method_should_not_publish_measurement_if_it_is_empty() throws MqttException, InterruptedException {
         //given
+        Measurement fakeMeasurement = TestMeasurementFactory.createRandom();
         String measurementTopic = "dm/measurements";
         client.getTopic(measurementTopic);
 
@@ -126,17 +127,15 @@ class MqttIT extends BaseIT {
         }
     }
 
-    private boolean areMeasurementsEqual(Measurement model, Measurement tested) {
-        if (tested == null) return false;
-        if (!model.getDeviceId().equals(tested.getDeviceId())) return false;
-        if (!model.getTemperature().equals(tested.getTemperature())) return false;
-        if (!model.getPressure().equals(tested.getPressure())) return false;
-        if (!model.getHumidity().equals(tested.getHumidity())) return false;
-        if (!model.getWind().equals(tested.getWind())) return false;
-        if (!model.getLocation().equals(tested.getLocation())) return false;
-        if (!model.getTimestamp().toLocalDateTime().equals(tested.getTimestamp().toLocalDateTime())) return false;
-
-        return true;
+    private void compareMeasurements(Measurement model, Measurement tested) {
+        Assertions.assertNotNull(tested);
+        assertEquals(model.getDeviceId(), tested.getDeviceId());
+        assertEquals(model.getTemperature(), tested.getTemperature());
+        assertEquals(model.getPressure(), tested.getPressure());
+        assertEquals(model.getHumidity(), tested.getHumidity());
+        assertEquals(model.getWind(), tested.getWind());
+        assertEquals(model.getLocation(), tested.getLocation());
+        assertEquals(model.getTimestamp().toLocalDateTime(), tested.getTimestamp().toLocalDateTime());
     }
 
 }
