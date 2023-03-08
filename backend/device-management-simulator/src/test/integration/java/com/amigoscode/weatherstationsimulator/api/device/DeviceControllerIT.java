@@ -47,7 +47,7 @@ class DeviceControllerIT extends BaseIT {
         //given
         Device device = TestDeviceFactory.createRandom();
         deviceService.saveDevice(device);
-        device.setDeviceId(device.getDeviceId() + "qwerty");
+        device.setId(device.getId() + "qwerty");
         device.setOwnerId(device.getOwnerId() + "qwerty");
         device.setName(device.getName() + "qwerty");
 
@@ -66,7 +66,7 @@ class DeviceControllerIT extends BaseIT {
 
     private void compareDevices(Device model, Device tested) {
         assertNotNull(tested);
-        assertEquals(model.getDeviceId(), tested.getDeviceId());
+        assertEquals(model.getId(), tested.getId());
         assertEquals(model.getName(), tested.getName());
         assertEquals(model.getOwnerId(), tested.getOwnerId());
     }

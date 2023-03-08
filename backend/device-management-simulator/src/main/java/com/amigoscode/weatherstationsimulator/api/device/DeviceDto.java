@@ -10,7 +10,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 class DeviceDto {
-    String deviceId;
+    String id;
     String ownerId;
     String name;
 }

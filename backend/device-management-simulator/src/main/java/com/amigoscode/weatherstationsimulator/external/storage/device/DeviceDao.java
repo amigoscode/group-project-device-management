@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 class DeviceDao {
-    String deviceId;
+    String id;
     String ownerId;
     String name;
 }

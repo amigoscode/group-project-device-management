@@ -1,5 +1,6 @@
 package com.amigoscode.weatherstationsimulator.domain.measurement;
 
+import com.amigoscode.weatherstationsimulator.domain.device.DeviceService;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -8,9 +9,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MeasurementService {
 
+    private final DeviceService deviceService;
+
     private final MeasurementRepository measurementRepository;
 
     private final TakeMeasurement takeMeasurement;
+
 
     private final MeasurementPublishing measurementPublishing;
 
@@ -36,6 +40,7 @@ public class MeasurementService {
         if(result.isEmpty())
             return result;
 
+        result.get().setDeviceId(deviceService.getDevice().getId());
         measurementPublishing.publish(result.get());
         return result;
     }

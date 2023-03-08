@@ -1,6 +1,8 @@
 package com.amigoscode.weatherstationsimulator.domain.measurement;
 
 
+import com.amigoscode.weatherstationsimulator.domain.device.Device;
+import com.amigoscode.weatherstationsimulator.domain.device.DeviceService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,6 +24,9 @@ import static org.mockito.Mockito.verify;
 class MeasurementServiceTest {
 
     @Mock
+    private DeviceService deviceService;
+
+    @Mock
     private MeasurementRepository measurementRepository;
 
     @Mock
@@ -33,9 +38,15 @@ class MeasurementServiceTest {
     @InjectMocks
     private MeasurementService measurementService;
 
+    private final Device fakeDevice = new Device(
+            "deviceId",
+            "ownerId",
+            "name"
+    );
+
     private final Measurement fakeMeasurement = new Measurement(
             1l,
-            "deviceId",
+            "deviceId123",
             24.85f,
             1013.0f,
             123.45f,
@@ -103,14 +114,16 @@ class MeasurementServiceTest {
     }
 
     @Test
-    void take_and_publish_measurement_method_should_publish_measurement_if_it_is_not_empty(){
+    void take_and_publish_measurement_method_should_publish_measurement_with_proper_device_id_if_measurement_is_not_empty(){
+        Mockito.when(deviceService.getDevice()).thenReturn(fakeDevice);
         Mockito.when(takeMeasurement.getResult()).thenReturn(Optional.of(fakeMeasurement));
 
         //when
-        measurementService.takeAndPublishMeasurement();
+        final Optional<Measurement> publishedMeasurement = measurementService.takeAndPublishMeasurement();
 
         //then
         verify(measurementPublishing).publish(fakeMeasurement);
+        assertEquals(publishedMeasurement.get().getDeviceId(), fakeDevice.getId());
     }
 
     @Test
