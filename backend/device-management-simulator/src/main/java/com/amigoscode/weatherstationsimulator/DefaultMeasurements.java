@@ -22,7 +22,7 @@ public class DefaultMeasurements implements CommandLineRunner {
     }
 
     private final Measurement measurement = new Measurement(
-            0,
+            0l,
             "deviceId",
             24.85f,
             1013.0f,

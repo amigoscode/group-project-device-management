@@ -28,20 +28,20 @@ class MeasurementController {
     private final MeasurementDtoMapper measurementMapper;
 
     @PostMapping
-    public ResponseEntity<MeasurementDto> saveMeasurement(@RequestBody MeasurementDto dto) {
-        Measurement measurement = measurementService.save(measurementMapper.toDomain(dto));
+    public ResponseEntity<Long> saveMeasurement(@RequestBody MeasurementDto dto) {
+        Long id = measurementService.save(measurementMapper.toDomain(dto));
         return ResponseEntity
-                .ok(measurementMapper.toDto(measurement));
+                .ok(id);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> removeUser(@PathVariable Integer id){
+    public ResponseEntity<Void> removeUser(@PathVariable Long id){
         measurementService.removeById(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping( path = "{measurementId}")
-    public ResponseEntity<MeasurementDto> getMeasurement(@PathVariable Integer measurementId) {
+    public ResponseEntity<MeasurementDto> getMeasurement(@PathVariable Long measurementId) {
         Measurement measurement = measurementService.findById(measurementId);
 
         return ResponseEntity

@@ -12,7 +12,7 @@ import java.time.ZonedDateTime;
 @NoArgsConstructor
 @ToString
 class MeasurementDto {
-    String id;
+    Long id;
     String deviceId;
     Float temperature;
     Float pressure;
