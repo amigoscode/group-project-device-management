@@ -47,7 +47,7 @@ class DeviceServiceTest {
 
         //then
         Assertions.assertNotNull(savedDevice);
-        Assertions.assertEquals(fakeDevice.getDeviceId(), savedDevice.getDeviceId());
+        Assertions.assertEquals(fakeDevice.getId(), savedDevice.getId());
         Assertions.assertEquals(fakeDevice.getOwnerId(), savedDevice.getOwnerId());
         Assertions.assertEquals(fakeDevice.getName(), savedDevice.getName());
     }
@@ -62,7 +62,7 @@ class DeviceServiceTest {
 
         //then
         Assertions.assertNotNull(device);
-        Assertions.assertEquals(fakeDevice.getDeviceId(), device.getDeviceId());
+        Assertions.assertEquals(fakeDevice.getId(), device.getId());
         Assertions.assertEquals(fakeDevice.getOwnerId(), device.getOwnerId());
         Assertions.assertEquals(fakeDevice.getName(), device.getName());
 

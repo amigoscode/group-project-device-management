@@ -8,7 +8,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class Device {
-    String deviceId;
+    String id;
     String ownerId;
     String name;
 }

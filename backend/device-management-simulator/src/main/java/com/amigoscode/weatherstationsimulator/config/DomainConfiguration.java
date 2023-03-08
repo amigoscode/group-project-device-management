@@ -39,8 +39,8 @@ class DomainConfiguration {
     }
 
     @Bean
-    public MeasurementService measurementService(MeasurementRepository measurementRepository, TakeMeasurement takeMeasurement, MeasurementPublishing measurementPublishing) {
-        return new MeasurementService(measurementRepository, takeMeasurement, measurementPublishing);
+    public MeasurementService measurementService(DeviceService deviceService, MeasurementRepository measurementRepository, TakeMeasurement takeMeasurement, MeasurementPublishing measurementPublishing) {
+        return new MeasurementService(deviceService, measurementRepository, takeMeasurement, measurementPublishing);
     }
 
     @Bean
