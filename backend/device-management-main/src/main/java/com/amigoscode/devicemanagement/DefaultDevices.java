@@ -17,7 +17,6 @@ public class DefaultDevices  implements CommandLineRunner {
         this.deviceService = deviceService;
     }
 
-    ZonedDateTime zondetDt1 = ZonedDateTime.now();
     private final Device device1 = new Device(
             "3",
             "Weather-Device3",
