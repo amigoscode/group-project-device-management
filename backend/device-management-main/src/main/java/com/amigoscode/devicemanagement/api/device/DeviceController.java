@@ -84,7 +84,8 @@ class DeviceController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("{deviceId}")
+    @DeleteMapping(path = "/{deviceId}")
+    @AuthVerifyDevice
     public ResponseEntity<Void> removeDevice(@PathVariable String deviceId){
         deviceService.removeById(deviceId);
         return ResponseEntity.noContent().build();
