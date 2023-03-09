@@ -21,13 +21,7 @@ public class DeviceSetting  implements Serializable {
     ZonedDateTime updatedAt;
     String updatedBy;
 
-    public Boolean getMeasurementEnabled() {
-        return isMeasurementEnabled;
-    }
 
-    public void setMeasurementEnabled(Boolean measurementEnabled) {
-        isMeasurementEnabled = measurementEnabled;
-    }
     public boolean isDeviceTheOwnerOfThisSetting(String id) {
         return deviceId.equals(id);
     }

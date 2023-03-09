@@ -59,7 +59,7 @@ public class DeviceSettingServiceTest {
         Assertions.assertNotNull(savedDeviceSetting);
         Assertions.assertEquals(fakeDeviceSetting.getId(), savedDeviceSetting.getId());
         Assertions.assertEquals(fakeDeviceSetting.getDeviceId(), savedDeviceSetting.getDeviceId());
-        Assertions.assertEquals(fakeDeviceSetting.getMeasurementEnabled(), savedDeviceSetting.getMeasurementEnabled());
+        Assertions.assertEquals(fakeDeviceSetting.getIsMeasurementEnabled(), savedDeviceSetting.getIsMeasurementEnabled());
         Assertions.assertEquals(fakeDeviceSetting.getMeasurementPeriod(), savedDeviceSetting.getMeasurementPeriod());
         Assertions.assertEquals(fakeDeviceSetting.getCreatedAt(), savedDeviceSetting.getCreatedAt());
         Assertions.assertEquals(fakeDeviceSetting.getUpdatedAt(), savedDeviceSetting.getUpdatedAt());
@@ -89,7 +89,7 @@ public class DeviceSettingServiceTest {
         Assertions.assertNotNull(foundedDeviceSetting);
         Assertions.assertEquals(fakeDeviceSetting.getId(), foundedDeviceSetting.getId());
         Assertions.assertEquals(fakeDeviceSetting.getDeviceId(), foundedDeviceSetting.getDeviceId());
-        Assertions.assertEquals(fakeDeviceSetting.getMeasurementEnabled(), foundedDeviceSetting.getMeasurementEnabled());
+        Assertions.assertEquals(fakeDeviceSetting.getIsMeasurementEnabled(), foundedDeviceSetting.getIsMeasurementEnabled());
         Assertions.assertEquals(fakeDeviceSetting.getMeasurementPeriod(), foundedDeviceSetting.getMeasurementPeriod());
         Assertions.assertEquals(fakeDeviceSetting.getCreatedAt(), foundedDeviceSetting.getCreatedAt());
         Assertions.assertEquals(fakeDeviceSetting.getUpdatedAt(), foundedDeviceSetting.getUpdatedAt());
@@ -119,7 +119,7 @@ public class DeviceSettingServiceTest {
         Assertions.assertNotNull(foundedDeviceSetting);
         Assertions.assertEquals(fakeDeviceSetting.getId(), foundedDeviceSetting.getId());
         Assertions.assertEquals(fakeDeviceSetting.getDeviceId(), foundedDeviceSetting.getDeviceId());
-        Assertions.assertEquals(fakeDeviceSetting.getMeasurementEnabled(), foundedDeviceSetting.getMeasurementEnabled());
+        Assertions.assertEquals(fakeDeviceSetting.getIsMeasurementEnabled(), foundedDeviceSetting.getIsMeasurementEnabled());
         Assertions.assertEquals(fakeDeviceSetting.getMeasurementPeriod(), foundedDeviceSetting.getMeasurementPeriod());
         Assertions.assertEquals(fakeDeviceSetting.getCreatedAt(), foundedDeviceSetting.getCreatedAt());
         Assertions.assertEquals(fakeDeviceSetting.getUpdatedAt(), foundedDeviceSetting.getUpdatedAt());
