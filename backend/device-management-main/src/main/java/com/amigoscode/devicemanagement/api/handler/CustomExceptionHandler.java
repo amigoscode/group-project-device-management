@@ -1,10 +1,12 @@
 package com.amigoscode.devicemanagement.api.handler;
 
-import com.amigoscode.devicemanagement.api.verifier.UserIsNotAuthorizedToThisDeviceException;
 import com.amigoscode.devicemanagement.api.response.ErrorResponse;
+import com.amigoscode.devicemanagement.api.verifier.UserIsNotAuthorizedToThisDeviceException;
 import com.amigoscode.devicemanagement.domain.device.DeviceNotFoundException;
+import com.amigoscode.devicemanagement.domain.devicesetting.DeviceSettingNotFoundException;
 import com.amigoscode.devicemanagement.domain.user.exception.UserNotFoundException;
 import com.amigoscode.devicemanagement.external.storage.device.DeviceAlreadyExistsException;
+import com.amigoscode.devicemanagement.external.storage.devicesetting.DeviceSettingAlreadyExistsException;
 import com.amigoscode.devicemanagement.external.storage.user.UserAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +37,16 @@ class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(DeviceAlreadyExistsException.class)
     public final ResponseEntity<ErrorResponse> handleDeviceAlreadyExistsException(DeviceAlreadyExistsException ex) {
+        return buildResponse(ex, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(DeviceSettingNotFoundException.class)
+    public final ResponseEntity<ErrorResponse> handleDeviceSettingNotFoundException(DeviceSettingNotFoundException ex){
+        return buildResponse(ex, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(DeviceSettingAlreadyExistsException.class)
+    public final ResponseEntity<ErrorResponse> handleDeviceSettingAlreadyExistsException(DeviceSettingAlreadyExistsException ex){
         return buildResponse(ex, HttpStatus.CONFLICT);
     }
 

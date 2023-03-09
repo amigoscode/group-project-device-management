@@ -24,14 +24,14 @@ class DeviceSettingEntity {
     private String deviceId;
 
     private Integer measurementPeriod;
-    private boolean isMeasurementEnabled;
+    private Boolean isMeasurementEnabled;
     private ZonedDateTime createdAt;
     private ZonedDateTime deletedAt;
     private ZonedDateTime updatedAt;
     private String updatedBy;
 
 
-    public DeviceSettingEntity(String deviceId, Integer measurementPeriod, boolean isMeasurementEnabled) {
+    public DeviceSettingEntity(String deviceId, Integer measurementPeriod, Boolean isMeasurementEnabled) {
         this.deviceId = deviceId;
         this.measurementPeriod = measurementPeriod;
         this.isMeasurementEnabled = isMeasurementEnabled;

@@ -26,7 +26,7 @@ public class DeviceSettingService {
     }
 
     public DeviceSetting findByDeviceId(String deviceId){
-        return deviceSettingRepository.findById(deviceId)
+        return deviceSettingRepository.findByDeviceId(deviceId)
                 .orElseThrow(DeviceSettingNotFoundException::new);
     }
 }
