@@ -82,7 +82,7 @@ class MqttIT extends BaseIT {
     @Test
     public void the_measurement_published_in_the_right_topic_by_the_registered_device_should_be_saved_in_the_repository() throws Exception {
         //given
-        Device device = TestDeviceFactory.createRandom();
+        Device device = TestDeviceFactory.createDevice();
         deviceService.save(device);
         MeasurementMqttDto measurement = measurementMqttMapper.toMqtt(TestMeasurementFactory.createRandom());
         measurement.setDeviceId(device.getId());
@@ -110,7 +110,7 @@ class MqttIT extends BaseIT {
     @Test
     public void the_measurement_published_in_the_inappropriate_topic_by_the_registered_device_should_not_be_saved_in_the_repository() throws Exception {
         //given
-        Device device = TestDeviceFactory.createRandom();
+        Device device = TestDeviceFactory.createDevice();
         deviceService.save(device);
         MeasurementMqttDto measurement = measurementMqttMapper.toMqtt(TestMeasurementFactory.createRandom());
         measurement.setDeviceId(device.getId());
@@ -137,7 +137,7 @@ class MqttIT extends BaseIT {
     @Test
     public void the_measurement_published_in_the_right_topic_by_the_unregistered_device_should_not_be_saved_in_the_repository() throws Exception {
         //given
-        Device device = TestDeviceFactory.createRandom();
+        Device device = TestDeviceFactory.createDevice();
         MeasurementMqttDto measurement = measurementMqttMapper.toMqtt(TestMeasurementFactory.createRandom());
         ObjectMapper mapper = new ObjectMapper();
         mapper.findAndRegisterModules();
