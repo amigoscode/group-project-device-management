@@ -9,7 +9,7 @@ public class TestDeviceFactory {
 
     private static int deviceSequence = 0;
 
-    public static Device createRandom() {
+    public static Device createDevice() {
         deviceSequence++;
 
         return new Device(
