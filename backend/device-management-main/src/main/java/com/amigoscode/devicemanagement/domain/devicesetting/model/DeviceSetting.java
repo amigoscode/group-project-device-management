@@ -15,13 +15,22 @@ public class DeviceSetting  implements Serializable {
     String id;
     String deviceId;
     Integer measurementPeriod;
-    boolean isMeasurementEnabled;
+    Boolean isMeasurementEnabled;
     ZonedDateTime createdAt;
     ZonedDateTime deletedAt;
     ZonedDateTime updatedAt;
     String updatedBy;
 
+    public Boolean getMeasurementEnabled() {
+        return isMeasurementEnabled;
+    }
+
+    public void setMeasurementEnabled(Boolean measurementEnabled) {
+        isMeasurementEnabled = measurementEnabled;
+    }
     public boolean isDeviceTheOwnerOfThisSetting(String id) {
         return deviceId.equals(id);
     }
+
+
 }

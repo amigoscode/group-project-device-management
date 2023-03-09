@@ -10,7 +10,7 @@ class DeviceSettingDto {
     String id;
     String deviceId;
     Integer measurementPeriod;
-    boolean isMeasurementEnabled;
+    Boolean measurementEnabled;
     ZonedDateTime createdAt;
     ZonedDateTime deletedAt;
     ZonedDateTime updatedAt;
