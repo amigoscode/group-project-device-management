@@ -32,6 +32,84 @@ class DeviceSettingControllerIT extends BaseIT {
     DeviceSettingDtoMapper deviceSettingDtoMapper;
 
     @Test
+    void admin_should_be_able_to_update_device_setting() {
+        //given
+        String adminAccessToken = getTokenForAdmin();
+        Device device = TestDeviceFactory.createDevice();
+        DeviceSetting deviceSetting = TestDeviceSettingFactory.createDeviceSetting();
+        deviceService.save(device);
+        deviceSettingService.save(deviceSetting);
+
+        DeviceSetting updatedDeviceSetting = new DeviceSetting(
+                deviceSetting.getId(),
+                device.getId(),
+                25,
+                false,
+                device.getCreatedAt().plusDays(7),
+                device.getDeletedAt().plusDays(10),
+                device.getUpdatedAt().plusDays(8),
+                "New Updated By"
+        );
+
+
+        //when
+        var response = callHttpMethod(HttpMethod.PUT,
+                "/api/v1/devices/" + device.getId() + "/settings",
+                adminAccessToken,
+                deviceSettingDtoMapper.toDto(updatedDeviceSetting),
+                DeviceSettingDto.class);
+
+        //then
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        //and
+        DeviceSettingDto body = response.getBody();
+        Assertions.assertNull(body);
+        //and
+        DeviceSetting deviceSettingFromDb = deviceSettingService.findByDeviceId(device.getId());
+        compareDeviceSettings(updatedDeviceSetting, deviceSettingFromDb);
+    }
+
+    @Test
+    void device_owner_should_be_able_to_update_setting_for_device_he_owns() {
+        //given
+        User user = TestUserFactory.createDeviceOwner();
+        Device device = TestDeviceFactory.createDevice();
+        DeviceSetting deviceSetting = TestDeviceSettingFactory.createDeviceSetting();
+        device.setOwnerId(user.getId());
+        userService.save(user);
+        deviceService.save(device);
+        deviceSettingService.save(deviceSetting);
+        String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
+
+        DeviceSetting updatedDeviceSetting = new DeviceSetting(
+                deviceSetting.getId(),
+                device.getId(),
+                25,
+                false,
+                device.getCreatedAt().plusDays(7),
+                device.getDeletedAt().plusDays(10),
+                device.getUpdatedAt().plusDays(8),
+                "New Updated By"
+        );
+
+        //when
+        var response = callHttpMethod(HttpMethod.PUT,
+                "/api/v1/devices/" + device.getId() + "/settings",
+                token,
+                deviceSettingDtoMapper.toDto(updatedDeviceSetting),
+                DeviceSettingDto.class);
+
+        //then
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        //and
+        DeviceSettingDto body = response.getBody();
+        Assertions.assertNull(body);
+        //and
+        DeviceSetting deviceSettingFromDb = deviceSettingService.findByDeviceId(device.getId());
+        compareDeviceSettings(updatedDeviceSetting, deviceSettingFromDb);
+    }
+
+    @Test
     void admin_should_be_able_to_get_information_about_device_setting() {
         //given
         String adminAccessToken = getTokenForAdmin();
@@ -44,7 +122,7 @@ class DeviceSettingControllerIT extends BaseIT {
 
         //when
         var response = callHttpMethod(HttpMethod.GET,
-                "/api/v1/devices/" + device.getId() + "/settings/" + deviceSetting.getId(),
+                "/api/v1/devices/" + device.getId() + "/settings",
                 adminAccessToken,
                 null,
                 DeviceSettingDto.class);
@@ -96,7 +174,7 @@ class DeviceSettingControllerIT extends BaseIT {
 
         //when
         var response = callHttpMethod(HttpMethod.GET,
-                "/api/v1/devices/" + device.getId() + "/settings/" + deviceSetting.getId(),
+                "/api/v1/devices/" + device.getId() + "/settings",
                 token,
                 null,
                 DeviceSettingDto.class);
@@ -125,7 +203,7 @@ class DeviceSettingControllerIT extends BaseIT {
 
         //when
         var response = callHttpMethod(HttpMethod.GET,
-                "/api/v1/devices/" + device.getId() + "/settings/" + deviceSetting.getId(),
+                "/api/v1/devices/" + device.getId() + "/settings",
                 token,
                 null,
                 DeviceSettingDto.class);
@@ -293,7 +371,7 @@ class DeviceSettingControllerIT extends BaseIT {
 
         //when
         var response = callHttpMethod(HttpMethod.DELETE,
-                "/api/v1/devices/" + device.getId() + "/settings/" + deviceSetting.getId(),
+                "/api/v1/devices/" + device.getId() + "/settings",
                 token,
                 deviceSettingDtoMapper.toDto(deviceSetting),
                 ErrorResponse.class);
@@ -336,7 +414,7 @@ class DeviceSettingControllerIT extends BaseIT {
 
         //when
         var response = callHttpMethod(HttpMethod.PUT,
-                "/api/v1/devices/" + device.getId() + "/settings/" + deviceSetting.getId(),
+                "/api/v1/devices/" + device.getId() + "/settings",
                 token,
                 deviceSettingDtoMapper.toDto(updatedDeviceSetting),
                 DeviceSettingDto.class);
