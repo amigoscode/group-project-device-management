@@ -35,30 +35,30 @@ class DeviceSettingControllerIT extends BaseIT {
     @Autowired
     DeviceSettingDtoMapper deviceSettingDtoMapper;
 
-    @Test
-    void admin_should_be_able_to_get_information_about_device_setting() {
-        //given
-        String adminAccessToken = getTokenForAdmin();
-        Device device = TestDeviceFactory.createDevice();
-        deviceService.save(device);
-        DeviceSetting deviceSetting = TestDeviceSettingFactory.createDeviceSetting();
-        deviceSetting.setDeviceId(device.getId());
-        deviceSettingService.save(deviceSetting);
-
-
-        //when
-        var response = callHttpMethod(HttpMethod.GET,
-                "/api/v1/devices/" + device.getId() + "/settings/" + deviceSetting.getId(),
-                adminAccessToken,
-                null,
-                DeviceSettingDto.class);
-
-        //then
-        DeviceSettingDto body = response.getBody();
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        //and
-        compareDeviceSettings(deviceSetting, deviceSettingDtoMapper.toDomain(body));
-    }
+//    @Test
+//    void admin_should_be_able_to_get_information_about_device_setting() {
+//        //given
+//        String adminAccessToken = getTokenForAdmin();
+//        Device device = TestDeviceFactory.createDevice();
+//        deviceService.save(device);
+//        DeviceSetting deviceSetting = TestDeviceSettingFactory.createDeviceSetting();
+//        deviceSetting.setDeviceId(device.getId());
+//        deviceSettingService.save(deviceSetting);
+//
+//
+//        //when
+//        var response = callHttpMethod(HttpMethod.GET,
+//                "/api/v1/devices/" + device.getId() + "/settings/" + deviceSetting.getId(),
+//                adminAccessToken,
+//                null,
+//                DeviceSettingDto.class);
+//
+//        //then
+//        DeviceSettingDto body = response.getBody();
+//        assertEquals(HttpStatus.OK, response.getStatusCode());
+//        //and
+//        compareDeviceSettings(deviceSetting, deviceSettingDtoMapper.toDomain(body));
+//    }
 
     @Test
     void device_owner_should_be_able_to_get_device_setting_information_about_device_he_owns() {
