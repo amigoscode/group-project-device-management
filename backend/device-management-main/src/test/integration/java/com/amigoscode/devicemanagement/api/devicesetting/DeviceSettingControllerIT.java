@@ -1,10 +1,6 @@
 package com.amigoscode.devicemanagement.api.devicesetting;
 
 import com.amigoscode.devicemanagement.BaseIT;
-import com.amigoscode.devicemanagement.TestDeviceFactory;
-import com.amigoscode.devicemanagement.TestDeviceSettingFactory;
-import com.amigoscode.devicemanagement.TestUserFactory;
-import com.amigoscode.devicemanagement.api.response.ErrorResponse;
 import com.amigoscode.devicemanagement.domain.device.DeviceService;
 import com.amigoscode.devicemanagement.domain.device.model.Device;
 import com.amigoscode.devicemanagement.domain.devicesetting.DeviceSettingService;
@@ -35,6 +31,29 @@ class DeviceSettingControllerIT extends BaseIT {
     @Autowired
     DeviceSettingDtoMapper deviceSettingDtoMapper;
 
+    @Test
+    void admin_should_be_able_to_get_information_about_device_setting() {
+        //given
+        String adminAccessToken = getTokenForAdmin();
+        Device device = TestDeviceFactory.createDevice();
+        DeviceSetting deviceSetting = TestDeviceSettingFactory.createDeviceSetting();
+        deviceService.save(device);
+        deviceSetting.setDeviceId(device.getId());
+        deviceSettingService.save(deviceSetting);
+
+
+        //when
+        var response = callHttpMethod(HttpMethod.GET,
+                "/api/v1/devices/" + device.getId() + "/settings/" + deviceSetting.getId(),
+                adminAccessToken,
+                null,
+                DeviceSettingDto.class);
+
+        //then
+        DeviceSettingDto body = response.getBody();
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        //and
+        compareDeviceSettings(deviceSetting, deviceSettingDtoMapper.toDomain(body));
 //    @Test
 //    void admin_should_be_able_to_get_information_about_device_setting() {
 //        //given

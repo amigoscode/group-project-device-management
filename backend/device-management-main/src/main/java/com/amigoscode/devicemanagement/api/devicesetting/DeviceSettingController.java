@@ -26,9 +26,6 @@ class DeviceSettingController {
     @AuthVerifyDevice
     public ResponseEntity<DeviceSettingDto> getDeviceSetting(@PathVariable String deviceId, @PathVariable String settingId) {
         DeviceSetting deviceSetting = deviceSettingService.findById(settingId);
-        if(!deviceSetting.isDeviceTheOwnerOfThisSetting(deviceId)){
-            throw new DeviceSettingNotFoundException();
-        }
         return ResponseEntity
                 .ok(deviceSettingMapper.toDto(deviceSetting));
     }
