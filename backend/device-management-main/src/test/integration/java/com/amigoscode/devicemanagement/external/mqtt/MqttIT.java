@@ -9,33 +9,17 @@ import com.amigoscode.devicemanagement.domain.device.model.Device;
 import com.amigoscode.devicemanagement.domain.measurement.MeasurementService;
 import com.amigoscode.devicemanagement.domain.measurement.model.Measurement;
 import com.amigoscode.devicemanagement.domain.measurement.model.PageMeasurement;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.eclipse.paho.client.mqttv3.IMqttClient;
-import org.eclipse.paho.client.mqttv3.MqttAsyncClient;
-import org.eclipse.paho.client.mqttv3.MqttClient;
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.integration.mqtt.core.MqttPahoClientFactory;
 
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MqttIT extends BaseIT {
-
-
-    private String mqttClientId = MqttAsyncClient.generateClientId();
-
-    @Autowired
-    private Environment environment;
 
     @Autowired
     MeasurementService measurementService;
@@ -46,37 +30,12 @@ class MqttIT extends BaseIT {
     @Autowired
     MeasurementMqttMapper measurementMqttMapper;
 
-    @Autowired
-    MqttPahoClientFactory mqttPahoClientFactory;
-
-    protected IMqttClient client;
-
-    @BeforeEach
-    public void setUp() throws Exception {
-        MqttConnectOptions options = new MqttConnectOptions();
-
-        options.setServerURIs(new String[] { environment.getProperty("mqtt.server.uri") });
-        options.setUserName(environment.getProperty("mqtt.username"));
-        String pass = environment.getProperty("mqtt.password");
-        options.setPassword(pass.toCharArray());
-        options.setCleanSession(true);
-
-        client = new MqttClient(environment.getProperty("mqtt.server.uri"), mqttClientId);
-        client.connect(options);
-    }
-
-    @AfterEach
-    public void tearDown() throws Exception {
-        client.disconnect();
-        client.close();
-    }
 
     @Test
-    public void mqtt_client_should_be_able_to_publish_message() throws Exception {
-        String mqttTopic = "abc";
-        MqttMessage mqttMessage = new MqttMessage();
-        mqttMessage.setPayload("MQTT!".getBytes());
-        client.publish(mqttTopic, mqttMessage);
+    public void mqtt_client_should_be_able_to_publish_message() {
+
+        publishMqttMessage("abc", "MQTT!");
+
     }
 
     @Test
@@ -86,15 +45,9 @@ class MqttIT extends BaseIT {
         deviceService.save(device);
         MeasurementMqttDto measurement = measurementMqttMapper.toMqtt(TestMeasurementFactory.createRandom());
         measurement.setDeviceId(device.getId());
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.findAndRegisterModules();
-        String measurementJsonInString = mapper.writeValueAsString(measurement);
 
         //when
-        MqttMessage mqttMessage = new MqttMessage();
-        mqttMessage.setPayload(measurementJsonInString.getBytes());
-        String measurementTopic = "dm/measurements";
-        client.publish(measurementTopic, mqttMessage);
+        publishMqttMessage("dm/measurements", measurement);
 
         //then
         TimeUnit.SECONDS.sleep(1);
@@ -114,15 +67,9 @@ class MqttIT extends BaseIT {
         deviceService.save(device);
         MeasurementMqttDto measurement = measurementMqttMapper.toMqtt(TestMeasurementFactory.createRandom());
         measurement.setDeviceId(device.getId());
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.findAndRegisterModules();
-        String measurementJsonInString = mapper.writeValueAsString(measurement);
 
         //when
-        MqttMessage mqttMessage = new MqttMessage();
-        mqttMessage.setPayload(measurementJsonInString.getBytes());
-        String measurementTopic = "dm/wrongTopic";
-        client.publish(measurementTopic, mqttMessage);
+        publishMqttMessage("dm/wrongTopic", measurement);
 
         //then
         TimeUnit.SECONDS.sleep(1);
@@ -139,15 +86,9 @@ class MqttIT extends BaseIT {
         //given
         Device device = TestDeviceFactory.createDevice();
         MeasurementMqttDto measurement = measurementMqttMapper.toMqtt(TestMeasurementFactory.createRandom());
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.findAndRegisterModules();
-        String measurementJsonInString = mapper.writeValueAsString(measurement);
 
         //when
-        MqttMessage mqttMessage = new MqttMessage();
-        mqttMessage.setPayload(measurementJsonInString.getBytes());
-        String measurementTopic = "dm/measurements";
-        client.publish(measurementTopic, mqttMessage);
+        publishMqttMessage("dm/measurements", measurement);
 
         //then
         TimeUnit.SECONDS.sleep(1);
