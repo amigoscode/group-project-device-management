@@ -34,7 +34,7 @@ import java.util.Set;
 @ActiveProfiles("it")
 @AutoConfigureDataMongo
 @SpringBootTest(
-        webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT,
+        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         classes = DeviceManagementApplication.class
 )
 @ExtendWith(SpringExtension.class)
@@ -58,6 +58,9 @@ public class BaseIT {
     protected MqttPahoClientFactory mqttPahoClientFactory;
 
     protected IMqttClient client;
+
+    @Autowired
+    private ServerPortService serverPortService;
 
     @BeforeEach
     void init() {
@@ -104,7 +107,8 @@ public class BaseIT {
     );
 
     protected String localUrl(String endpoint) {
-        return "http://localhost:7777" + endpoint;
+        int port = serverPortService.getPort();
+        return "http://localhost:" + port + endpoint;
     }
 
     protected void addTestUsers() {
