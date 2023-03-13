@@ -1,6 +1,10 @@
 package com.amigoscode.devicemanagement.api.devicesetting;
 
 import com.amigoscode.devicemanagement.BaseIT;
+import com.amigoscode.devicemanagement.TestDeviceFactory;
+import com.amigoscode.devicemanagement.TestDeviceSettingFactory;
+import com.amigoscode.devicemanagement.TestUserFactory;
+import com.amigoscode.devicemanagement.api.response.ErrorResponse;
 import com.amigoscode.devicemanagement.domain.device.DeviceService;
 import com.amigoscode.devicemanagement.domain.device.model.Device;
 import com.amigoscode.devicemanagement.domain.devicesetting.DeviceSettingService;
@@ -114,11 +118,10 @@ class DeviceSettingControllerIT extends BaseIT {
         //given
         String adminAccessToken = getTokenForAdmin();
         Device device = TestDeviceFactory.createDevice();
-        DeviceSetting deviceSetting = TestDeviceSettingFactory.createDeviceSetting();
         deviceService.save(device);
+        DeviceSetting deviceSetting = TestDeviceSettingFactory.createDeviceSetting();
         deviceSetting.setDeviceId(device.getId());
         deviceSettingService.save(deviceSetting);
-
 
         //when
         var response = callHttpMethod(HttpMethod.GET,
@@ -132,30 +135,7 @@ class DeviceSettingControllerIT extends BaseIT {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         //and
         compareDeviceSettings(deviceSetting, deviceSettingDtoMapper.toDomain(body));
-//    @Test
-//    void admin_should_be_able_to_get_information_about_device_setting() {
-//        //given
-//        String adminAccessToken = getTokenForAdmin();
-//        Device device = TestDeviceFactory.createDevice();
-//        deviceService.save(device);
-//        DeviceSetting deviceSetting = TestDeviceSettingFactory.createDeviceSetting();
-//        deviceSetting.setDeviceId(device.getId());
-//        deviceSettingService.save(deviceSetting);
-//
-//
-//        //when
-//        var response = callHttpMethod(HttpMethod.GET,
-//                "/api/v1/devices/" + device.getId() + "/settings/" + deviceSetting.getId(),
-//                adminAccessToken,
-//                null,
-//                DeviceSettingDto.class);
-//
-//        //then
-//        DeviceSettingDto body = response.getBody();
-//        assertEquals(HttpStatus.OK, response.getStatusCode());
-//        //and
-//        compareDeviceSettings(deviceSetting, deviceSettingDtoMapper.toDomain(body));
-//    }
+    }
 
     @Test
     void device_owner_should_be_able_to_get_device_setting_information_about_device_he_owns() {
@@ -170,8 +150,6 @@ class DeviceSettingControllerIT extends BaseIT {
         deviceSettingService.save(deviceSetting);
 
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
-
-
         //when
         var response = callHttpMethod(HttpMethod.GET,
                 "/api/v1/devices/" + device.getId() + "/settings",
@@ -181,13 +159,13 @@ class DeviceSettingControllerIT extends BaseIT {
 
         //then
         DeviceSettingDto body = response.getBody();
-        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         //and
         compareDeviceSettings(deviceSetting, deviceSettingDtoMapper.toDomain(body));
     }
 
     @Test
-    void device_owner_should_not_be_able_to_get_device_setting_information_about_he_does_not_own() {
+    void device_owner_should_not_be_able_to_get_device_setting_information_about_device_he_does_not_own() {
         //given
         User user = TestUserFactory.createDeviceOwner();
         userService.save(user);
@@ -212,85 +190,7 @@ class DeviceSettingControllerIT extends BaseIT {
         Assertions.assertEquals(HttpStatus.METHOD_NOT_ALLOWED, response.getStatusCode());
     }
 
-//    @Test
-//    void admin_should_be_able_to_update_device_setting() {
-//        //given
-//        String adminAccessToken = getTokenForAdmin();
-//        Device device = TestDeviceFactory.createDevice();
-//        DeviceSetting deviceSetting = TestDeviceSettingFactory.createDeviceSetting();
-//        deviceService.save(device);
-//        deviceSettingService.save(deviceSetting);
-//
-//        DeviceSetting updatedDeviceSetting = new DeviceSetting(
-//                deviceSetting.getId(),
-//                device.getId(),
-//                25,
-//                false,
-//                device.getCreatedAt().plusDays(7),
-//                device.getDeletedAt().plusDays(10),
-//                device.getUpdatedAt().plusDays(8),
-//                "New Updated By"
-//        );
-//
-//
-//        //when
-//        var response = callHttpMethod(HttpMethod.PUT,
-//                "/api/v1/devices/" + device.getId() + "/settings/" + deviceSetting.getId(),
-//                adminAccessToken,
-//                deviceSettingDtoMapper.toDto(updatedDeviceSetting),
-//                DeviceSettingDto.class);
-//
-//        //then
-//        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-//        //and
-//        DeviceSettingDto body = response.getBody();
-//        Assertions.assertNull(body);
-//        //and
-//        DeviceSetting deviceSettingFromDb = deviceSettingService.findById(deviceSetting.getId());
-//        compareDeviceSettings(updatedDeviceSetting, deviceSettingFromDb);
-//    }
-
-//    @Test
-//    void device_owner_should_be_able_to_update_setting_for_device_he_owns() {
-//        //given
-//        User user = TestUserFactory.createDeviceOwner();
-//        Device device = TestDeviceFactory.createDevice();
-//        DeviceSetting deviceSetting = TestDeviceSettingFactory.createDeviceSetting();
-//        device.setOwnerId(user.getId());
-//        userService.save(user);
-//        deviceService.save(device);
-//        deviceSettingService.save(deviceSetting);
-//        String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
-//
-//        DeviceSetting updatedDeviceSetting = new DeviceSetting(
-//                deviceSetting.getId(),
-//                device.getId(),
-//                25,
-//                false,
-//                device.getCreatedAt().plusDays(7),
-//                device.getDeletedAt().plusDays(10),
-//                device.getUpdatedAt().plusDays(8),
-//                "New Updated By"
-//        );
-//
-//        //when
-//        var response = callHttpMethod(HttpMethod.PUT,
-//                "/api/v1/devices/" + device.getId() + "/settings/" + deviceSetting.getId(),
-//                token,
-//                deviceSettingDtoMapper.toDto(updatedDeviceSetting),
-//                DeviceSettingDto.class);
-//
-//        //then
-//        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-//        //and
-//        DeviceSettingDto body = response.getBody();
-//        Assertions.assertNull(body);
-//        //and
-//        DeviceSetting deviceSettingFromDb = deviceSettingService.findById(deviceSetting.getId());
-//        compareDeviceSettings(updatedDeviceSetting, deviceSettingFromDb);
-//    }
-//
-//    @Test
+    @Test
     void admin_should_be_able_to_save_new_device_setting() {
         //given
         String adminAccessToken = getTokenForAdmin();
@@ -379,6 +279,7 @@ class DeviceSettingControllerIT extends BaseIT {
         //then
         Assertions.assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
     }
+
 
     @Test
     void device_owner_should_not_be_able_to_update_setting_for_device_he_does_not_own() {
