@@ -36,7 +36,7 @@ class DeviceControllerIT extends BaseIT {
     void admin_should_be_able_to_get_information_about_device() {
         //given
         String adminAccessToken = getTokenForAdmin();
-        Device device = TestDeviceFactory.createRandom();
+        Device device = TestDeviceFactory.createDevice();
         deviceService.save(device);
 
         //when
@@ -48,7 +48,7 @@ class DeviceControllerIT extends BaseIT {
 
         //then
         DeviceDto body = response.getBody();
-        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         //and
         compareDevices(device, deviceDtoMapper.toDomain(body));
     }
@@ -56,7 +56,7 @@ class DeviceControllerIT extends BaseIT {
     @Test
     void device_owner_should_be_able_to_get_information_about_device_he_owns() {
         User user = TestUserFactory.createDeviceOwner();
-        Device device = TestDeviceFactory.createRandom();
+        Device device = TestDeviceFactory.createDevice();
         device.setOwnerId(user.getId());
         userService.save(user);
         deviceService.save(device);
@@ -79,7 +79,7 @@ class DeviceControllerIT extends BaseIT {
     @Test
     void device_owner_should_not_be_able_to_get_information_about_device_he_does_not_own() {
         User user = TestUserFactory.createDeviceOwner();
-        Device device = TestDeviceFactory.createRandom();
+        Device device = TestDeviceFactory.createDevice();
         device.setOwnerId(user.getId() + "qwerty");
         userService.save(user);
         deviceService.save(device);
@@ -100,9 +100,9 @@ class DeviceControllerIT extends BaseIT {
     void admin_should_be_able_to_get_information_about_all_devices() {
         //given
         String adminAccessToken = getTokenForAdmin();
-        Device device1 = TestDeviceFactory.createRandom();
-        Device device2 = TestDeviceFactory.createRandom();
-        Device device3 = TestDeviceFactory.createRandom();
+        Device device1 = TestDeviceFactory.createDevice();
+        Device device2 = TestDeviceFactory.createDevice();
+        Device device3 = TestDeviceFactory.createDevice();
         deviceService.save(device1);
         deviceService.save(device2);
         deviceService.save(device3);
@@ -127,9 +127,9 @@ class DeviceControllerIT extends BaseIT {
     @Test
     void device_owner_should_be_able_to_get_information_about_all_devices_he_owns() {
         User user = TestUserFactory.createDeviceOwner();
-        Device device1 = TestDeviceFactory.createRandom();
-        Device device2 = TestDeviceFactory.createRandom();
-        Device device3 = TestDeviceFactory.createRandom();
+        Device device1 = TestDeviceFactory.createDevice();
+        Device device2 = TestDeviceFactory.createDevice();
+        Device device3 = TestDeviceFactory.createDevice();
         device1.setOwnerId(user.getId());
         device2.setOwnerId(user.getId());
         device3.setOwnerId(user.getId() + "qwerty");
@@ -159,7 +159,7 @@ class DeviceControllerIT extends BaseIT {
     void admin_should_be_able_to_save_new_device() {
         //given
         String adminAccessToken = getTokenForAdmin();
-        Device device = TestDeviceFactory.createRandom();
+        Device device = TestDeviceFactory.createDevice();
 
         //when
         var response = callHttpMethod(HttpMethod.POST,
@@ -180,7 +180,7 @@ class DeviceControllerIT extends BaseIT {
     void device_owner_should_be_able_to_save_new_device() {
         //given
         User user = TestUserFactory.createDeviceOwner();
-        Device device = TestDeviceFactory.createRandom();
+        Device device = TestDeviceFactory.createDevice();
         userService.save(user);
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
@@ -203,7 +203,7 @@ class DeviceControllerIT extends BaseIT {
     void should_return_conflict_about_duplicated_device() {
         //given
         String adminAccessToken = getTokenForAdmin();
-        Device device = TestDeviceFactory.createRandom();
+        Device device = TestDeviceFactory.createDevice();
         deviceService.save(device);
 
         //when
@@ -221,7 +221,7 @@ class DeviceControllerIT extends BaseIT {
     void admin_should_be_able_to_update_device() {
         //given
         String adminAccessToken = getTokenForAdmin();
-        Device device = TestDeviceFactory.createRandom();
+        Device device = TestDeviceFactory.createDevice();
         deviceService.save(device);
         Device updatedDevice = new Device(
                 device.getId(),
@@ -254,7 +254,7 @@ class DeviceControllerIT extends BaseIT {
     void device_owner_should_be_able_to_update_device_he_owns() {
         //given
         User user = TestUserFactory.createDeviceOwner();
-        Device device = TestDeviceFactory.createRandom();
+        Device device = TestDeviceFactory.createDevice();
         device.setOwnerId(user.getId());
         userService.save(user);
         deviceService.save(device);
@@ -290,7 +290,7 @@ class DeviceControllerIT extends BaseIT {
     void device_owner_should_not_be_able_to_update_device_he_does_not_own() {
         //given
         User user = TestUserFactory.createDeviceOwner();
-        Device device = TestDeviceFactory.createRandom();
+        Device device = TestDeviceFactory.createDevice();
         device.setOwnerId(user.getId() + "123");
         userService.save(user);
         deviceService.save(device);
@@ -320,7 +320,7 @@ class DeviceControllerIT extends BaseIT {
     void admin_should_be_able_to_delete_device() {
         //given
         String adminAccessToken = getTokenForAdmin();
-        Device device = TestDeviceFactory.createRandom();
+        Device device = TestDeviceFactory.createDevice();
         deviceService.save(device);
 
         //when
@@ -338,7 +338,7 @@ class DeviceControllerIT extends BaseIT {
     void device_owner_should_not_be_able_to_delete_device() {
         //given
         User user = TestUserFactory.createDeviceOwner();
-        Device device = TestDeviceFactory.createRandom();
+        Device device = TestDeviceFactory.createDevice();
         deviceService.save(device);
         userService.save(user);
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());

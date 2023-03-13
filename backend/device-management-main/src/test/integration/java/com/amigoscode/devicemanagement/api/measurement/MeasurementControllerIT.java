@@ -41,7 +41,7 @@ class MeasurementControllerIT extends BaseIT {
     void admin_should_be_able_to_get_information_about_measurement() {
         //given
         String adminAccessToken = getTokenForAdmin();
-        Device device = TestDeviceFactory.createRandom();
+        Device device = TestDeviceFactory.createDevice();
         deviceService.save(device);
         Measurement measurement = TestMeasurementFactory.createRandom();
         measurement.setDeviceId(device.getId());
@@ -64,7 +64,7 @@ class MeasurementControllerIT extends BaseIT {
     @Test
     void device_owner_should_be_able_to_get_information_about_measurement_from_device_he_owns() {
         User user = TestUserFactory.createDeviceOwner();
-        Device device = TestDeviceFactory.createRandom();
+        Device device = TestDeviceFactory.createDevice();
         device.setOwnerId(user.getId());
         userService.save(user);
         deviceService.save(device);
@@ -90,7 +90,7 @@ class MeasurementControllerIT extends BaseIT {
     @Test
     void device_owner_should_not_be_able_to_get_information_about_measurement_from_device_he_does_not_own() {
         User user = TestUserFactory.createDeviceOwner();
-        Device device = TestDeviceFactory.createRandom();
+        Device device = TestDeviceFactory.createDevice();
         device.setOwnerId(user.getId() + "qwerty");
         userService.save(user);
         deviceService.save(device);
@@ -115,7 +115,7 @@ class MeasurementControllerIT extends BaseIT {
     void admin_should_be_able_to_get_information_about_measurements_from_all_devices() {
         //given
         String adminAccessToken = getTokenForAdmin();
-        Device device = TestDeviceFactory.createRandom();
+        Device device = TestDeviceFactory.createDevice();
         deviceService.save(device);
         Measurement measurement1 = TestMeasurementFactory.createRandom();
         Measurement measurement2 = TestMeasurementFactory.createRandom();
@@ -148,7 +148,7 @@ class MeasurementControllerIT extends BaseIT {
     void device_owner_should_be_able_to_get_information_about_measurements_from_all_devices_he_owns() {
         //given
         User user = TestUserFactory.createDeviceOwner();
-        Device device = TestDeviceFactory.createRandom();
+        Device device = TestDeviceFactory.createDevice();
         device.setOwnerId(user.getId());
         userService.save(user);
         deviceService.save(device);
@@ -184,7 +184,7 @@ class MeasurementControllerIT extends BaseIT {
     void device_owner_should_not_be_able_to_get_information_about_measurements_from_device_he_does_not_own() {
         //given
         User user = TestUserFactory.createDeviceOwner();
-        Device device = TestDeviceFactory.createRandom();
+        Device device = TestDeviceFactory.createDevice();
         device.setOwnerId(user.getId() + "qwerty");
         userService.save(user);
         deviceService.save(device);

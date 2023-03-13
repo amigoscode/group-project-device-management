@@ -4,7 +4,7 @@ mqtt:
   server:
     uri: tcp://localhost:1882
 server:
-  port: 7777
+  port: 0
 spring:
   data:
     mongodb:
