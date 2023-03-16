@@ -1,5 +1,6 @@
 package com.amigoscode.devicemanagement.external.storage.device;
 
+import com.amigoscode.devicemanagement.domain.device.DeviceAlreadyExistsException;
 import com.amigoscode.devicemanagement.domain.device.DeviceRepository;
 import com.amigoscode.devicemanagement.domain.device.model.Device;
 import com.amigoscode.devicemanagement.domain.device.model.PageDevice;
@@ -19,14 +20,14 @@ import java.util.stream.Collectors;
 @Component
 class DeviceStorageAdapter implements DeviceRepository {
 
-    private final MongoDeviceRepository deviceRepository;
+    private final DynamoDeviceRepository deviceRepository;
 
     private final DeviceEntityMapper mapper;
 
     @Override
     public Device save(Device device){
         try{
-            DeviceEntity saved = deviceRepository.insert(mapper.toEntity(device));
+            DeviceEntity saved = deviceRepository.save(mapper.toEntity(device));
             log.info("Saved entity" + saved);
             return mapper.toDomain(saved);
         } catch (DuplicateKeyException ex) {

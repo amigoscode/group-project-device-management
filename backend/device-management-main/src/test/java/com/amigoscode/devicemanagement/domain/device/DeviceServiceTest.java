@@ -1,14 +1,6 @@
 package com.amigoscode.devicemanagement.domain.device;
 
 import com.amigoscode.devicemanagement.domain.device.model.Device;
-import com.amigoscode.devicemanagement.domain.user.EncodingService;
-import com.amigoscode.devicemanagement.domain.user.UserRepository;
-import com.amigoscode.devicemanagement.domain.user.UserService;
-import com.amigoscode.devicemanagement.domain.user.exception.UserNotFoundException;
-import com.amigoscode.devicemanagement.domain.user.model.User;
-import com.amigoscode.devicemanagement.domain.user.model.UserRole;
-import com.amigoscode.devicemanagement.external.storage.device.DeviceAlreadyExistsException;
-import com.amigoscode.devicemanagement.external.storage.user.UserAlreadyExistsException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +12,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Optional;
-import java.util.Set;
 
 @ExtendWith(MockitoExtension.class)
 class DeviceServiceTest {

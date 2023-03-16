@@ -5,9 +5,9 @@ import com.amigoscode.devicemanagement.api.verifier.UserIsNotAuthorizedToThisDev
 import com.amigoscode.devicemanagement.domain.device.DeviceNotFoundException;
 import com.amigoscode.devicemanagement.domain.devicesetting.DeviceSettingNotFoundException;
 import com.amigoscode.devicemanagement.domain.user.exception.UserNotFoundException;
-import com.amigoscode.devicemanagement.external.storage.device.DeviceAlreadyExistsException;
-import com.amigoscode.devicemanagement.external.storage.devicesetting.DeviceSettingAlreadyExistsException;
-import com.amigoscode.devicemanagement.external.storage.user.UserAlreadyExistsException;
+import com.amigoscode.devicemanagement.domain.device.DeviceAlreadyExistsException;
+import com.amigoscode.devicemanagement.domain.devicesetting.DeviceSettingAlreadyExistsException;
+import com.amigoscode.devicemanagement.domain.user.exception.UserAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

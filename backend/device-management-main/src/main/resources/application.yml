@@ -5,11 +5,15 @@ mqtt:
     uri: tcp://localhost:1883
 spring:
   data:
-    mongodb:
-      authentication-database: admin
-      username: rootuser
-      password: rootpass
-      database: projectTwo
-      port: 27017
-      host: localhost
-      auto-index-creation: true
+    dynamodb:
+      entity2ddl:
+        auto: create-only
+        gsiProjectionType: ALL
+        readCapacity: 10
+        writeCapacity: 1
+
+aws:
+  dynamoDBUrl: http://localhost:8000
+  accessKey: local
+  secretKey: local
+  region: eu-central-1

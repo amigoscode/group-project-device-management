@@ -1,4 +1,4 @@
-package com.amigoscode.devicemanagement.external.storage.device;
+package com.amigoscode.devicemanagement.domain.device;
 
 public class DeviceAlreadyExistsException extends RuntimeException{
 }

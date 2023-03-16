@@ -9,6 +9,9 @@ public class DeviceSettingService {
     private final DeviceSettingRepository deviceSettingRepository;
 
     public DeviceSetting save(DeviceSetting deviceSetting){
+        if (deviceSettingRepository.findByDeviceId(deviceSetting.getDeviceId()).isPresent()) {
+            throw new DeviceSettingAlreadyExistsException();
+        }
         return deviceSettingRepository.save(deviceSetting);
     }
 

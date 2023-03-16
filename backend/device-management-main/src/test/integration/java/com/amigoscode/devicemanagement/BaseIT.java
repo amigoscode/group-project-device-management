@@ -1,8 +1,16 @@
 package com.amigoscode.devicemanagement;
 
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.model.CreateTableRequest;
+import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
 import com.amigoscode.devicemanagement.domain.user.UserService;
 import com.amigoscode.devicemanagement.domain.user.model.User;
 import com.amigoscode.devicemanagement.domain.user.model.UserRole;
+import com.amigoscode.devicemanagement.external.storage.device.DeviceEntity;
+import com.amigoscode.devicemanagement.external.storage.devicesetting.DeviceSettingEntity;
+import com.amigoscode.devicemanagement.external.storage.measurement.MeasurementEntity;
+import com.amigoscode.devicemanagement.external.storage.user.UserEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.eclipse.paho.client.mqttv3.IMqttClient;
@@ -17,7 +25,6 @@ import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataM
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.env.Environment;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -29,6 +36,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
+import java.util.Objects;
 import java.util.Set;
 
 @ActiveProfiles("it")
@@ -52,7 +60,10 @@ public class BaseIT {
     protected BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
-    MongoTemplate mongoTemplate;
+    protected AmazonDynamoDB amazonDynamoDB;
+
+    @Autowired
+    protected DynamoDBMapper dynamoDBMapper;
 
     @Autowired
     protected MqttPahoClientFactory mqttPahoClientFactory;
@@ -65,7 +76,8 @@ public class BaseIT {
     @BeforeEach
     void init() {
         setUpMqttConnection();
-        dropDb();
+        dropDbTables();
+        createDbTables();
         addTestUsers();
     }
 
@@ -94,8 +106,28 @@ public class BaseIT {
         client.close();
     }
 
-    protected void dropDb() {
-        mongoTemplate.getDb().drop();
+    private void dropDbTables() {
+        amazonDynamoDB.deleteTable("Devices");
+        amazonDynamoDB.deleteTable("DeviceSettings");
+        amazonDynamoDB.deleteTable("Measurements");
+        amazonDynamoDB.deleteTable("Users");
+    }
+
+    private void createDbTables() {
+        createDbTable(DeviceEntity.class);
+        createDbTable(DeviceSettingEntity.class);
+        createDbTable(MeasurementEntity.class);
+        createDbTable(UserEntity.class);
+    }
+
+    private void createDbTable(Class<?> clazz) {
+        CreateTableRequest tableRequest = dynamoDBMapper
+                .generateCreateTableRequest(clazz);
+        tableRequest.setProvisionedThroughput(
+                new ProvisionedThroughput(
+                        Long.parseLong(Objects.requireNonNull(environment.getProperty("spring.data.dynamodb.entity2ddl.readCapacity"))),
+                        Long.parseLong(Objects.requireNonNull(environment.getProperty("spring.data.dynamodb.entity2ddl.writeCapacity")))));
+        amazonDynamoDB.createTable(tableRequest);
     }
 
     private User adminUser = new User(

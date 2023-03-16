@@ -19,14 +19,14 @@ import java.util.stream.Collectors;
 @Component
 class MeasurementStorageAdapter implements MeasurementRepository {
 
-    private final MongoMeasurementRepository measurementRepository;
+    private final DynamoMeasurementRepository measurementRepository;
 
     private final MeasurementEntityMapper mapper;
 
     @Override
     public Measurement save(Measurement measurement){
         try{
-            MeasurementEntity saved = measurementRepository.insert(mapper.toEntity(measurement));
+            MeasurementEntity saved = measurementRepository.save(mapper.toEntity(measurement));
             log.info("Saved entity" + saved);
             return mapper.toDomain(saved);
         } catch (DuplicateKeyException ex) {

@@ -1,10 +1,10 @@
 package com.amigoscode.devicemanagement.archtest;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
@@ -19,7 +19,7 @@ class StorageArchitectureTest {
             .should().resideInAPackage("..storage..");
 
     @ArchTest
-    static final ArchRule entity_classes_are_not_used_outside_storage_layer = classes().that().areAnnotatedWith(Document.class)
+    static final ArchRule entity_classes_are_not_used_outside_storage_layer = classes().that().areAnnotatedWith(DynamoDBTable.class)
             .should().onlyBeAccessed().byAnyPackage("..storage..");
 
     @ArchTest

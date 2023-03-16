@@ -7,13 +7,17 @@ server:
   port: 0
 spring:
   data:
-    mongodb:
-      authentication-database: admin
-      username: rootuser
-      password: rootpass
-      database: integrationTests
-      port: 27016
-      host: localhost
-      auto-index-creation: true
+    dynamodb:
+      entity2ddl:
+        auto: create-only
+        gsiProjectionType: ALL
+        readCapacity: 10
+        writeCapacity: 1
+
+aws:
+  dynamoDBUrl: http://localhost:8008
+  accessKey: local
+  secretKey: local
+  region: eu-central-1
 local:
   folder: testRepo/

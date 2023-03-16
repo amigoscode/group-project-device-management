@@ -1,7 +1,6 @@
 package com.amigoscode.devicemanagement.domain.devicesetting;
 
 import com.amigoscode.devicemanagement.domain.devicesetting.model.DeviceSetting;
-import com.amigoscode.devicemanagement.external.storage.devicesetting.DeviceSettingAlreadyExistsException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
