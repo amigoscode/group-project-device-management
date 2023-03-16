@@ -14,7 +14,6 @@ jobs:
     services:
       dynamodb-local-it:
         image: amazon/dynamodb-local:latest
-        container_name: dynamodb-local-it
         ports:
           - "8008:8000"
 #        options: >-
