@@ -86,6 +86,8 @@ out/
 ## Mongo-data backup
 /mongo-data
 
+## Dynamo-data backup
+/dynamodb_data
 
 #React
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.

@@ -18,7 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MeasurementControllerIT extends BaseIT {
 
@@ -139,9 +142,21 @@ class MeasurementControllerIT extends BaseIT {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         //and
         assertEquals(3, body.getTotalElements());
-        compareMeasurements(measurement1, measurementDtoMapper.toDomain(body.getMeasurements().get(0)));
-        compareMeasurements(measurement2, measurementDtoMapper.toDomain(body.getMeasurements().get(1)));
-        compareMeasurements(measurement3, measurementDtoMapper.toDomain(body.getMeasurements().get(2)));
+        List<Measurement> measurements = List.of(
+                measurement1, measurement2, measurement3
+        );
+        assertTrue(measurements
+                .stream()
+                .filter(m -> m.equals(measurementDtoMapper.toDomain(body.getMeasurements().get(0))))
+                .findAny().isPresent());
+        assertTrue(measurements
+                .stream()
+                .filter(m -> m.equals(measurementDtoMapper.toDomain(body.getMeasurements().get(1))))
+                .findAny().isPresent());
+        assertTrue(measurements
+                .stream()
+                .filter(m -> m.equals(measurementDtoMapper.toDomain(body.getMeasurements().get(2))))
+                .findAny().isPresent());
     }
 
     @Test
@@ -175,9 +190,21 @@ class MeasurementControllerIT extends BaseIT {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         //and
         assertEquals(3, body.getTotalElements());
-        compareMeasurements(measurement1, measurementDtoMapper.toDomain(body.getMeasurements().get(0)));
-        compareMeasurements(measurement2, measurementDtoMapper.toDomain(body.getMeasurements().get(1)));
-        compareMeasurements(measurement3, measurementDtoMapper.toDomain(body.getMeasurements().get(2)));
+        List<Measurement> measurements = List.of(
+                measurement1, measurement2, measurement3
+        );
+        assertTrue(measurements
+                .stream()
+                .filter(m -> m.equals(measurementDtoMapper.toDomain(body.getMeasurements().get(0))))
+                .findAny().isPresent());
+        assertTrue(measurements
+                .stream()
+                .filter(m -> m.equals(measurementDtoMapper.toDomain(body.getMeasurements().get(1))))
+                .findAny().isPresent());
+        assertTrue(measurements
+                .stream()
+                .filter(m -> m.equals(measurementDtoMapper.toDomain(body.getMeasurements().get(2))))
+                .findAny().isPresent());
     }
 
     @Test

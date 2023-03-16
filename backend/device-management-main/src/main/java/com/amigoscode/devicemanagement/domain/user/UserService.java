@@ -3,6 +3,7 @@ package com.amigoscode.devicemanagement.domain.user;
 import com.amigoscode.devicemanagement.domain.user.exception.UserNotFoundException;
 import com.amigoscode.devicemanagement.domain.user.model.PageUser;
 import com.amigoscode.devicemanagement.domain.user.model.User;
+import com.amigoscode.devicemanagement.domain.user.exception.UserAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 
@@ -13,6 +14,9 @@ public class UserService {
     private final EncodingService encoder;
 
     public User save(User user) {
+        if (userRepository.findById(user.getId()).isPresent()) {
+            throw new UserAlreadyExistsException();
+        }
         return userRepository.save(
                 user.withPassword(
                         encoder.encode(user.getPassword())

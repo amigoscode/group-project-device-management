@@ -1,67 +1,48 @@
 version: "3.8"
 services:
 
-  mongodb-production:
-    image: mongo
-    container_name: dm-mongodb-production
+  dynamodb-local-production:
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
+    image: amazon/dynamodb-local:latest
+    container_name: dynamodb-local-production
     ports:
-      - 27017:27017
+      - "8000:8000"
     volumes:
-      - ./mongo-data:/data/db
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=rootuser
-      - MONGO_INITDB_ROOT_PASSWORD=rootpass
+      - ./dynamodb_data:/home/dynamodblocal/data
+    working_dir: /home/dynamodblocal
 
-  mongo-express-production:
-    image: mongo-express
-    container_name: dm-mongo-express-production
+  dynamodb-admin-production:
+    image: aaronshaf/dynamodb-admin
     ports:
-      - 8087:8081
+      - "8010:8001"
     environment:
-      - ME_CONFIG_MONGODB_ADMINUSERNAME=rootuser
-      - ME_CONFIG_MONGODB_ADMINPASSWORD=rootpass
-      - ME_CONFIG_MONGODB_SERVER=mongodb-production
+      DYNAMO_ENDPOINT: "http://dynamodb-local-production:8000"
+      AWS_REGION: "eu-central-1"
+      AWS_ACCESS_KEY_ID: local
+      AWS_SECRET_ACCESS_KEY: local
+    depends_on:
+      - dynamodb-local-production
     restart: unless-stopped
 
-  mongodb-it:
-    image: mongo
-    container_name: dm-mongodb-it
+  dynamodb-local-it:
+    command: "-jar DynamoDBLocal.jar"
+    image: amazon/dynamodb-local:latest
+    container_name: dynamodb-local-it
     ports:
-      - 27016:27017
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=rootuser
-      - MONGO_INITDB_ROOT_PASSWORD=rootpass
+      - "8008:8000"
 
-  mongo-express-it:
-    image: mongo-express
-    container_name: dm-mongo-express-it
+  dynamodb-admin-it:
+    image: aaronshaf/dynamodb-admin
     ports:
-      - 8086:8081
+      - "8011:8001"
     environment:
-      - ME_CONFIG_MONGODB_ADMINUSERNAME=rootuser
-      - ME_CONFIG_MONGODB_ADMINPASSWORD=rootpass
-      - ME_CONFIG_MONGODB_SERVER=mongodb-it
+      DYNAMO_ENDPOINT: "http://dynamodb-local-it:8000"
+      AWS_REGION: "eu-central-1"
+      AWS_ACCESS_KEY_ID: local
+      AWS_SECRET_ACCESS_KEY: local
+    depends_on:
+      - dynamodb-local-it
     restart: unless-stopped
-
-#  postgres:
-#    image: postgres:13-alpine
-#    ports:
-#      - "5432:5432"
-#    environment:
-#      - POSTGRES_DB=training
-#      - POSTGRES_USER=admin
-#      - POSTGRES_PASSWORD=admin
-#      - PGDATA=/database
-#    command: [ "postgres", "-c", "log_statement=all" ]
-#    #    volumes:
-#    #      - ./my-db:/database
-#  pgadmin:
-#    image: dpage/pgadmin4
-#    ports:
-#      - 8000:80
-#    environment:
-#      - PGADMIN_DEFAULT_EMAIL=admin@training.pl
-#      - PGADMIN_DEFAULT_PASSWORD=admin
 
   mqtt:
     container_name: mqtt

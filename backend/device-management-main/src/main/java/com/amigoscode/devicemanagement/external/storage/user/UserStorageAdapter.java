@@ -1,6 +1,7 @@
 package com.amigoscode.devicemanagement.external.storage.user;
 
 import com.amigoscode.devicemanagement.domain.user.UserRepository;
+import com.amigoscode.devicemanagement.domain.user.exception.UserAlreadyExistsException;
 import com.amigoscode.devicemanagement.domain.user.model.PageUser;
 import com.amigoscode.devicemanagement.domain.user.model.User;
 import lombok.RequiredArgsConstructor;
@@ -19,13 +20,13 @@ import java.util.stream.Collectors;
 @Component
 class UserStorageAdapter implements UserRepository {
 
-    private final MongoUserRepository userRepository;
+    private final DynamoUserRepository userRepository;
     private final UserEntityMapper mapper;
 
     @Override
     public User save(User user) {
         try {
-            UserEntity saved = userRepository.insert(mapper.toEntity(user));
+            UserEntity saved = userRepository.save(mapper.toEntity(user));
             log.info("Saved entity " + saved);
             return mapper.toDomain(saved);
         } catch (DuplicateKeyException ex) {

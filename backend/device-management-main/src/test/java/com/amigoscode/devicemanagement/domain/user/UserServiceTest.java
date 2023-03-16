@@ -3,7 +3,7 @@ package com.amigoscode.devicemanagement.domain.user;
 import com.amigoscode.devicemanagement.domain.user.exception.UserNotFoundException;
 import com.amigoscode.devicemanagement.domain.user.model.User;
 import com.amigoscode.devicemanagement.domain.user.model.UserRole;
-import com.amigoscode.devicemanagement.external.storage.user.UserAlreadyExistsException;
+import com.amigoscode.devicemanagement.domain.user.exception.UserAlreadyExistsException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

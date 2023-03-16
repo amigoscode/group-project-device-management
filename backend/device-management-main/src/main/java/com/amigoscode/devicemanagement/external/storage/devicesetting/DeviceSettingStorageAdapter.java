@@ -1,5 +1,6 @@
 package com.amigoscode.devicemanagement.external.storage.devicesetting;
 
+import com.amigoscode.devicemanagement.domain.devicesetting.DeviceSettingAlreadyExistsException;
 import com.amigoscode.devicemanagement.domain.devicesetting.DeviceSettingRepository;
 import com.amigoscode.devicemanagement.domain.devicesetting.model.DeviceSetting;
 import lombok.RequiredArgsConstructor;
@@ -15,14 +16,14 @@ import java.util.Optional;
 @Component
 class DeviceSettingStorageAdapter implements DeviceSettingRepository {
 
-    private final  MongoDeviceSettingRepository deviceSettingRepository;
+    private final  DynamoDeviceSettingRepository deviceSettingRepository;
 
     private final  DeviceSettingEntityMapper mapper;
 
     @Override
     public DeviceSetting save(DeviceSetting deviceSetting){
         try{
-            DeviceSettingEntity saved = deviceSettingRepository.insert(mapper.toEntity(deviceSetting));
+            DeviceSettingEntity saved = deviceSettingRepository.save(mapper.toEntity(deviceSetting));
             log.info("Saved device setting entity" + saved);
             return mapper.toDomain(saved);
         } catch (DuplicateKeyException ex) {

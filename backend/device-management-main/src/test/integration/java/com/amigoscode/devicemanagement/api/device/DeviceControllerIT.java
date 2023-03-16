@@ -15,8 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class DeviceControllerIT extends BaseIT {
 
@@ -119,9 +122,23 @@ class DeviceControllerIT extends BaseIT {
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         //and
         assertEquals(3, body.getTotalElements());
-        compareDevices(device1, deviceDtoMapper.toDomain(body.getDevices().get(0)));
-        compareDevices(device2, deviceDtoMapper.toDomain(body.getDevices().get(1)));
-        compareDevices(device3, deviceDtoMapper.toDomain(body.getDevices().get(2)));
+        List<Device> devices = List.of(device1, device2, device3);
+
+        assertTrue(devices
+                .stream()
+                .filter(d -> d.equals(deviceDtoMapper.toDomain(body.getDevices().get(0))))
+                .findAny().isPresent()
+        );
+        assertTrue(devices
+                .stream()
+                .filter(d -> d.equals(deviceDtoMapper.toDomain(body.getDevices().get(1))))
+                .findAny().isPresent()
+        );
+        assertTrue(devices
+                .stream()
+                .filter(d -> d.equals(deviceDtoMapper.toDomain(body.getDevices().get(2))))
+                .findAny().isPresent()
+        );
     }
 
     @Test
@@ -151,8 +168,18 @@ class DeviceControllerIT extends BaseIT {
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         //and
         assertEquals(2, body.getTotalElements());
-        compareDevices(device1, deviceDtoMapper.toDomain(body.getDevices().get(0)));
-        compareDevices(device2, deviceDtoMapper.toDomain(body.getDevices().get(1)));
+        List<Device> devices = List.of(device1, device2);
+
+        assertTrue(devices
+                .stream()
+                .filter(d -> d.equals(deviceDtoMapper.toDomain(body.getDevices().get(0))))
+                .findAny().isPresent()
+        );
+        assertTrue(devices
+                .stream()
+                .filter(d -> d.equals(deviceDtoMapper.toDomain(body.getDevices().get(1))))
+                .findAny().isPresent()
+        );
     }
 
     @Test
