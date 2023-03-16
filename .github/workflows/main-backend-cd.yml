@@ -12,13 +12,12 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     services:
-      mongodb-it:
-        image: mongo:6.0
-        env:
-          MONGO_INITDB_ROOT_USERNAME: rootuser
-          MONGO_INITDB_ROOT_PASSWORD: rootpass
+      dynamodb-local-it:
+        command: "-jar DynamoDBLocal.jar"
+        image: amazon/dynamodb-local:latest
+        container_name: dynamodb-local-it
         ports:
-          - 27016:27017
+          - "8008:8000"
 #        options: >-
 #          --health-cmd "mongo localhost:27017/test --quiet --eval 'quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)'"
 #          --health-interval 10s
