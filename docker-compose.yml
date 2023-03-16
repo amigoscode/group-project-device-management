@@ -25,7 +25,7 @@ services:
     restart: unless-stopped
 
   dynamodb-local-it:
-    command: "-jar DynamoDBLocal.jar"
+#    command: "-jar DynamoDBLocal.jar"
     image: amazon/dynamodb-local:latest
     container_name: dynamodb-local-it
     ports:
