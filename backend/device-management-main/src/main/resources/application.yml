@@ -13,7 +13,7 @@ spring:
         writeCapacity: 1
 
 aws:
-  dynamoDBUrl: http://localhost:8000
-  accessKey: local
-  secretKey: local
-  region: eu-central-1
+  dynamoDBUrl: ${DYNAMO_ENDPOINT}
+  accessKey: ${AWS_ACCESS_KEY_ID}
+  secretKey: ${AWS_SECRET_ACCESS_KEY}
+  region: ${AWS_REGION}
