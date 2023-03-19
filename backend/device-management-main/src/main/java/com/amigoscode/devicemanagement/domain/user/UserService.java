@@ -14,7 +14,7 @@ public class UserService {
     private final EncodingService encoder;
 
     public User save(User user) {
-        if (userRepository.findById(user.getId()).isPresent()) {
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             throw new UserAlreadyExistsException();
         }
         return userRepository.save(

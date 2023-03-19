@@ -15,7 +15,7 @@ public class DeviceService {
     }
 
     public Device save(Device device){
-        if (deviceRepository.findById(device.getId()).isPresent()) {
+        if ( (device.getId() != null) && (deviceRepository.findById(device.getId()).isPresent()) ) {
             throw new DeviceAlreadyExistsException();
         }
         return deviceRepository.save(device);

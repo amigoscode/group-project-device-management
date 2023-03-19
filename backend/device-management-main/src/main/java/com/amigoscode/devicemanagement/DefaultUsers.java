@@ -28,7 +28,7 @@ public class DefaultUsers implements CommandLineRunner {
     );
 
     private final User deviceOwnerUser = new User(
-        "2",
+        null,
         "stefan@example.com",
         "Stefan Burczymucha",
         "password",
