@@ -20,7 +20,7 @@ public class DefaultUsers implements CommandLineRunner {
     }
 
     private final User adminUser = new User(
-        null,
+        "1",
         "jan@example.com",
         "Jan Kowalski",
         "MyPassword",
@@ -28,7 +28,7 @@ public class DefaultUsers implements CommandLineRunner {
     );
 
     private final User deviceOwnerUser = new User(
-        null,
+        "2",
         "stefan@example.com",
         "Stefan Burczymucha",
         "password",
