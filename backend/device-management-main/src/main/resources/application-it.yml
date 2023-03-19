@@ -18,6 +18,6 @@ aws:
   dynamoDBUrl: http://localhost:8008
   accessKey: local
   secretKey: local
-  region: eu-central-1
+  region: eu-north-1
 local:
   folder: testRepo/

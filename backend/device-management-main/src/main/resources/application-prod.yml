@@ -16,4 +16,4 @@ aws:
   dynamoDBUrl: http://dynamodb-local-production:8000
   accessKey: local
   secretKey: local
-  region: eu-central-1
+  region: eu-north-1
