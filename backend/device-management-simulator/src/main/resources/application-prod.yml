@@ -2,6 +2,6 @@ mqtt:
   username: admin
   password: qwerty
   server:
-    uri: tcp://localhost:1883
+    uri: tcp://13.50.198.121:1883
 server:
   port: 8081

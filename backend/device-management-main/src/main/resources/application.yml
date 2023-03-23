@@ -1,8 +1,8 @@
 mqtt:
-  username: admin
-  password: qwerty
+  username: ${MQTT_USERNAME}
+  password: ${MQTT_PASSWORD}
   server:
-    uri: tcp://mqtt:1883
+    uri: ${MQTT_ENDPOINT}
 spring:
   data:
     dynamodb:
