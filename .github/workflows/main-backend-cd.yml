@@ -18,7 +18,6 @@ jobs:
           - "8008:8000"
       mqtt-it:
         image: rafalnowak444/dm-mosquitto:latest
-        container_name: mqtt-it
         ports:
           - 1882:1883
         environment:
