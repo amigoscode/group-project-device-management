@@ -18,12 +18,13 @@ jobs:
           - "8008:8000"
       mqtt-it:
         image: rafalnowak444/dm-mosquitto:latest
-        ports:
-          - 1882:1883
         env:
           MQTT_USERNAME: "admin"
           MQTT_PASSWORD: "qwerty"
           MQTT_LISTENER: "1883"
+        ports:
+          - "1882:1883"
+
 
     defaults:
       run:
