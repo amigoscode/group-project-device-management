@@ -20,7 +20,7 @@ jobs:
         image: rafalnowak444/dm-mosquitto:latest
         ports:
           - 1882:1883
-        environment:
+        env:
           MQTT_USERNAME: "admin"
           MQTT_PASSWORD: "qwerty"
           MQTT_LISTENER: "1883"
