@@ -16,24 +16,21 @@ jobs:
         image: amazon/dynamodb-local:latest
         ports:
           - "8008:8000"
-#        options: >-
-#          --health-cmd "mongo localhost:27017/test --quiet --eval 'quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)'"
-#          --health-interval 10s
-#          --health-timeout 5s
-#          --health-retries 5
+      mqtt-it:
+        image: rafalnowak444/dm-mosquitto:latest
+        container_name: mqtt-it
+        ports:
+          - 1882:1883
+        environment:
+          MQTT_USERNAME: "admin"
+          MQTT_PASSWORD: "qwerty"
+          MQTT_LISTENER: "1883"
+
     defaults:
       run:
         working-directory: ./backend/device-management-main
     steps:
       - uses: actions/checkout@v3
-      - name: Start Mosquitto
-        uses: namoshek/mosquitto-github-action@v1
-        with:
-          version: '1.6'
-          ports: '1882:1883 9001:9001'
-          config: ${{ github.workspace }}/mosquitto/ci/config/mosquitto.conf
-          password-file: ${{ github.workspace }}/mosquitto/ci/config/pwfile
-          container-name: 'mqtt-it'
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'

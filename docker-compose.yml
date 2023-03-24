@@ -46,15 +46,15 @@ services:
 
   mqtt:
     container_name: mqtt
-    image: eclipse-mosquitto:2.0.15
+    image: rafalnowak444/dm-mosquitto:latest
     restart: always
-    volumes:
-      - ./mosquitto/config:/mosquitto/config
-      - ./mosquitto/data:/mosquitto/data
-      - ./mosquitto/log:/mosquitto/log
     ports:
       - 1883:1883
       - 9001:9001
+    environment:
+      MQTT_USERNAME: "admin"
+      MQTT_PASSWORD: "qwerty"
+      MQTT_LISTENER: "1883"
 
   mqtt-it:
     container_name: mqtt-it
