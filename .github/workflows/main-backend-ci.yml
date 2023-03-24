@@ -16,15 +16,6 @@ jobs:
         image: amazon/dynamodb-local:latest
         ports:
           - "8008:8000"
-#      mqtt-it:
-#        image: rafalnowak444/dm-mosquitto:latest
-#        env:
-#          MQTT_USERNAME: "admin"
-#          MQTT_PASSWORD: "qwerty"
-#          MQTT_LISTENER: "1883"
-#        ports:
-#          - "1882:1883"
-
 
     defaults:
       run:
