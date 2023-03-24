@@ -1,0 +1,77 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "mqtt",
+      "image": "rafalnowak444/dm-mosquitto:latest",
+      "essential": true,
+      "memory": 256,
+      "portMappings": [
+        {
+          "hostPort": 1883,
+          "containerPort": 1883
+        },
+        {
+            "hostPort": 9001,
+            "containerPort": 9001
+        }
+      ],
+      "environment": [
+        {
+          "name": "MQTT_USERNAME",
+          "value": "admin"
+        },
+        {
+            "name": "MQTT_PASSWORD",
+            "value": "qwerty"
+        },
+        {
+            "name": "MQTT_LISTENER",
+            "value": "1883"
+        }
+      ]
+    },
+    {
+      "name": "device-management",
+      "image": "rafalnowak444/device-management:latest",
+      "essential": true,
+      "memory": 512,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 8080
+        }
+      ],
+      "environment": [
+        {
+          "name": "MQTT_USERNAME",
+          "value": "admin"
+        },
+        {
+            "name": "MQTT_PASSWORD",
+            "value": "qwerty"
+        },
+        {
+          "name": "MQTT_ENDPOINT",
+          "value": "tcp://13.50.198.121:1883"
+        },
+        {
+          "name": "DYNAMO_ENDPOINT",
+          "value": "dynamodb.eu-north-1.amazonaws.com"
+        },
+        {
+            "name": "AWS_REGION",
+            "value": "<MY_AWS_REGION>"
+        },
+        {
+            "name": "AWS_ACCESS_KEY_ID",
+            "value": "<MY_AWS_ACCESS_KEY_ID>"
+        },
+        {
+            "name": "AWS_SECRET_ACCESS_KEY",
+            "value": "<MY_AWS_SECRET_ACCESS_KEY>"
+        }  
+      ]
+    }
+  ]
+}
