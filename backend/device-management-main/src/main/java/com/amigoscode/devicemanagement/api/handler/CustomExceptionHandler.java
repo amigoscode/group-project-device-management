@@ -2,12 +2,14 @@ package com.amigoscode.devicemanagement.api.handler;
 
 import com.amigoscode.devicemanagement.api.response.ErrorResponse;
 import com.amigoscode.devicemanagement.api.verifier.UserIsNotAuthorizedToThisDeviceException;
-import com.amigoscode.devicemanagement.domain.device.DeviceNotFoundException;
-import com.amigoscode.devicemanagement.domain.devicesetting.DeviceSettingNotFoundException;
-import com.amigoscode.devicemanagement.domain.user.exception.UserNotFoundException;
 import com.amigoscode.devicemanagement.domain.device.DeviceAlreadyExistsException;
+import com.amigoscode.devicemanagement.domain.device.DeviceNotFoundException;
 import com.amigoscode.devicemanagement.domain.devicesetting.DeviceSettingAlreadyExistsException;
+import com.amigoscode.devicemanagement.domain.devicesetting.DeviceSettingNotFoundException;
+import com.amigoscode.devicemanagement.domain.rule.exception.RuleAlreadyExistsException;
+import com.amigoscode.devicemanagement.domain.rule.exception.RuleNotFoundException;
 import com.amigoscode.devicemanagement.domain.user.exception.UserAlreadyExistsException;
+import com.amigoscode.devicemanagement.domain.user.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -47,6 +49,16 @@ class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(DeviceSettingAlreadyExistsException.class)
     public final ResponseEntity<ErrorResponse> handleDeviceSettingAlreadyExistsException(DeviceSettingAlreadyExistsException ex){
+        return buildResponse(ex, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(RuleNotFoundException.class)
+    public final ResponseEntity<ErrorResponse> handleRuleNotFoundException(RuleNotFoundException ex){
+        return buildResponse(ex, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(RuleAlreadyExistsException.class)
+    public final ResponseEntity<ErrorResponse> handleRuleAlreadyExistsException(RuleAlreadyExistsException ex){
         return buildResponse(ex, HttpStatus.CONFLICT);
     }
 

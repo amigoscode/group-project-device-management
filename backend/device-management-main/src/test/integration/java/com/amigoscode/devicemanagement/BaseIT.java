@@ -10,6 +10,7 @@ import com.amigoscode.devicemanagement.domain.user.model.UserRole;
 import com.amigoscode.devicemanagement.external.storage.device.DeviceEntity;
 import com.amigoscode.devicemanagement.external.storage.devicesetting.DeviceSettingEntity;
 import com.amigoscode.devicemanagement.external.storage.measurement.MeasurementEntity;
+import com.amigoscode.devicemanagement.external.storage.rule.RuleEntity;
 import com.amigoscode.devicemanagement.external.storage.user.UserEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
@@ -111,6 +112,7 @@ public class BaseIT {
         amazonDynamoDB.deleteTable("DeviceSettings");
         amazonDynamoDB.deleteTable("Measurements");
         amazonDynamoDB.deleteTable("Users");
+        amazonDynamoDB.deleteTable("RulesEngine");
     }
 
     private void createDbTables() {
@@ -118,6 +120,7 @@ public class BaseIT {
         createDbTable(DeviceSettingEntity.class);
         createDbTable(MeasurementEntity.class);
         createDbTable(UserEntity.class);
+        createDbTable(RuleEntity.class);
     }
 
     private void createDbTable(Class<?> clazz) {
