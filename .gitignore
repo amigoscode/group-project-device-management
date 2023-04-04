@@ -1,3 +1,10 @@
+**/target/
+**/dist/
+**/.idea/
+**/node_modules/
+**/.DS_Store
+**/*.iml
+
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
@@ -113,3 +120,26 @@ out/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+
+# JavaScript
+
+# Logs
+logs
+*.log
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
