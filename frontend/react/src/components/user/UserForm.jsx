@@ -39,7 +39,7 @@ const MySelect = ({label, ...props}) => {
     );
 };
 
-const UserForm = ({fetchUsers, initialValues, customerId}) => {
+const UserForm = ({onSuccess, initialValues, customerId}) => {
 
     const emptyUser = {
         name : "",
@@ -89,7 +89,7 @@ const UserForm = ({fetchUsers, initialValues, customerId}) => {
                                     "User updated",
                                     `${userDto.name} was successfully updated`
                                 )
-                                if(fetchUsers) fetchUsers();
+                                if(onSuccess) onSuccess();
                             }).catch(err => {
                             console.log(err);
                             errorNotification(
@@ -107,7 +107,7 @@ const UserForm = ({fetchUsers, initialValues, customerId}) => {
                                     "User created",
                                     `${userDto.name} was successfully created`
                                 )
-                                if(fetchUsers) fetchUsers();
+                                if(onSuccess) onSuccess();
                             }).catch(err => {
                             console.log(err);
                             errorNotification(

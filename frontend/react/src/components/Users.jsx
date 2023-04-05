@@ -73,6 +73,7 @@ export default function Devices() {
                         name={user.name}
                         password={user.password}
                         roles={user.roles}
+                        onSuccess={fetchUsers}
                     ></UserCard>
                 ))}
             </VStack>

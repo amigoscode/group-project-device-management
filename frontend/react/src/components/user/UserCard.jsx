@@ -20,7 +20,7 @@ import {errorNotification, successNotification} from "../../services/notificatio
 import UserDrawer from "./UserDrawer.jsx";
 import React, {useRef} from "react";
 
-export default function UserCard({id, email, name, password, roles}) {
+export default function UserCard({id, email, name, password, roles, onSuccess}) {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = useRef()
 
@@ -49,6 +49,7 @@ export default function UserCard({id, email, name, password, roles}) {
                     {/*<Button colorScheme='blue'>Edit</Button>*/}
                     <UserDrawer
                         initialValues={user}
+                        fetchUsers={onSuccess}
                     />
                     <Button
                         colorScheme='red'
@@ -81,6 +82,7 @@ export default function UserCard({id, email, name, password, roles}) {
                                                     "User deleted",
                                                     `${name} was successfully deleted`
                                                 )
+                                                if(onSuccess) onSuccess();
                                                 // fetchCustomers();
                                             }).catch(err => {
                                             console.log(err);
