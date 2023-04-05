@@ -24,6 +24,7 @@ export default function Devices() {
             setCurrentPage(res.data.currentPage)
             setTotalPages(res.data.totalPages)
             setTotalElements(res.data.totalElements)
+            if (res.data.totalPages < page) {setPage(res.data.totalPages)}
             console.log(res)
         }).catch(err => {
             console.log(err)
