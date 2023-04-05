@@ -1,6 +1,6 @@
 import {Form, Formik, useField} from 'formik';
 import * as Yup from 'yup';
-import {Alert, AlertIcon, Box, Button, FormLabel, Input, Stack} from "@chakra-ui/react";
+import {Alert, AlertIcon, Box, Button, FormLabel, Input, Select, Stack} from "@chakra-ui/react";
 import {errorNotification, successNotification} from "../../services/notification.js";
 import {createUser, updateUser} from "../../services/client.js";
 
@@ -13,6 +13,22 @@ const MyTextInput = ({label, ...props}) => {
         <Box>
             <FormLabel htmlFor={props.id || props.name}>{label}</FormLabel>
             <Input className="text-input" {...field} {...props} />
+            {meta.touched && meta.error ? (
+                <Alert className="error" status={"error"} mt={2}>
+                    <AlertIcon/>
+                    {meta.error}
+                </Alert>
+            ) : null}
+        </Box>
+    );
+};
+
+const MySelect = ({label, ...props}) => {
+    const [field, meta] = useField(props);
+    return (
+        <Box>
+            <FormLabel htmlFor={props.id || props.name}>{label}</FormLabel>
+            <Select {...field} {...props} />
             {meta.touched && meta.error ? (
                 <Alert className="error" status={"error"} mt={2}>
                     <AlertIcon/>
@@ -130,12 +146,11 @@ const UserForm = ({fetchUsers, initialValues, customerId}) => {
                                 placeholder="password"
                             />
 
-                            <MyTextInput
-                                label="Roles"
-                                name="roles"
-                                type="text"
-                                placeholder="DEVICE_OWNER"
-                            />
+                            <MySelect label="Roles" name="roles">
+                                <option value="">Select role</option>
+                                <option value="DEVICE_OWNER">DEVICE OWNER</option>
+                                <option value="ADMIN">ADMIN</option>
+                            </MySelect>
 
                             <Button disabled={!(isValid && dirty) || isSubmitting} type="submit">Submit</Button>
                         </Stack>
