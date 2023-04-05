@@ -1,9 +1,9 @@
 import axios from 'axios';
 import {user} from "./userService.js";
 
-export const getUsers = async () => {
+export const getUsers = async (page, size) => {
     try {
-        return await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users?size=100`, {
+        return await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users?page=${page}&size=${size}`, {
             data: {
 
             },
