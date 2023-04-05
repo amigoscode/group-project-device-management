@@ -1,11 +1,11 @@
-import { Button, Spinner, StackDivider, Text, VStack} from '@chakra-ui/react';
-import React, {useEffect, useState} from "react";
+import {Spinner, StackDivider, VStack} from '@chakra-ui/react';
+import {useEffect, useState} from "react";
 import SidebarWithHeader from "./shared/Sidebar.jsx";
 import {getUsers} from "../services/client.js";
 import UserDrawer from "./user/UserDrawer.jsx";
 import UserCard from "./user/UserCard.jsx";
-import { ThemeProvider, Box } from "@highoutput/hds";
-import { Pagination } from "@highoutput/hds-pagination";
+import {Box, ThemeProvider} from "@highoutput/hds";
+import {Pagination} from "@highoutput/hds-pagination";
 
 
 export default function Devices() {
@@ -14,13 +14,12 @@ export default function Devices() {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [totalElements, setTotalElements] = useState(0);
-    const [page, setPage] = React.useState(1);
-    const [pageSize, setPageSize] = React.useState(5);
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(5);
 
     const fetchUsers = () => {
         setLoading(true);
         getUsers(page - 1, pageSize).then(res => {
-            console.log(res.data)
             setUsers(res.data.users)
             setCurrentPage(res.data.currentPage)
             setTotalPages(res.data.totalPages)
@@ -54,7 +53,7 @@ export default function Devices() {
     if (users.length <= 0) {
         return (
             <UserDrawer
-                fetchUsers={fetchUsers}
+                onSuccess={fetchUsers}
             />
         )
     }
@@ -63,7 +62,7 @@ export default function Devices() {
         <SidebarWithHeader>
             <VStack divider={<StackDivider borderColor='gray.200'/>} spacing={4} align='stretch'>
                 <UserDrawer
-                    fetchUsers={fetchUsers}
+                    onSuccess={fetchUsers}
                 />
                 {users.map((user, index) => (
                     <UserCard
@@ -88,7 +87,7 @@ export default function Devices() {
                         count={totalElements}
                         hasLegend={false}
                         hasPageControls
-                        onChange={function ({ page, pageSize }) {
+                        onChange={function ({page, pageSize}) {
                             setPage(page);
                             setPageSize(pageSize);
                         }}
