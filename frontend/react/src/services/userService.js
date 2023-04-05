@@ -22,12 +22,9 @@ function login(username, password) {
             user.auth_password = password;
             localStorage.setItem('user', JSON.stringify(user));
             window.location.reload()
-            // window.location.assign("http://localhost:3000/")
             // redirect to dashboard
             window.location.assign("/about-me")
         }
-        console.log(user)
-        console.log(res)
     }).catch(err => {
         logout()
     }).finally(() => {

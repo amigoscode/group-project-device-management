@@ -46,10 +46,9 @@ export default function UserCard({id, email, name, password, roles, onSuccess}) 
             </CardBody>
             <CardFooter>
                 <Stack spacing={4} direction='row' align='center'>
-                    {/*<Button colorScheme='blue'>Edit</Button>*/}
                     <UserDrawer
                         initialValues={user}
-                        fetchUsers={onSuccess}
+                        onSuccess={onSuccess}
                     />
                     <Button
                         colorScheme='red'
@@ -83,7 +82,6 @@ export default function UserCard({id, email, name, password, roles, onSuccess}) 
                                                     `${name} was successfully deleted`
                                                 )
                                                 if(onSuccess) onSuccess();
-                                                // fetchCustomers();
                                             }).catch(err => {
                                             console.log(err);
                                             errorNotification(

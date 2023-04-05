@@ -22,15 +22,7 @@ import {
     VStack
 } from '@chakra-ui/react';
 
-import {
-    FiBarChart2,
-    FiBell,
-    FiChevronDown,
-    FiList,
-    FiMenu,
-    FiSettings,
-    FiUsers
-} from 'react-icons/fi';
+import {FiBarChart2, FiBell, FiChevronDown, FiList, FiMenu, FiSettings, FiUsers} from 'react-icons/fi';
 import {logout, user} from "../../services/userService.js";
 import {AiOutlineUser} from "react-icons/all.js";
 

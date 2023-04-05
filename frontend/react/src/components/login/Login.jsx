@@ -38,7 +38,6 @@ const MyTextInput = ({label, ...props}) => {
 };
 
 const LoginForm = () => {
-    // const { login } = useAuth();
     const navigate = useNavigate();
 
     return (
@@ -56,20 +55,8 @@ const LoginForm = () => {
             }
             initialValues={{username: '', password: ''}}
             onSubmit={(values, {setSubmitting}) => {
-                // setSubmitting(true);
                 console.log(values);
                 login(values.username, values.password);
-                // login(values).then(res => {
-                //     navigate("/dashboard")
-                //     console.log("Successfully logged in");
-                // }).catch(err => {
-                //     errorNotification(
-                //         err.code,
-                //         err.response.data.message
-                //     )
-                // }).finally(() => {
-                //     setSubmitting(false);
-                // })
             }}>
 
             {({isValid, isSubmitting}) => (
@@ -102,16 +89,6 @@ const LoginForm = () => {
 }
 
 const Login = () => {
-
-    // const { customer } = useAuth();
-    const customer = {}
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        if (customer) {
-            // navigate("/dashboard/customers");
-        }
-    })
 
     return (
         <Stack minH={'100vh'} direction={{base: 'column', md: 'row'}}>
