@@ -126,3 +126,26 @@ export const updateDeviceSettings = async (deviceSettingsDto) => {
         throw e;
     }
 }
+
+export const getMeasurements = async (deviceId, page, size) => {
+    try {
+        return await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/devices/${deviceId}/measurements?page=${page}&size=${size}`, {
+            data: {
+
+            },
+            params: {
+
+            },
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            auth: {
+                username: user().auth_username,
+                password: user().auth_password
+            }
+        })
+    } catch (e) {
+        throw e;
+    }
+}

@@ -22,15 +22,13 @@ import {
     VStack
 } from '@chakra-ui/react';
 
-import {FiBarChart2, FiBell, FiChevronDown, FiList, FiMenu, FiSettings, FiUsers} from 'react-icons/fi';
+import {FiBell, FiChevronDown, FiList, FiMenu, FiUsers} from 'react-icons/fi';
 import {logout, user} from "../../services/userService.js";
 import {AiOutlineUser} from "react-icons/all.js";
 
 const LinkItems = [
-    {name: 'Users', icon: FiUsers, path: user() && user().roles.includes('ADMIN') ? 'users' : 'about-me'},
-    {name: 'Devices', icon: FiList, path: 'devices'},
-    {name: 'Settings', icon: FiSettings, path: 'device-settings'},
-    {name: 'Measurements', icon: FiBarChart2, path: 'measurements'},
+    {name: 'Users', icon: FiUsers, path: user() && user().roles.includes('ADMIN') ? '/users' : '/about-me'},
+    {name: 'Devices', icon: FiList, path: '/devices'},
 ];
 
 export default function SidebarWithHeader({children}) {
