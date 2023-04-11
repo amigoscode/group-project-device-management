@@ -10,7 +10,6 @@ import java.time.ZonedDateTime;
 @AllArgsConstructor
 @ToString
 class MeasurementDto {
-    String id;
     String deviceId;
     Float temperature;
     Float pressure;
@@ -18,5 +17,4 @@ class MeasurementDto {
     WindDto wind;
     LocationDto location;
     ZonedDateTime timestamp;
-
 }
