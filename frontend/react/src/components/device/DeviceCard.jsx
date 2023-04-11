@@ -21,10 +21,12 @@ import DeviceDrawer from "./DeviceDrawer.jsx";
 import React, {useRef} from "react";
 import {deleteDevice} from "../../services/deviceClient.js";
 import DeviceSettingsDrawer from "./DeviceSettingsDrawer.jsx";
+import {useNavigate} from "react-router-dom";
 
 export default function DeviceCard({id, name, ownerId, createdAt, updatedAt, deletedAt, updatedBy, onSuccess}) {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = useRef()
+    const navigate = useNavigate();
 
     const device = {
         id: id,
@@ -59,6 +61,13 @@ export default function DeviceCard({id, name, ownerId, createdAt, updatedAt, del
                     <DeviceSettingsDrawer
                         deviceId={id}
                     />
+                    <Button
+                        colorScheme='blue'
+                        onClick={() => {
+                            console.log(id)
+                            navigate(`/measurements/${id}`);
+                        } }
+                    >Measurements</Button>
                     <Button
                         colorScheme='red'
                         onClick={onOpen}
