@@ -10,7 +10,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "deviceId": "deviceId123",
+  "id": "deviceId123",
   "ownerId": "ownerId",
   "name": "deviceName"
 }
