@@ -17,19 +17,22 @@ import {
 } from '@chakra-ui/react';
 import {deleteUser} from "../../services/userClient.js";
 import {errorNotification, successNotification} from "../../services/notification.js";
-import UserDrawer from "./UserDrawer.jsx";
+import DeviceDrawer from "./DeviceDrawer.jsx";
 import React, {useRef} from "react";
+import {deleteDevice} from "../../services/deviceClient.js";
 
-export default function UserCard({id, email, name, password, roles, onSuccess}) {
+export default function DeviceCard({id, name, ownerId, createdAt, updatedAt, deletedAt, updatedBy, onSuccess}) {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = useRef()
 
-    const user = {
+    const device = {
         id: id,
-        email :email,
         name: name,
-        password: "",
-        roles: roles[0]
+        ownerId: ownerId,
+        createdAt: createdAt,
+        updatedAt: updatedAt,
+        deletedAt: deletedAt,
+        updatedBy: updatedBy
     }
 
     return (
@@ -40,14 +43,16 @@ export default function UserCard({id, email, name, password, roles, onSuccess}) 
             </CardHeader>
             <CardBody>
                 { id && <> <Text fontSize='lg' as='b'>id: {id}</Text> <br /> </> }
-                { email && <> <Text fontSize='lg' as='b'>email: {email}</Text> <br /> </> }
-                { password && <> <Text fontSize='lg' as='b'>password: {password}</Text> <br /> </> }
-                { roles && <> <Text fontSize='lg' as='b'>roles: {roles}</Text> <br /> </> }
+                { ownerId && <> <Text fontSize='lg' as='b'>ownerId: {ownerId}</Text> <br /> </> }
+                { createdAt && <> <Text fontSize='lg' as='b'>createdAt: {createdAt}</Text> <br /> </> }
+                { updatedAt && <> <Text fontSize='lg' as='b'>updatedAt: {updatedAt}</Text> <br /> </> }
+                { deletedAt && <> <Text fontSize='lg' as='b'>deletedAt: {deletedAt}</Text> <br /> </> }
+                { updatedBy && <> <Text fontSize='lg' as='b'>updatedBy: {updatedBy}</Text> <br /> </> }
             </CardBody>
             <CardFooter>
                 <Stack spacing={4} direction='row' align='center'>
-                    <UserDrawer
-                        initialValues={user}
+                    <DeviceDrawer
+                        initialValues={device}
                         onSuccess={onSuccess}
                     />
                     <Button
@@ -62,7 +67,7 @@ export default function UserCard({id, email, name, password, roles, onSuccess}) 
                         <AlertDialogOverlay>
                             <AlertDialogContent>
                                 <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-                                    Delete Customer
+                                    Delete Device
                                 </AlertDialogHeader>
 
                                 <AlertDialogBody>
@@ -74,11 +79,11 @@ export default function UserCard({id, email, name, password, roles, onSuccess}) 
                                         Cancel
                                     </Button>
                                     <Button colorScheme='red' onClick={() => {
-                                        deleteUser(id)
+                                        deleteDevice(id)
                                             .then(res => {
                                                 console.log(res);
                                                 successNotification(
-                                                    "User deleted",
+                                                    "Device deleted",
                                                     `${name} was successfully deleted`
                                                 )
                                                 if(onSuccess) onSuccess();

@@ -1,14 +1,14 @@
 import {Spinner, StackDivider, VStack} from '@chakra-ui/react';
 import {useEffect, useState} from "react";
 import SidebarWithHeader from "./shared/Sidebar.jsx";
-import {getUsers} from "../services/client.js";
+import {getUsers} from "../services/userClient.js";
 import UserDrawer from "./user/UserDrawer.jsx";
 import UserCard from "./user/UserCard.jsx";
 import {Box, ThemeProvider} from "@highoutput/hds";
 import {Pagination} from "@highoutput/hds-pagination";
 
 
-export default function Devices() {
+export default function Users() {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
@@ -24,7 +24,13 @@ export default function Devices() {
             setCurrentPage(res.data.currentPage)
             setTotalPages(res.data.totalPages)
             setTotalElements(res.data.totalElements)
-            if (res.data.totalPages < page) {setPage(res.data.totalPages)}
+            if (res.data.totalPages < page) {
+                if (res.data.totalPages > 0) {
+                    setPage(res.data.totalPages)
+                } else {
+                    setPage(1)
+                }
+            }
             console.log(res)
         }).catch(err => {
             console.log(err)
