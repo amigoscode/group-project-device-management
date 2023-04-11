@@ -10,7 +10,6 @@ import java.time.ZonedDateTime;
 @AllArgsConstructor
 @ToString
 public class Measurement {
-    String id;
     String deviceId;
     Float temperature;
     Float pressure;
@@ -18,8 +17,4 @@ public class Measurement {
     Wind wind;
     Location location;
     ZonedDateTime timestamp;
-
-    public boolean wasMadeByDeviceWithId(final String deviceId) {
-        return this.deviceId.equals(deviceId);
-    }
 }

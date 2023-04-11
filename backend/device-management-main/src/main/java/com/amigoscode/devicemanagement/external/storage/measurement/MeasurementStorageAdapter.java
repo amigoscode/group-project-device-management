@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,13 +38,15 @@ class MeasurementStorageAdapter implements MeasurementRepository {
     }
 
     @Override
-    public void remove(String id) {
-        measurementRepository.findById(id).ifPresent(deviceEntity -> measurementRepository.deleteById(id));
+    public void remove(String deviceId, ZonedDateTime timestamp) {
+        MeasurementEntityId id = new MeasurementEntityId(deviceId, timestamp);
+        measurementRepository.findByMeasurementEntityId(id).ifPresent(deviceEntity -> measurementRepository.deleteByMeasurementEntityId(id));
     }
 
     @Override
-    public Optional<Measurement> findById(String id) {
-        return measurementRepository.findById(id).map(mapper::toDomain);
+    public Optional<Measurement> findById(String deviceId, ZonedDateTime timestamp) {
+        MeasurementEntityId id = new MeasurementEntityId(deviceId, timestamp);
+        return measurementRepository.findByMeasurementEntityId(id).map(mapper::toDomain);
     }
 
     @Override

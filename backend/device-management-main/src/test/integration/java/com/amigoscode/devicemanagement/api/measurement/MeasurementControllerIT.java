@@ -52,7 +52,7 @@ class MeasurementControllerIT extends BaseIT {
 
         //when
         var response = callHttpMethod(HttpMethod.GET,
-                "/api/v1/devices/" + device.getId() + "/measurements/" + measurement.getId(),
+                "/api/v1/devices/" + device.getId() + "/measurements/" + measurement.getTimestamp(),
                 adminAccessToken,
                 null,
                 MeasurementDto.class);
@@ -78,7 +78,7 @@ class MeasurementControllerIT extends BaseIT {
 
         //when
         var response = callHttpMethod(HttpMethod.GET,
-                "/api/v1/devices/" + device.getId() + "/measurements/" + measurement.getId(),
+                "/api/v1/devices/" + device.getId() + "/measurements/" + measurement.getTimestamp(),
                 token,
                 null,
                 MeasurementDto.class);
@@ -104,7 +104,7 @@ class MeasurementControllerIT extends BaseIT {
 
         //when
         var response = callHttpMethod(HttpMethod.GET,
-                "/api/v1/devices/" + device.getId() + "/measurements/" + measurement.getId(),
+                "/api/v1/devices/" + device.getId() + "/measurements/" + measurement.getTimestamp(),
                 token,
                 null,
                 ErrorResponse.class);
@@ -239,7 +239,6 @@ class MeasurementControllerIT extends BaseIT {
 
     private void compareMeasurements(Measurement model, Measurement tested) {
         Assertions.assertNotNull(tested);
-        assertEquals(model.getId(), tested.getId());
         assertEquals(model.getDeviceId(), tested.getDeviceId());
         assertEquals(model.getTemperature(), tested.getTemperature());
         assertEquals(model.getPressure(), tested.getPressure());

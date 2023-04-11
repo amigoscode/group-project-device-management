@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.ZonedDateTime;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(path = "/api/v1/devices",
@@ -28,13 +30,10 @@ class MeasurementController {
     private final MeasurementDtoMapper measurementMapper;
     private final PageMeasurementDtoMapper pageMeasurementDtoMapper;
 
-    @GetMapping( path = "{deviceId}/measurements/{measurementId}")
+    @GetMapping( path = "{deviceId}/measurements/{timestamp}")
     @AuthVerifyDevice
-    public ResponseEntity<MeasurementDto> getMeasurement(@PathVariable String deviceId, @PathVariable String measurementId) {
-        Measurement measurement = measurementService.findById(measurementId);
-        if (!measurement.wasMadeByDeviceWithId(deviceId)) {
-            throw new MeasurementNotFoundException();
-        }
+    public ResponseEntity<MeasurementDto> getMeasurement(@PathVariable String deviceId, @PathVariable ZonedDateTime timestamp) {
+        Measurement measurement = measurementService.findById(deviceId, timestamp);
 
         return ResponseEntity
                 .ok(measurementMapper.toDto(measurement));

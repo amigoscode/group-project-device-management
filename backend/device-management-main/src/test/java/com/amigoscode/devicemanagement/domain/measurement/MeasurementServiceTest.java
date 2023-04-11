@@ -26,7 +26,6 @@ class MeasurementServiceTest {
     private MeasurementService measurementService;
 
     private final Measurement fakeMeasurement = new Measurement(
-            "ID28",
             "deviceId",
             24.85f,
             1013.0f,
@@ -39,7 +38,7 @@ class MeasurementServiceTest {
     @Test
     void delete_method_should_not_throw_exception() {
         // Expect
-        Assertions.assertDoesNotThrow(() -> measurementService.removeById(fakeMeasurement.getId()));
+        Assertions.assertDoesNotThrow(() -> measurementService.removeById(fakeMeasurement.getDeviceId(), fakeMeasurement.getTimestamp()));
     }
 
     @Test
@@ -53,7 +52,6 @@ class MeasurementServiceTest {
 
         //then
         Assertions.assertNotNull(savedMeasurement);
-        Assertions.assertEquals(fakeMeasurement.getId(), savedMeasurement.getId());
         Assertions.assertEquals(fakeMeasurement.getDeviceId(), savedMeasurement.getDeviceId());
         Assertions.assertEquals(fakeMeasurement.getTemperature(), savedMeasurement.getTemperature());
         Assertions.assertEquals(fakeMeasurement.getPressure(), savedMeasurement.getPressure());
@@ -78,14 +76,13 @@ class MeasurementServiceTest {
 
     @Test
     void find_by_id_method_should_return_founded_measurement_when_measurement_exist() {
-        Mockito.when(measurementRepository.findById(fakeMeasurement.getId())).thenReturn(Optional.of(fakeMeasurement));
+        Mockito.when(measurementRepository.findById(fakeMeasurement.getDeviceId(), fakeMeasurement.getTimestamp())).thenReturn(Optional.of(fakeMeasurement));
 
         //when
-        Measurement foundedMeasurement = measurementService.findById(fakeMeasurement.getId());
+        Measurement foundedMeasurement = measurementService.findById(fakeMeasurement.getDeviceId(), fakeMeasurement.getTimestamp());
 
         //then
         Assertions.assertNotNull(foundedMeasurement);
-        Assertions.assertEquals(fakeMeasurement.getId(), foundedMeasurement.getId());
         Assertions.assertEquals(fakeMeasurement.getDeviceId(), foundedMeasurement.getDeviceId());
         Assertions.assertEquals(fakeMeasurement.getTemperature(), foundedMeasurement.getTemperature());
         Assertions.assertEquals(fakeMeasurement.getPressure(), foundedMeasurement.getPressure());
@@ -97,12 +94,12 @@ class MeasurementServiceTest {
 
     @Test
     void find_by_id_method_should_throw_measurement_not_found_exception_when_measurement_does_not_exist() {
-        Mockito.when(measurementRepository.findById(fakeMeasurement.getId())).thenReturn(Optional.empty());
+        Mockito.when(measurementRepository.findById(fakeMeasurement.getDeviceId(), fakeMeasurement.getTimestamp())).thenReturn(Optional.empty());
 
         //when
         //then
         Assertions.assertThrows(MeasurementNotFoundException.class,
-                ()-> measurementService.findById(fakeMeasurement.getId()));
+                ()-> measurementService.findById(fakeMeasurement.getDeviceId(), fakeMeasurement.getTimestamp()));
     }
 
 }

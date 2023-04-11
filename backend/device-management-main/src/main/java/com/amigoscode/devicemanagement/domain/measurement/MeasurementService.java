@@ -5,6 +5,8 @@ import com.amigoscode.devicemanagement.domain.measurement.model.PageMeasurement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 
+import java.time.ZonedDateTime;
+
 @RequiredArgsConstructor
 public class MeasurementService {
 
@@ -14,12 +16,12 @@ public class MeasurementService {
         return measurementRepository.save(measurement);
     }
 
-    public void removeById(String id){
-        measurementRepository.remove(id);
+    public void removeById(String deviceId, ZonedDateTime timestamp){
+        measurementRepository.remove(deviceId, timestamp);
     }
 
-    public Measurement findById(String id){
-        return measurementRepository.findById(id)
+    public Measurement findById(String deviceId, ZonedDateTime timestamp){
+        return measurementRepository.findById(deviceId, timestamp)
                 .orElseThrow(MeasurementNotFoundException::new);
     }
 
