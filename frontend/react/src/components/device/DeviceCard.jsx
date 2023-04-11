@@ -20,6 +20,7 @@ import {errorNotification, successNotification} from "../../services/notificatio
 import DeviceDrawer from "./DeviceDrawer.jsx";
 import React, {useRef} from "react";
 import {deleteDevice} from "../../services/deviceClient.js";
+import DeviceSettingsDrawer from "./DeviceSettingsDrawer.jsx";
 
 export default function DeviceCard({id, name, ownerId, createdAt, updatedAt, deletedAt, updatedBy, onSuccess}) {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -54,6 +55,9 @@ export default function DeviceCard({id, name, ownerId, createdAt, updatedAt, del
                     <DeviceDrawer
                         initialValues={device}
                         onSuccess={onSuccess}
+                    />
+                    <DeviceSettingsDrawer
+                        deviceId={id}
                     />
                     <Button
                         colorScheme='red'
