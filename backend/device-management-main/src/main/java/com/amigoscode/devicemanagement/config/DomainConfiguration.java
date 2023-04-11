@@ -26,8 +26,8 @@ public class DomainConfiguration {
     }
 
     @Bean
-    public DeviceService deviceService(DeviceRepository deviceRepository) {
-        return new DeviceService(deviceRepository);
+    public DeviceService deviceService(DeviceRepository deviceRepository, DeviceSettingService deviceSettingService) {
+        return new DeviceService(deviceRepository, deviceSettingService);
     }
 
     @Bean

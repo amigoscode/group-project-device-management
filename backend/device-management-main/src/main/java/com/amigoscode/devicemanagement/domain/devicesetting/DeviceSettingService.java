@@ -19,6 +19,10 @@ public class DeviceSettingService {
         deviceSettingRepository.update(deviceSetting);
     }
 
+    public void removeById(String id) {
+        deviceSettingRepository.remove(id);
+    }
+
     public DeviceSetting findById(String id){
         return deviceSettingRepository.findById(id)
                 .orElseThrow(DeviceSettingNotFoundException::new);

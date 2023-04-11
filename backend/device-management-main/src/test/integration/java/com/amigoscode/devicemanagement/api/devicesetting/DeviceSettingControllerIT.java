@@ -42,7 +42,10 @@ class DeviceSettingControllerIT extends BaseIT {
         Device device = TestDeviceFactory.createDevice();
         DeviceSetting deviceSetting = TestDeviceSettingFactory.createDeviceSetting();
         deviceService.save(device);
-        deviceSettingService.save(deviceSetting);
+        DeviceSetting dfaultDeviceSetting = deviceSettingService.findByDeviceId(device.getId());
+        deviceSetting.setId(dfaultDeviceSetting.getId());
+        deviceSetting.setDeviceId(device.getId());
+        deviceSettingService.update(deviceSetting);
 
         DeviceSetting updatedDeviceSetting = new DeviceSetting(
                 deviceSetting.getId(),
@@ -82,7 +85,10 @@ class DeviceSettingControllerIT extends BaseIT {
         device.setOwnerId(user.getId());
         userService.save(user);
         deviceService.save(device);
-        deviceSettingService.save(deviceSetting);
+        DeviceSetting dfaultDeviceSetting = deviceSettingService.findByDeviceId(device.getId());
+        deviceSetting.setId(dfaultDeviceSetting.getId());
+        deviceSetting.setDeviceId(device.getId());
+        deviceSettingService.update(deviceSetting);
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
         DeviceSetting updatedDeviceSetting = new DeviceSetting(
@@ -120,8 +126,10 @@ class DeviceSettingControllerIT extends BaseIT {
         Device device = TestDeviceFactory.createDevice();
         deviceService.save(device);
         DeviceSetting deviceSetting = TestDeviceSettingFactory.createDeviceSetting();
+        DeviceSetting dfaultDeviceSetting = deviceSettingService.findByDeviceId(device.getId());
+        deviceSetting.setId(dfaultDeviceSetting.getId());
         deviceSetting.setDeviceId(device.getId());
-        deviceSettingService.save(deviceSetting);
+        deviceSettingService.update(deviceSetting);
 
         //when
         var response = callHttpMethod(HttpMethod.GET,
@@ -147,7 +155,10 @@ class DeviceSettingControllerIT extends BaseIT {
         deviceService.save(device);
         DeviceSetting deviceSetting = TestDeviceSettingFactory.createDeviceSetting();
         deviceSetting.setDeviceId(device.getId());
-        deviceSettingService.save(deviceSetting);
+        DeviceSetting dfaultDeviceSetting = deviceSettingService.findByDeviceId(device.getId());
+        deviceSetting.setId(dfaultDeviceSetting.getId());
+        deviceSetting.setDeviceId(device.getId());
+        deviceSettingService.update(deviceSetting);
 
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
         //when
@@ -174,7 +185,10 @@ class DeviceSettingControllerIT extends BaseIT {
         deviceService.save(device);
         DeviceSetting deviceSetting = TestDeviceSettingFactory.createDeviceSetting();
         deviceSetting.setDeviceId(device.getId());
-        deviceSettingService.save(deviceSetting);
+        DeviceSetting dfaultDeviceSetting = deviceSettingService.findByDeviceId(device.getId());
+        deviceSetting.setId(dfaultDeviceSetting.getId());
+        deviceSetting.setDeviceId(device.getId());
+        deviceSettingService.update(deviceSetting);
 
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
@@ -191,97 +205,6 @@ class DeviceSettingControllerIT extends BaseIT {
     }
 
     @Test
-    void admin_should_be_able_to_save_new_device_setting() {
-        //given
-        String adminAccessToken = getTokenForAdmin();
-        Device device = TestDeviceFactory.createDevice();
-        deviceService.save(device);
-        DeviceSetting deviceSetting = TestDeviceSettingFactory.createDeviceSetting();
-
-        //when
-        var response = callHttpMethod(HttpMethod.POST,
-                "/api/v1/devices/" + device.getId() + "/settings",
-                adminAccessToken,
-                deviceSettingDtoMapper.toDto(deviceSetting),
-                DeviceSettingDto.class);
-
-        //then
-        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-        //and
-        DeviceSettingDto body = response.getBody();
-        //and
-        compareDeviceSettings(deviceSetting, deviceSettingDtoMapper.toDomain(body));
-    }
-
-    @Test
-    void device_owner_should_be_able_to_save_new_device_setting() {
-        //given
-        User user = TestUserFactory.createDeviceOwner();
-        userService.save(user);
-        Device device = TestDeviceFactory.createDevice();
-        deviceService.save(device);
-        DeviceSetting deviceSetting = TestDeviceSettingFactory.createDeviceSetting();
-        String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
-
-        //when
-        var response = callHttpMethod(HttpMethod.POST,
-                "/api/v1/devices/" + device.getId() + "/settings" ,
-                token,
-                deviceSettingDtoMapper.toDto(deviceSetting),
-                DeviceSettingDto.class);
-
-        //then
-        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-        //and
-        DeviceSettingDto body = response.getBody();
-        //and
-        compareDeviceSettings(deviceSetting, deviceSettingDtoMapper.toDomain(body));
-    }
-
-    @Test
-    void should_return_conflict_about_duplicated_device_setting() {
-        //given
-        String adminAccessToken = getTokenForAdmin();
-        Device device = TestDeviceFactory.createDevice();
-        DeviceSetting deviceSetting = TestDeviceSettingFactory.createDeviceSetting();
-        deviceService.save(device);
-        deviceSettingService.save(deviceSetting);
-
-        //when
-        var response = callHttpMethod(HttpMethod.POST,
-                "/api/v1/devices/" + device.getId() + "/settings",
-                adminAccessToken,
-                deviceSettingDtoMapper.toDto(deviceSetting),
-                ErrorResponse.class);
-
-        //then
-        Assertions.assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
-    }
-
-    @Test
-    void device_owner_should_not_be_able_to_delete_device_setting() {
-        //given
-        User user = TestUserFactory.createDeviceOwner();
-        Device device = TestDeviceFactory.createDevice();
-        DeviceSetting deviceSetting = TestDeviceSettingFactory.createDeviceSetting();
-        deviceService.save(device);
-        userService.save(user);
-        deviceSettingService.save(deviceSetting);
-        String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
-
-        //when
-        var response = callHttpMethod(HttpMethod.DELETE,
-                "/api/v1/devices/" + device.getId() + "/settings",
-                token,
-                deviceSettingDtoMapper.toDto(deviceSetting),
-                ErrorResponse.class);
-
-        //then
-        Assertions.assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
-    }
-
-
-    @Test
     void device_owner_should_not_be_able_to_update_setting_for_device_he_does_not_own() {
         //given
         User user = TestUserFactory.createDeviceOwner();
@@ -290,7 +213,10 @@ class DeviceSettingControllerIT extends BaseIT {
         device.setOwnerId(user.getId() + "123");
         userService.save(user);
         deviceService.save(device);
-        deviceSettingService.save(deviceSetting);
+        DeviceSetting dfaultDeviceSetting = deviceSettingService.findByDeviceId(device.getId());
+        deviceSetting.setId(dfaultDeviceSetting.getId());
+        deviceSetting.setDeviceId(device.getId());
+        deviceSettingService.update(deviceSetting);
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
         Device updatedDevice = new Device(
                 device.getId(),

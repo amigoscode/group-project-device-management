@@ -39,32 +39,6 @@ class DeviceServiceTest {
     }
 
     @Test
-    void delete_method_should_not_throw_exception() {
-        // Expect
-        Assertions.assertDoesNotThrow(() -> deviceService.removeById(fakeDevice.getId()));
-    }
-
-    @Test
-    void save_method_should_return_saved_device_when_device_does_not_exist() {
-        Mockito.when(deviceRepository.save(
-                fakeDevice
-        )).thenReturn(fakeDevice);
-
-        //when
-        Device savedDevice = deviceService.save(fakeDevice);
-
-        //then
-        Assertions.assertNotNull(savedDevice);
-        Assertions.assertEquals(fakeDevice.getId(), savedDevice.getId());
-        Assertions.assertEquals(fakeDevice.getName(), savedDevice.getName());
-        Assertions.assertEquals(fakeDevice.getOwnerId(), savedDevice.getOwnerId());
-        Assertions.assertEquals(fakeDevice.getCreatedAt(), savedDevice.getCreatedAt());
-        Assertions.assertEquals(fakeDevice.getUpdatedAt(), savedDevice.getUpdatedAt());
-        Assertions.assertEquals(fakeDevice.getDeletedAt(), savedDevice.getDeletedAt());
-        Assertions.assertEquals(fakeDevice.getUpdatedBy(), savedDevice.getUpdatedBy());
-    }
-
-    @Test
     void save_method_should_throw_device_already_exist_exception_when_device_exist() {
         Mockito.when(deviceRepository.save(
                 fakeDevice

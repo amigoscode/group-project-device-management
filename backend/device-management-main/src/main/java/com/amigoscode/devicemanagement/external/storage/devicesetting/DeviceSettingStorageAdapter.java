@@ -38,6 +38,11 @@ class DeviceSettingStorageAdapter implements DeviceSettingRepository {
     }
 
     @Override
+    public void remove(final String id) {
+        deviceSettingRepository.findById(id).ifPresent(deviceEntity -> deviceSettingRepository.deleteById(id));
+    }
+
+    @Override
     public Optional<DeviceSetting> findById(String id) {
         return deviceSettingRepository.findById(id).map((mapper::toDomain));
     }
