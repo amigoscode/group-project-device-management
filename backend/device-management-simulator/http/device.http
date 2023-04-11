@@ -3,6 +3,10 @@ GET http://localhost:8081/api/v1/device
 Accept: application/json
 Content-Type: application/json
 
+### get device settings
+GET http://localhost:8081/api/v1/device/settings
+Accept: application/json
+Content-Type: application/json
 
 ### update device
 PUT http://localhost:8081/api/v1/device
