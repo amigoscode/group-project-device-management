@@ -1,4 +1,4 @@
-import {aboutMe} from "./client.js";
+import {aboutMe} from "./userClient.js";
 
 export {
     user,

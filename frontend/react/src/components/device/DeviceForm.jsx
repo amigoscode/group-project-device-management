@@ -3,6 +3,7 @@ import * as Yup from 'yup';
 import {Alert, AlertIcon, Box, Button, FormLabel, Input, Select, Stack} from "@chakra-ui/react";
 import {errorNotification, successNotification} from "../../services/notification.js";
 import {createUser, updateUser} from "../../services/userClient.js";
+import {createDevice, updateDevice} from "../../services/deviceClient.js";
 
 const MyTextInput = ({label, ...props}) => {
     // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -39,16 +40,18 @@ const MySelect = ({label, ...props}) => {
     );
 };
 
-const UserForm = ({onSuccess, initialValues, customerId}) => {
+const DeviceForm = ({onSuccess, initialValues, deviceId}) => {
 
-    const emptyUser = {
+    const emptyDevice = {
         name : "",
-        email: "",
-        password: "",
-        roles: ""
+        ownerId: "",
+        createdAt: "",
+        updatedAt: "",
+        deletedAt: "",
+        updatedBy: ""
     }
 
-    const formikInitialValues = initialValues ? {...initialValues} : {...emptyUser};
+    const formikInitialValues = initialValues ? {...initialValues} : {...emptyDevice};
 
     return (
         <>
@@ -56,38 +59,26 @@ const UserForm = ({onSuccess, initialValues, customerId}) => {
                 initialValues={formikInitialValues}
                 validationSchema={Yup.object({
                     name: Yup.string()
-                        .max(15, 'Must be 15 characters or less')
+                        .max(25, 'Must be 25 characters or less')
                         .required('Required'),
-                    email: Yup.string()
-                        .email('Must be 20 characters or less')
+                    ownerId: Yup.string()
                         .required('Required'),
-                    password: Yup.string()
-                        .min(8, 'Password is too short - should be 8 chars minimum.')
-                        .max(20, 'Password is too long - should be 20 chars maximum.')
-                        .required(),
-                    roles: Yup.string()
-                        .oneOf(
-                            ['ADMIN', 'DEVICE_OWNER'],
-                            'Invalid role'
-                        )
-                        .required(),
                 })}
-                onSubmit={(updatedCustomer, {setSubmitting}) => {
-                    console.log(emptyUser)
-                    console.log(updatedCustomer)
-                    const userDto = {
-                        ...updatedCustomer,
-                        roles: [updatedCustomer.roles]
+                onSubmit={(updatedDevice, {setSubmitting}) => {
+                    console.log(emptyDevice)
+                    console.log(updatedDevice)
+                    const deviceDto = {
+                        ...updatedDevice,
                     }
-                    console.log(userDto)
+                    console.log(deviceDto)
                     setSubmitting(true);
-                    if(userDto.id) {
-                        updateUser(userDto)
+                    if(deviceDto.id) {
+                        updateDevice(deviceDto)
                             .then(res => {
                                 console.log(res);
                                 successNotification(
-                                    "User updated",
-                                    `${userDto.name} was successfully updated`
+                                    "Device updated",
+                                    `${deviceDto.name} was successfully updated`
                                 )
                                 if(onSuccess) onSuccess();
                             }).catch(err => {
@@ -100,12 +91,12 @@ const UserForm = ({onSuccess, initialValues, customerId}) => {
                             setSubmitting(false);
                         })
                     } else {
-                        createUser(userDto)
+                        createDevice(deviceDto)
                             .then(res => {
                                 console.log(res);
                                 successNotification(
-                                    "User created",
-                                    `${userDto.name} was successfully created`
+                                    "Device created",
+                                    `${deviceDto.name} was successfully created`
                                 )
                                 if(onSuccess) onSuccess();
                             }).catch(err => {
@@ -129,28 +120,15 @@ const UserForm = ({onSuccess, initialValues, customerId}) => {
                                 label="Name"
                                 name="name"
                                 type="text"
-                                placeholder="Jane"
+                                placeholder="Device name"
                             />
 
                             <MyTextInput
-                                label="Email Address"
-                                name="email"
-                                type="email"
-                                placeholder="jane@formik.com"
+                                label="Owner id"
+                                name="ownerId"
+                                type="text"
+                                placeholder="3a163fb2-6826-459b-9560-0851bae29910"
                             />
-
-                            <MyTextInput
-                                label="Password"
-                                name="password"
-                                type="password"
-                                placeholder="password"
-                            />
-
-                            <MySelect label="Roles" name="roles">
-                                <option value="">Select role</option>
-                                <option value="DEVICE_OWNER">DEVICE OWNER</option>
-                                <option value="ADMIN">ADMIN</option>
-                            </MySelect>
 
                             <Button disabled={!(isValid && dirty) || isSubmitting} type="submit">Submit</Button>
                         </Stack>
@@ -161,4 +139,4 @@ const UserForm = ({onSuccess, initialValues, customerId}) => {
     );
 };
 
-export default UserForm;
+export default DeviceForm;
