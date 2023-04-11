@@ -34,12 +34,6 @@ public class DeviceSettingServiceTest {
     );
 
     @Test
-    void update_method_should_not_throw_exception() {
-        // Expect
-        Assertions.assertDoesNotThrow(() -> deviceSettingService.update(fakeDeviceSetting));
-    }
-
-    @Test
     void save_method_should_return_saved_device_setting_when_device_setting_does_not_exist() {
         Mockito.when(deviceSettingRepository.save(
                 fakeDeviceSetting

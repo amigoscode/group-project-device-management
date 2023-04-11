@@ -3,6 +3,7 @@ package com.amigoscode.weatherstationsimulator.domain.measurement;
 import com.amigoscode.weatherstationsimulator.domain.device.DeviceService;
 import lombok.RequiredArgsConstructor;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,6 +42,7 @@ public class MeasurementService {
             return result;
 
         result.get().setDeviceId(deviceService.getDevice().getId());
+        result.get().setTimestamp(ZonedDateTime.now());
         measurementPublishing.publish(result.get());
         return result;
     }

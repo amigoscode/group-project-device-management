@@ -2,6 +2,8 @@ package com.amigoscode.weatherstationsimulator.config;
 
 import com.amigoscode.weatherstationsimulator.domain.device.DeviceRepository;
 import com.amigoscode.weatherstationsimulator.domain.device.DeviceService;
+import com.amigoscode.weatherstationsimulator.domain.devicesetting.DeviceSettingRepository;
+import com.amigoscode.weatherstationsimulator.domain.devicesetting.DeviceSettingService;
 import com.amigoscode.weatherstationsimulator.domain.measurement.MeasurementPublishing;
 import com.amigoscode.weatherstationsimulator.domain.measurement.MeasurementRepository;
 import com.amigoscode.weatherstationsimulator.domain.measurement.MeasurementService;
@@ -13,6 +15,9 @@ import com.amigoscode.weatherstationsimulator.external.mqtt.MqttGateway;
 import com.amigoscode.weatherstationsimulator.external.storage.device.DeviceDaoMapper;
 import com.amigoscode.weatherstationsimulator.external.storage.device.DeviceStorageAdapter;
 import com.amigoscode.weatherstationsimulator.external.storage.device.InMemoryDeviceRepository;
+import com.amigoscode.weatherstationsimulator.external.storage.devicesetting.DeviceSettingDaoMapper;
+import com.amigoscode.weatherstationsimulator.external.storage.devicesetting.DeviceSettingStorageAdapter;
+import com.amigoscode.weatherstationsimulator.external.storage.devicesetting.InMemoryDeviceSettingRepository;
 import com.amigoscode.weatherstationsimulator.external.storage.measurement.InMemoryMeasurementRepository;
 import com.amigoscode.weatherstationsimulator.external.storage.measurement.MeasurementDaoMapper;
 import com.amigoscode.weatherstationsimulator.external.storage.measurement.MeasurementStorageAdapter;
@@ -51,5 +56,15 @@ class DomainConfiguration {
     @Bean
     public DeviceService deviceService(DeviceRepository deviceRepository) {
         return new DeviceService(deviceRepository);
+    }
+
+    @Bean
+    public DeviceSettingRepository deviceSettingRepository(InMemoryDeviceSettingRepository inMemoryDeviceSettingRepository, DeviceSettingDaoMapper deviceSettingDaoMapper) {
+        return new DeviceSettingStorageAdapter(inMemoryDeviceSettingRepository, deviceSettingDaoMapper);
+    }
+
+    @Bean
+    public DeviceSettingService deviceSettingService(DeviceSettingRepository deviceSettingRepository) {
+        return new DeviceSettingService(deviceSettingRepository);
     }
 }

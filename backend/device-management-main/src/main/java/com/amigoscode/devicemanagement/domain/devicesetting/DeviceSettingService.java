@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 public class DeviceSettingService {
 
     private final DeviceSettingRepository deviceSettingRepository;
+    private final DeviceSettingPublisher deviceSettingPublisher;
 
     public DeviceSetting save(DeviceSetting deviceSetting){
         if (deviceSettingRepository.findByDeviceId(deviceSetting.getDeviceId()).isPresent()) {
@@ -17,6 +18,7 @@ public class DeviceSettingService {
 
     public void update(DeviceSetting deviceSetting){
         deviceSettingRepository.update(deviceSetting);
+        publish(deviceSetting);
     }
 
     public void removeById(String id) {
@@ -31,5 +33,9 @@ public class DeviceSettingService {
     public DeviceSetting findByDeviceId(String deviceId){
         return deviceSettingRepository.findByDeviceId(deviceId)
                 .orElseThrow(DeviceSettingNotFoundException::new);
+    }
+
+    public void publish(DeviceSetting deviceSetting) {
+        deviceSettingPublisher.publish(deviceSetting);
     }
 }
