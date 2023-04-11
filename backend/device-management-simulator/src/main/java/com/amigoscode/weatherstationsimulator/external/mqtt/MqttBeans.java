@@ -1,5 +1,9 @@
 package com.amigoscode.weatherstationsimulator.external.mqtt;
 
+import com.amigoscode.weatherstationsimulator.domain.device.DeviceService;
+import com.amigoscode.weatherstationsimulator.domain.devicesetting.DeviceSettingService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,8 +29,18 @@ class MqttBeans {
 
     private Environment environment;
 
-    MqttBeans(final Environment environment) {
+    private DeviceService deviceService;
+
+    private DeviceSettingService deviceSettingService;
+
+    private DeviceSettingMqttMapper deviceSettingMqttMapper;
+
+
+    MqttBeans(final Environment environment, final DeviceService deviceService, final DeviceSettingService deviceSettingService, final DeviceSettingMqttMapper deviceSettingMqttMapper) {
         this.environment = environment;
+        this.deviceService = deviceService;
+        this.deviceSettingService = deviceSettingService;
+        this.deviceSettingMqttMapper = deviceSettingMqttMapper;
     }
 
     private static final Logger log = LoggerFactory.getLogger(MqttBeans.class);
@@ -72,6 +86,25 @@ class MqttBeans {
             public void handleMessage(Message<?> message) throws MessagingException {
                 String topic = message.getHeaders().get(MqttHeaders.RECEIVED_TOPIC).toString();
                 log.info("Message topic: {} | Message payload: {}", topic, message.getPayload());
+
+                if (topic.startsWith("ds/")) {
+                    String deviceId = topic.substring(topic.indexOf("/") + 1);
+//                    System.out.println("####### " + deviceId);
+                    if (deviceId.equals(deviceService.getDevice().getId())) {
+                        ObjectMapper mapper = new ObjectMapper();
+                        mapper.findAndRegisterModules();
+
+                        try {
+                            DeviceSettingMqttDto deviceSettingMqttDto = mapper.readValue(message.getPayload().toString(), DeviceSettingMqttDto.class);
+
+                            deviceSettingService.saveDeviceSetting(deviceSettingMqttMapper.toDomain(deviceSettingMqttDto));
+
+                        }
+                        catch (JsonProcessingException e) {
+                            throw new JsonCouldNotBeCreatedException();
+                        }
+                    }
+                }
             }
 
         };

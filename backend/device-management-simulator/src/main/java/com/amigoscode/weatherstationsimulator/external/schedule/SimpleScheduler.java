@@ -1,5 +1,7 @@
 package com.amigoscode.weatherstationsimulator.external.schedule;
 
+import com.amigoscode.weatherstationsimulator.domain.devicesetting.DeviceSetting;
+import com.amigoscode.weatherstationsimulator.domain.devicesetting.DeviceSettingService;
 import com.amigoscode.weatherstationsimulator.domain.measurement.Measurement;
 import com.amigoscode.weatherstationsimulator.domain.measurement.MeasurementService;
 import lombok.RequiredArgsConstructor;
@@ -16,13 +18,25 @@ import java.util.Optional;
 public class SimpleScheduler {
 
     private final MeasurementService measurementService;
+
+    private final DeviceSettingService deviceSettingService;
+
     private static final Logger log = LoggerFactory.getLogger(SimpleScheduler.class);
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
-    @Scheduled(fixedRate = 5000)
+    private static int counter;
+
+    @Scheduled(fixedRate = 1000)
     public void takeAndPublishMeasurement() {
-        final Optional<Measurement> measurement = measurementService.takeAndPublishMeasurement();
-        log.info("The current measurement is {}", measurement);
+        counter++;
+        if (counter >= deviceSettingService.getDeviceSetting().getMeasurementPeriod()) {
+            counter = 0;
+            if(deviceSettingService.getDeviceSetting().getIsMeasurementEnabled()) {
+                final Optional<Measurement> measurement = measurementService.takeAndPublishMeasurement();
+                log.info("The current measurement is {}", measurement);
+            }
+        }
+
     }
 }

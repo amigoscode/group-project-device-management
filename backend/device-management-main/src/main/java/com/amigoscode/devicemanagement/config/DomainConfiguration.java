@@ -2,6 +2,7 @@ package com.amigoscode.devicemanagement.config;
 
 import com.amigoscode.devicemanagement.domain.device.DeviceRepository;
 import com.amigoscode.devicemanagement.domain.device.DeviceService;
+import com.amigoscode.devicemanagement.domain.devicesetting.DeviceSettingPublisher;
 import com.amigoscode.devicemanagement.domain.devicesetting.DeviceSettingRepository;
 import com.amigoscode.devicemanagement.domain.devicesetting.DeviceSettingService;
 import com.amigoscode.devicemanagement.domain.measurement.MeasurementRepository;
@@ -36,8 +37,8 @@ public class DomainConfiguration {
     }
 
     @Bean
-    public DeviceSettingService deviceSettingService(DeviceSettingRepository deviceSettingRepository){
-        return new DeviceSettingService(deviceSettingRepository);
+    public DeviceSettingService deviceSettingService(DeviceSettingRepository deviceSettingRepository, DeviceSettingPublisher deviceSettingPublisher){
+        return new DeviceSettingService(deviceSettingRepository, deviceSettingPublisher);
     }
 
     @Bean
