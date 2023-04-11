@@ -29,13 +29,6 @@ class DeviceSettingController {
                 .ok(deviceSettingMapper.toDto(deviceSetting));
     }
 
-    @PostMapping()
-    public ResponseEntity<DeviceSettingDto> saveDeviceSetting(@PathVariable String deviceId, @RequestBody DeviceSettingDto dto) {
-        DeviceSetting deviceSetting  = deviceSettingService.save(deviceSettingMapper.toDomain(dto));
-        return ResponseEntity
-                .ok(deviceSettingMapper.toDto(deviceSetting));
-    }
-
     @PutMapping()
     @AuthVerifyDevice
     public ResponseEntity<Void> updateDeviceSetting(@PathVariable String deviceId, @RequestBody DeviceSettingDto dto) {

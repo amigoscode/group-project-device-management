@@ -10,6 +10,8 @@ public interface DeviceSettingRepository {
 
     void update(DeviceSetting deviceSetting);
 
+    void remove(String id);
+
     Optional<DeviceSetting> findById(String id);
 
     Optional<DeviceSetting> findByDeviceId(String deviceId);
