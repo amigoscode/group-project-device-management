@@ -2,7 +2,7 @@ import {Form, Formik, useField} from 'formik';
 import * as Yup from 'yup';
 import {Alert, AlertIcon, Box, Button, FormLabel, Input, Select, Stack} from "@chakra-ui/react";
 import {errorNotification, successNotification} from "../../services/notification.js";
-import {createRule, updateRule} from "../../ruleClient.js";
+import {createRule, updateRule} from "../../services/ruleClient.js";
 
 const MyTextInput = ({label, ...props}) => {
     // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -176,3 +176,5 @@ const RuleForm = ({onSuccess, initialValues, ruleId}) => {
         </>
     );
 };
+
+export default RuleForm;
