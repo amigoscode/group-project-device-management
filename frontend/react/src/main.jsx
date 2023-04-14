@@ -9,6 +9,7 @@ import Login from "./components/login/Login.jsx";
 import AboutMe from "./components/user/AboutMe.jsx";
 import DeviceSettings from "./components/DeviceSettings.jsx";
 import Measurements from "./components/Measurements.jsx";
+import Rules from "./components/Rules.jsx";
 
 const router = createBrowserRouter([
     {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
     {
         path: "/measurements/*",
         element: <Measurements/>
+    },
+    {
+        path: "/rules",
+        element: <Rules/>
     }
 ])
 
