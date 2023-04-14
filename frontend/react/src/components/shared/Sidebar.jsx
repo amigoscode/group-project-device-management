@@ -29,6 +29,7 @@ import {AiOutlineUser} from "react-icons/all.js";
 const LinkItems = [
     {name: 'Users', icon: FiUsers, path: user() && user().roles.includes('ADMIN') ? '/users' : '/about-me'},
     {name: 'Devices', icon: FiList, path: '/devices'},
+    {name: 'Rules', icon: FiList, path: '/rules'},
 ];
 
 export default function SidebarWithHeader({children}) {
