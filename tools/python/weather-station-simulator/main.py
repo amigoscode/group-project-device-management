@@ -233,7 +233,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.widget)
 
     def send_measurement(self):
-        if self.connected_to_mqtt_broker == False:
+        if self.connected_to_mqtt_broker == True:
             # Publish message
             self.client.publish(self.mqtt_measurement_topic, self.take_measurement())
             print(self.take_measurement())
