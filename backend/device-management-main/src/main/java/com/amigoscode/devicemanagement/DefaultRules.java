@@ -2,13 +2,11 @@ package com.amigoscode.devicemanagement;
 
 import com.amigoscode.devicemanagement.domain.rule.RuleService;
 import com.amigoscode.devicemanagement.domain.rule.model.Rule;
-import com.amigoscode.devicemanagement.domain.rule.model.RuleCallBackMethod;
 import lombok.extern.java.Log;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.ZonedDateTime;
-import java.util.Set;
 
 @Component
 @Log
@@ -26,7 +24,7 @@ public class DefaultRules implements CommandLineRunner {
             true,
             "/^location",
             "/^regex1/i",
-            Set.of(RuleCallBackMethod.GET),
+           "GET",
             "https://callbackurl.com:1880/pub/modifiedLocation/location-rule-works",
             ZonedDateTime.now(),
             ZonedDateTime.now(),
@@ -40,7 +38,7 @@ public class DefaultRules implements CommandLineRunner {
             false   ,
             "/wind$",
             "/^regex2/i",
-            Set.of(RuleCallBackMethod.POST),
+            "POST",
             "https://callbackurl.com:1880/pub/modifiedWind/locationrule/wind-rule-works",
             ZonedDateTime.now(),
             ZonedDateTime.now(),
