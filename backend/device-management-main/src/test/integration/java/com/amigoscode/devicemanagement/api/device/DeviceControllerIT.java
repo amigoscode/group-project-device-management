@@ -40,7 +40,7 @@ class DeviceControllerIT extends BaseIT {
         //given
         String adminAccessToken = getTokenForAdmin();
         Device device = TestDeviceFactory.createDevice();
-        deviceService.save(device);
+        deviceService.save(device, "creatorId");
 
         //when
         var response = callHttpMethod(HttpMethod.GET,
@@ -62,7 +62,7 @@ class DeviceControllerIT extends BaseIT {
         Device device = TestDeviceFactory.createDevice();
         device.setOwnerId(user.getId());
         userService.save(user);
-        deviceService.save(device);
+        deviceService.save(device, "creatorId");
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
         //when
@@ -85,7 +85,7 @@ class DeviceControllerIT extends BaseIT {
         Device device = TestDeviceFactory.createDevice();
         device.setOwnerId(user.getId() + "qwerty");
         userService.save(user);
-        deviceService.save(device);
+        deviceService.save(device, "creatorId");
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
         //when
@@ -106,9 +106,9 @@ class DeviceControllerIT extends BaseIT {
         Device device1 = TestDeviceFactory.createDevice();
         Device device2 = TestDeviceFactory.createDevice();
         Device device3 = TestDeviceFactory.createDevice();
-        deviceService.save(device1);
-        deviceService.save(device2);
-        deviceService.save(device3);
+        Device savedDevice1 = deviceService.save(device1, "creatorId");
+        Device savedDevice2 = deviceService.save(device2, "creatorId");
+        Device savedDevice3 = deviceService.save(device3, "creatorId");
 
         //when
         var response = callHttpMethod(HttpMethod.GET,
@@ -122,7 +122,7 @@ class DeviceControllerIT extends BaseIT {
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         //and
         assertEquals(3, body.getTotalElements());
-        List<Device> devices = List.of(device1, device2, device3);
+        List<Device> devices = List.of(savedDevice1, savedDevice2, savedDevice3);
 
         assertTrue(devices
                 .stream()
@@ -151,9 +151,9 @@ class DeviceControllerIT extends BaseIT {
         device2.setOwnerId(user.getId());
         device3.setOwnerId(user.getId() + "qwerty");
         userService.save(user);
-        deviceService.save(device1);
-        deviceService.save(device2);
-        deviceService.save(device3);
+        deviceService.save(device1, "creatorId");
+        deviceService.save(device2, "creatorId");
+        deviceService.save(device3, "creatorId");
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
         //when
@@ -200,7 +200,8 @@ class DeviceControllerIT extends BaseIT {
         //and
         DeviceDto body = response.getBody();
         //and
-        compareDevices(device, deviceDtoMapper.toDomain(body));
+        Assertions.assertEquals(device.getName(), deviceDtoMapper.toDomain(body).getName());
+        Assertions.assertEquals(device.getOwnerId(), deviceDtoMapper.toDomain(body).getOwnerId());
     }
 
     @Test
@@ -223,7 +224,8 @@ class DeviceControllerIT extends BaseIT {
         //and
         DeviceDto body = response.getBody();
         //and
-        compareDevices(device, deviceDtoMapper.toDomain(body));
+        Assertions.assertEquals(device.getName(), deviceDtoMapper.toDomain(body).getName());
+        Assertions.assertEquals(device.getOwnerId(), deviceDtoMapper.toDomain(body).getOwnerId());
     }
 
     @Test
@@ -231,7 +233,7 @@ class DeviceControllerIT extends BaseIT {
         //given
         String adminAccessToken = getTokenForAdmin();
         Device device = TestDeviceFactory.createDevice();
-        deviceService.save(device);
+        deviceService.save(device, "creatorId");
 
         //when
         var response = callHttpMethod(HttpMethod.POST,
@@ -249,15 +251,15 @@ class DeviceControllerIT extends BaseIT {
         //given
         String adminAccessToken = getTokenForAdmin();
         Device device = TestDeviceFactory.createDevice();
-        deviceService.save(device);
+        deviceService.save(device, "creatorId");
         Device updatedDevice = new Device(
                 device.getId(),
                 "Updated Name",
                 "Updated Owner Id",
-                device.getCreatedAt().plusDays(7),
-                device.getDeletedAt().plusDays(10),
-                device.getUpdatedAt().plusDays(8),
-                "New Updated By"
+                device.getCreatedAt(),
+                device.getDeletedAt(),
+                device.getUpdatedAt(),
+                device.getUpdatedBy()
         );
 
         //when
@@ -274,7 +276,8 @@ class DeviceControllerIT extends BaseIT {
         Assertions.assertNull(body);
         //and
         Device deviceFromDb = deviceService.findById(device.getId());
-        compareDevices(updatedDevice, deviceFromDb);
+        Assertions.assertEquals(deviceFromDb.getName(), updatedDevice.getName());
+        Assertions.assertEquals(deviceFromDb.getOwnerId(), updatedDevice.getOwnerId());
     }
 
     @Test
@@ -284,16 +287,16 @@ class DeviceControllerIT extends BaseIT {
         Device device = TestDeviceFactory.createDevice();
         device.setOwnerId(user.getId());
         userService.save(user);
-        deviceService.save(device);
+        deviceService.save(device, "creatorId");
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
         Device updatedDevice = new Device(
                 device.getId(),
                 "Updated Name",
                 user.getId(),
-                device.getCreatedAt().plusDays(7),
-                device.getDeletedAt().plusDays(10),
-                device.getUpdatedAt().plusDays(8),
-                "New Updated By"
+                device.getCreatedAt(),
+                device.getDeletedAt(),
+                device.getUpdatedAt(),
+                device.getUpdatedBy()
         );
 
         //when
@@ -310,7 +313,9 @@ class DeviceControllerIT extends BaseIT {
         Assertions.assertNull(body);
         //and
         Device deviceFromDb = deviceService.findById(device.getId());
-        compareDevices(updatedDevice, deviceFromDb);
+        Assertions.assertEquals(deviceFromDb.getName(), updatedDevice.getName());
+        Assertions.assertEquals(deviceFromDb.getOwnerId(), updatedDevice.getOwnerId());
+        Assertions.assertEquals(deviceFromDb.getUpdatedBy(), user.getId());
     }
 
     @Test
@@ -320,7 +325,7 @@ class DeviceControllerIT extends BaseIT {
         Device device = TestDeviceFactory.createDevice();
         device.setOwnerId(user.getId() + "123");
         userService.save(user);
-        deviceService.save(device);
+        deviceService.save(device, "creatorId");
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
         Device updatedDevice = new Device(
                 device.getId(),
@@ -348,7 +353,7 @@ class DeviceControllerIT extends BaseIT {
         //given
         String adminAccessToken = getTokenForAdmin();
         Device device = TestDeviceFactory.createDevice();
-        deviceService.save(device);
+        deviceService.save(device, "creatorId");
 
         //when
         var response = callHttpMethod(HttpMethod.DELETE,
@@ -366,7 +371,7 @@ class DeviceControllerIT extends BaseIT {
         //given
         User user = TestUserFactory.createDeviceOwner();
         Device device = TestDeviceFactory.createDevice();
-        deviceService.save(device);
+        deviceService.save(device, "creatorId");
         userService.save(user);
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
@@ -386,9 +391,9 @@ class DeviceControllerIT extends BaseIT {
         assertEquals(model.getId(), tested.getId());
         assertEquals(model.getName(), tested.getName());
         assertEquals(model.getOwnerId(), tested.getOwnerId());
-        assertEquals(model.getCreatedAt().toLocalDateTime(), tested.getCreatedAt().toLocalDateTime());
-        assertEquals(model.getDeletedAt().toLocalDateTime(), tested.getDeletedAt().toLocalDateTime());
-        assertEquals(model.getUpdatedAt().toLocalDateTime(), tested.getUpdatedAt().toLocalDateTime());
+        assertEquals(model.getCreatedAt().toInstant(), tested.getCreatedAt().toInstant());
+        assertEquals(model.getDeletedAt().toInstant(), tested.getDeletedAt().toInstant());
+        assertEquals(model.getUpdatedAt().toInstant(), tested.getUpdatedAt().toInstant());
         assertEquals(model.getUpdatedBy(), tested.getUpdatedBy());
     }
 

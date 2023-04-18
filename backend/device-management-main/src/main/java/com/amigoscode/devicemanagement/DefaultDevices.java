@@ -47,7 +47,7 @@ public class DefaultDevices  implements CommandLineRunner {
     }
 
     private void addDevice(Device device){
-        deviceService.save(device);
+        deviceService.save(device, "1");
     }
 
 }
