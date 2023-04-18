@@ -39,7 +39,7 @@ public class DeviceService {
                 null,
                 creatorId
         );
-        deviceSettingService.save(defaaultDeviceSetting);
+        deviceSettingService.save(defaaultDeviceSetting, creatorId);
 
         return savedDevice;
     }

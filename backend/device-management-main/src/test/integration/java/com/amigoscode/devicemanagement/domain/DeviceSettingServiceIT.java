@@ -18,7 +18,7 @@ public class DeviceSettingServiceIT extends BaseIT {
     void add_device_setting_test() {
         //given
         DeviceSetting deviceSetting = TestDeviceSettingFactory.createDeviceSetting();
-        service.save(deviceSetting);
+        service.save(deviceSetting, "creatorId");
 
         //when
         DeviceSetting readDeviceSetting = service.findById(deviceSetting.getId());
@@ -34,9 +34,9 @@ public class DeviceSettingServiceIT extends BaseIT {
         DeviceSetting deviceSetting1 = TestDeviceSettingFactory.createDeviceSetting();
         DeviceSetting deviceSetting2 = TestDeviceSettingFactory.createDeviceSetting();
         DeviceSetting deviceSetting3 = TestDeviceSettingFactory.createDeviceSetting();
-        service.save(deviceSetting1);
-        service.save(deviceSetting2);
-        service.save(deviceSetting3);
+        service.save(deviceSetting1, "creatorId");
+        service.save(deviceSetting2, "creatorId");
+        service.save(deviceSetting3, "creatorId");
 
         //when
         DeviceSetting readDeviceSetting= service.findById(deviceSetting3.getId());

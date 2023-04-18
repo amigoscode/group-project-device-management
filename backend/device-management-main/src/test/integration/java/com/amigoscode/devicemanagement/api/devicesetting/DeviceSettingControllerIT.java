@@ -44,7 +44,7 @@ class DeviceSettingControllerIT extends BaseIT {
         DeviceSetting dfaultDeviceSetting = deviceSettingService.findByDeviceId(device.getId());
         deviceSetting.setId(dfaultDeviceSetting.getId());
         deviceSetting.setDeviceId(device.getId());
-        deviceSettingService.update(deviceSetting);
+        deviceSettingService.update(deviceSetting, "updaterId");
 
         DeviceSetting updatedDeviceSetting = new DeviceSetting(
                 deviceSetting.getId(),
@@ -89,7 +89,7 @@ class DeviceSettingControllerIT extends BaseIT {
         DeviceSetting dfaultDeviceSetting = deviceSettingService.findByDeviceId(device.getId());
         deviceSetting.setId(dfaultDeviceSetting.getId());
         deviceSetting.setDeviceId(device.getId());
-        deviceSettingService.update(deviceSetting);
+        deviceSettingService.update(deviceSetting, "updaterId");
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
         DeviceSetting updatedDeviceSetting = new DeviceSetting(
@@ -132,7 +132,7 @@ class DeviceSettingControllerIT extends BaseIT {
         DeviceSetting dfaultDeviceSetting = deviceSettingService.findByDeviceId(device.getId());
         deviceSetting.setId(dfaultDeviceSetting.getId());
         deviceSetting.setDeviceId(device.getId());
-        deviceSettingService.update(deviceSetting);
+        deviceSettingService.update(deviceSetting, "updaterId");
 
         //when
         var response = callHttpMethod(HttpMethod.GET,
@@ -161,7 +161,7 @@ class DeviceSettingControllerIT extends BaseIT {
         DeviceSetting dfaultDeviceSetting = deviceSettingService.findByDeviceId(device.getId());
         deviceSetting.setId(dfaultDeviceSetting.getId());
         deviceSetting.setDeviceId(device.getId());
-        deviceSettingService.update(deviceSetting);
+        deviceSettingService.update(deviceSetting, "updaterId");
 
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
         //when
@@ -191,7 +191,7 @@ class DeviceSettingControllerIT extends BaseIT {
         DeviceSetting dfaultDeviceSetting = deviceSettingService.findByDeviceId(device.getId());
         deviceSetting.setId(dfaultDeviceSetting.getId());
         deviceSetting.setDeviceId(device.getId());
-        deviceSettingService.update(deviceSetting);
+        deviceSettingService.update(deviceSetting, "updaterId");
 
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
@@ -219,7 +219,7 @@ class DeviceSettingControllerIT extends BaseIT {
         DeviceSetting dfaultDeviceSetting = deviceSettingService.findByDeviceId(device.getId());
         deviceSetting.setId(dfaultDeviceSetting.getId());
         deviceSetting.setDeviceId(device.getId());
-        deviceSettingService.update(deviceSetting);
+        deviceSettingService.update(deviceSetting, "updaterId");
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
         Device updatedDevice = new Device(
                 device.getId(),
@@ -259,9 +259,9 @@ class DeviceSettingControllerIT extends BaseIT {
         assertEquals(model.getDeviceId(), tested.getDeviceId());
         assertEquals(model.getMeasurementPeriod(), tested.getMeasurementPeriod());
         assertEquals(model.getIsMeasurementEnabled(), tested.getIsMeasurementEnabled());
-        assertEquals(model.getCreatedAt().toLocalDateTime(), tested.getCreatedAt().toLocalDateTime());
-        assertEquals(model.getDeletedAt().toLocalDateTime(), tested.getDeletedAt().toLocalDateTime());
-        assertEquals(model.getUpdatedAt().toLocalDateTime(), tested.getUpdatedAt().toLocalDateTime());
+        assertEquals(model.getCreatedAt().toInstant(), tested.getCreatedAt().toInstant());
+        assertEquals(model.getDeletedAt().toInstant(), tested.getDeletedAt().toInstant());
+        assertEquals(model.getUpdatedAt().toInstant(), tested.getUpdatedAt().toInstant());
         assertEquals(model.getUpdatedBy(), tested.getUpdatedBy());
     }
 
