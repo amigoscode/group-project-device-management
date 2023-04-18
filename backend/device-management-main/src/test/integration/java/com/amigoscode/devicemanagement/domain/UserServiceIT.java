@@ -21,7 +21,7 @@ class UserServiceIT extends BaseIT {
     void add_user_test() {
         //given
         User user = TestUserFactory.createDeviceOwner();
-        service.save(user);
+        service.save(user, "creatorId");
 
         //when
         User readUser = service.findById(user.getId());
@@ -38,9 +38,9 @@ class UserServiceIT extends BaseIT {
         User user1 = TestUserFactory.createDeviceOwner();
         User user2 = TestUserFactory.createDeviceOwner();
         User user3 = TestUserFactory.createDeviceOwner();
-        service.save(user1);
-        service.save(user2);
-        service.save(user3);
+        service.save(user1, "creatorId");
+        service.save(user2, "creatorId");
+        service.save(user3, "creatorId");
 
         //when
         User readUser = service.findById(user2.getId());

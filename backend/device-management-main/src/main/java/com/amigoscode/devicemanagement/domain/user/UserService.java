@@ -7,16 +7,23 @@ import com.amigoscode.devicemanagement.domain.user.exception.UserAlreadyExistsEx
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 
+import java.time.Clock;
+import java.time.ZonedDateTime;
+
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
     private final EncodingService encoder;
+    private final Clock clock;
 
-    public User save(User user) {
+    public User save(User user, String creatorId) {
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             throw new UserAlreadyExistsException();
         }
+        ZonedDateTime createdAt = ZonedDateTime.now(clock);
+        user.setCreatedAt(createdAt);
+        user.setUpdatedBy(creatorId);
         return userRepository.save(
                 user.withPassword(
                         encoder.encode(user.getPassword())
@@ -24,7 +31,9 @@ public class UserService {
         );
     }
 
-    public void update(User user) {
+    public void update(User user, String updaterId) {
+        user.setUpdatedAt(ZonedDateTime.now(clock));
+        user.setUpdatedBy(updaterId);
         userRepository.update(user);
     }
 

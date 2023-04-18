@@ -3,10 +3,13 @@ package com.amigoscode.devicemanagement.api.user;
 import com.amigoscode.devicemanagement.domain.user.UserService;
 import com.amigoscode.devicemanagement.domain.user.model.User;
 import com.amigoscode.devicemanagement.security.Security;
+import com.amigoscode.devicemanagement.security.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,14 +53,20 @@ class UserController {
 
     @PostMapping
     public ResponseEntity<UserDto> saveUser(@RequestBody UserDto dto) {
-        User user = userService.save(userMapper.toDomain(dto));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User authenticatedUser = userService.findByEmail(((UserPrincipal) authentication.getPrincipal()).getUsername());
+
+        User user = userService.save(userMapper.toDomain(dto), authenticatedUser.getId());
         return ResponseEntity
             .ok(userMapper.toDto(user));
     }
 
     @PutMapping
     public ResponseEntity<Void> updateUser(@RequestBody UserDto dto) {
-        userService.update(userMapper.toDomain(dto));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User authenticatedUser = userService.findByEmail(((UserPrincipal) authentication.getPrincipal()).getUsername());
+
+        userService.update(userMapper.toDomain(dto), authenticatedUser.getId());
 
         return ResponseEntity.ok().build();
     }

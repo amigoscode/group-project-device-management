@@ -62,7 +62,7 @@ class DeviceControllerIT extends BaseIT {
         User user = TestUserFactory.createDeviceOwner();
         Device device = TestDeviceFactory.createDevice();
         device.setOwnerId(user.getId());
-        userService.save(user);
+        userService.save(user, "creatorId");
         deviceService.save(device, "creatorId");
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
@@ -85,7 +85,7 @@ class DeviceControllerIT extends BaseIT {
         User user = TestUserFactory.createDeviceOwner();
         Device device = TestDeviceFactory.createDevice();
         device.setOwnerId(user.getId() + "qwerty");
-        userService.save(user);
+        userService.save(user, "creatorId");
         deviceService.save(device, "creatorId");
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
@@ -151,7 +151,7 @@ class DeviceControllerIT extends BaseIT {
         device1.setOwnerId(user.getId());
         device2.setOwnerId(user.getId());
         device3.setOwnerId(user.getId() + "qwerty");
-        userService.save(user);
+        userService.save(user, "creatorId");
         deviceService.save(device1, "creatorId");
         deviceService.save(device2, "creatorId");
         deviceService.save(device3, "creatorId");
@@ -211,7 +211,7 @@ class DeviceControllerIT extends BaseIT {
         //given
         User user = TestUserFactory.createDeviceOwner();
         Device device = TestDeviceFactory.createDevice();
-        userService.save(user);
+        userService.save(user, "creatorId");
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
         //when
@@ -290,7 +290,7 @@ class DeviceControllerIT extends BaseIT {
         User user = TestUserFactory.createDeviceOwner();
         Device device = TestDeviceFactory.createDevice();
         device.setOwnerId(user.getId());
-        userService.save(user);
+        userService.save(user, "creatorId");
         deviceService.save(device, "creatorId");
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
         Device updatedDevice = new Device(
@@ -329,7 +329,7 @@ class DeviceControllerIT extends BaseIT {
         User user = TestUserFactory.createDeviceOwner();
         Device device = TestDeviceFactory.createDevice();
         device.setOwnerId(user.getId() + "123");
-        userService.save(user);
+        userService.save(user, "creatorId");
         deviceService.save(device, "creatorId");
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
         Device updatedDevice = new Device(
@@ -377,7 +377,7 @@ class DeviceControllerIT extends BaseIT {
         User user = TestUserFactory.createDeviceOwner();
         Device device = TestDeviceFactory.createDevice();
         deviceService.save(device, "creatorId");
-        userService.save(user);
+        userService.save(user, "creatorId");
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
         //when
