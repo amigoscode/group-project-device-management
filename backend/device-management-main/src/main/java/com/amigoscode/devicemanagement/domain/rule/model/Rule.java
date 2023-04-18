@@ -6,7 +6,6 @@ import lombok.ToString;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -19,7 +18,7 @@ public class Rule implements Serializable {
      Boolean isActive;
      String topicPattern;
      String payloadPattern;
-     Set<RuleCallBackMethod> method;
+     String method;
      String webhookUrl;
      ZonedDateTime createdAt;
      ZonedDateTime updatedAt;

@@ -3,7 +3,6 @@ package com.amigoscode.devicemanagement.api.rule;
 import lombok.Value;
 
 import java.time.ZonedDateTime;
-import java.util.Set;
 
 @Value
 class RuleDto {
@@ -13,7 +12,7 @@ class RuleDto {
     Boolean isActive;
     String topicPattern;
     String payloadPattern;
-    Set<String> method;
+    String method;
     String webhookUrl;
     ZonedDateTime createdAt;
     ZonedDateTime updatedAt;
