@@ -7,37 +7,46 @@ import com.amigoscode.devicemanagement.domain.devicesetting.model.DeviceSetting;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 
+import java.time.Clock;
+import java.time.ZonedDateTime;
+
 @RequiredArgsConstructor
 public class DeviceService {
 
     private final DeviceRepository deviceRepository;
     private final DeviceSettingService deviceSettingService;
+    private final Clock clock;
 
     public boolean isDeviceRegistered(String deviceId){
         return deviceRepository.findById(deviceId).isPresent();
     }
 
-    public Device save(Device device){
+    public Device save(Device device, String creatorId){
         if ( (device.getId() != null) && (deviceRepository.findById(device.getId()).isPresent()) ) {
             throw new DeviceAlreadyExistsException();
         }
+        ZonedDateTime createdAt = ZonedDateTime.now(clock);
+        device.setCreatedAt(createdAt);
+        device.setUpdatedBy(creatorId);
         Device savedDevice = deviceRepository.save(device);
-        DeviceSetting deviceDefaaultSetting = new DeviceSetting(
+        DeviceSetting defaaultDeviceSetting = new DeviceSetting(
           null,
                 savedDevice.getId(),
                 5,
                 true,
+                createdAt,
                 null,
                 null,
-                null,
-                null
+                creatorId
         );
-        deviceSettingService.save(deviceDefaaultSetting);
+        deviceSettingService.save(defaaultDeviceSetting);
 
         return savedDevice;
     }
 
-    public void update(Device device){
+    public void update(Device device, String updaterId){
+        device.setUpdatedAt(ZonedDateTime.now(clock));
+        device.setUpdatedBy(updaterId);
         deviceRepository.update(device);
     }
 

@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.Clock;
+
 import static com.amigoscode.devicemanagement.domain.user.model.UserRole.ADMIN;
 
 @RequiredArgsConstructor
@@ -71,7 +73,10 @@ class DeviceController {
 
     @PostMapping
     public ResponseEntity<DeviceDto> saveDevice(@RequestBody DeviceDto dto) {
-        Device device = deviceService.save(deviceMapper.toDomain(dto));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByEmail(((UserPrincipal) authentication.getPrincipal()).getUsername());
+
+        Device device = deviceService.save(deviceMapper.toDomain(dto), user.getId());
         return ResponseEntity
                 .ok(deviceMapper.toDto(device));
     }
@@ -79,7 +84,10 @@ class DeviceController {
     @PutMapping( path = "/{deviceId}")
     @AuthVerifyDevice
     public ResponseEntity<Void> updateDevice(@PathVariable String deviceId, @RequestBody DeviceDto dto) {
-        deviceService.update(deviceMapper.toDomain(dto));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByEmail(((UserPrincipal) authentication.getPrincipal()).getUsername());
+
+        deviceService.update(deviceMapper.toDomain(dto), user.getId());
 
         return ResponseEntity.ok().build();
     }

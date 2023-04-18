@@ -45,7 +45,7 @@ class MeasurementControllerIT extends BaseIT {
         //given
         String adminAccessToken = getTokenForAdmin();
         Device device = TestDeviceFactory.createDevice();
-        deviceService.save(device);
+        deviceService.save(device, "creatorId");
         Measurement measurement = TestMeasurementFactory.createRandom();
         measurement.setDeviceId(device.getId());
         measurementService.save(measurement);
@@ -70,7 +70,7 @@ class MeasurementControllerIT extends BaseIT {
         Device device = TestDeviceFactory.createDevice();
         device.setOwnerId(user.getId());
         userService.save(user);
-        deviceService.save(device);
+        deviceService.save(device, "creatorId");
         Measurement measurement = TestMeasurementFactory.createRandom();
         measurement.setDeviceId(device.getId());
         measurementService.save(measurement);
@@ -96,7 +96,7 @@ class MeasurementControllerIT extends BaseIT {
         Device device = TestDeviceFactory.createDevice();
         device.setOwnerId(user.getId() + "qwerty");
         userService.save(user);
-        deviceService.save(device);
+        deviceService.save(device, "creatorId");
         Measurement measurement = TestMeasurementFactory.createRandom();
         measurement.setDeviceId(device.getId());
         measurementService.save(measurement);
@@ -119,7 +119,7 @@ class MeasurementControllerIT extends BaseIT {
         //given
         String adminAccessToken = getTokenForAdmin();
         Device device = TestDeviceFactory.createDevice();
-        deviceService.save(device);
+        deviceService.save(device, "creatorId");
         Measurement measurement1 = TestMeasurementFactory.createRandom();
         Measurement measurement2 = TestMeasurementFactory.createRandom();
         Measurement measurement3 = TestMeasurementFactory.createRandom();
@@ -166,7 +166,7 @@ class MeasurementControllerIT extends BaseIT {
         Device device = TestDeviceFactory.createDevice();
         device.setOwnerId(user.getId());
         userService.save(user);
-        deviceService.save(device);
+        deviceService.save(device, "creatorId");
         Measurement measurement1 = TestMeasurementFactory.createRandom();
         Measurement measurement2 = TestMeasurementFactory.createRandom();
         Measurement measurement3 = TestMeasurementFactory.createRandom();
@@ -214,7 +214,7 @@ class MeasurementControllerIT extends BaseIT {
         Device device = TestDeviceFactory.createDevice();
         device.setOwnerId(user.getId() + "qwerty");
         userService.save(user);
-        deviceService.save(device);
+        deviceService.save(device, "creatorId");
         Measurement measurement1 = TestMeasurementFactory.createRandom();
         Measurement measurement2 = TestMeasurementFactory.createRandom();
         Measurement measurement3 = TestMeasurementFactory.createRandom();

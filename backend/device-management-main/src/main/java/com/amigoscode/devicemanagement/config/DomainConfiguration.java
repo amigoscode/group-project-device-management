@@ -16,10 +16,17 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.Clock;
+
 
 @Configuration
 @ConfigurationProperties("domain.properties")
 public class DomainConfiguration {
+
+    @Bean
+    public Clock clock() {
+        return Clock.systemDefaultZone();
+    }
 
     @Bean
     public UserService userService(UserRepository userRepository, EncodingService encoder)  {
@@ -27,8 +34,8 @@ public class DomainConfiguration {
     }
 
     @Bean
-    public DeviceService deviceService(DeviceRepository deviceRepository, DeviceSettingService deviceSettingService) {
-        return new DeviceService(deviceRepository, deviceSettingService);
+    public DeviceService deviceService(DeviceRepository deviceRepository, DeviceSettingService deviceSettingService, Clock clock) {
+        return new DeviceService(deviceRepository, deviceSettingService, clock);
     }
 
     @Bean

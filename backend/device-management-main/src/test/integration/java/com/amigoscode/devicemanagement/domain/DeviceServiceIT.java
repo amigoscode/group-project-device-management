@@ -18,7 +18,7 @@ public class DeviceServiceIT extends BaseIT {
     void add_device_test() {
         //given
         Device device = TestDeviceFactory.createDevice();
-        service.save(device);
+        service.save(device, "creatorId");
 
         //when
         Device readDevice = service.findById(device.getId());
@@ -35,9 +35,9 @@ public class DeviceServiceIT extends BaseIT {
         Device device1 = TestDeviceFactory.createDevice();
         Device device2 = TestDeviceFactory.createDevice();
         Device device3 = TestDeviceFactory.createDevice();
-        service.save(device1);
-        service.save(device2);
-        service.save(device3);
+        service.save(device1, "creatorId");
+        service.save(device2, "creatorId");
+        service.save(device3, "creatorId");
 
         //when
         Device readDevice= service.findById(device3.getId());

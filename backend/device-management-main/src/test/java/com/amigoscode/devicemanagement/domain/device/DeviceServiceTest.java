@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.Clock;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Optional;
@@ -18,6 +19,9 @@ class DeviceServiceTest {
 
     @Mock
     private DeviceRepository deviceRepository;
+
+    @Mock
+    private Clock clock;
 
     @InjectMocks
     private DeviceService deviceService;
@@ -32,21 +36,36 @@ class DeviceServiceTest {
             "updatedBy"
     );
 
+    private static ZonedDateTime NOW = ZonedDateTime.of(
+            20223,
+            4,
+            17,
+            12,
+            30,
+            20,
+            0,
+            ZoneId.of("UTC")
+    );
+
     @Test
     void update_method_should_not_throw_exception() {
+        Mockito.when((clock.getZone())).thenReturn(NOW.getZone());
+        Mockito.when((clock.instant())).thenReturn(NOW.toInstant());
         // Expect
-        Assertions.assertDoesNotThrow(() -> deviceService.update(fakeDevice));
+        Assertions.assertDoesNotThrow(() -> deviceService.update(fakeDevice, "creatorId"));
     }
 
     @Test
     void save_method_should_throw_device_already_exist_exception_when_device_exist() {
+        Mockito.when((clock.getZone())).thenReturn(NOW.getZone());
+        Mockito.when((clock.instant())).thenReturn(NOW.toInstant());
         Mockito.when(deviceRepository.save(
                 fakeDevice
         )).thenThrow(new DeviceAlreadyExistsException());
         //when
         //then
         Assertions.assertThrows(DeviceAlreadyExistsException.class,
-                ()-> deviceService.save(fakeDevice));
+                ()-> deviceService.save(fakeDevice, "creatorId"));
     }
 
     @Test

@@ -42,7 +42,7 @@ class MqttIT extends BaseIT {
     public void the_measurement_published_in_the_right_topic_by_the_registered_device_should_be_saved_in_the_repository() throws Exception {
         //given
         Device device = TestDeviceFactory.createDevice();
-        deviceService.save(device);
+        deviceService.save(device, "creatorId");
         MeasurementMqttDto measurement = measurementMqttMapper.toMqtt(TestMeasurementFactory.createRandom());
         measurement.setDeviceId(device.getId());
 
@@ -64,7 +64,7 @@ class MqttIT extends BaseIT {
     public void the_measurement_published_in_the_inappropriate_topic_by_the_registered_device_should_not_be_saved_in_the_repository() throws Exception {
         //given
         Device device = TestDeviceFactory.createDevice();
-        deviceService.save(device);
+        deviceService.save(device, "creatorId");
         MeasurementMqttDto measurement = measurementMqttMapper.toMqtt(TestMeasurementFactory.createRandom());
         measurement.setDeviceId(device.getId());
 

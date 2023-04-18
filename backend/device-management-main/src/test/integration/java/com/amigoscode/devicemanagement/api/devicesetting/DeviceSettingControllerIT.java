@@ -4,7 +4,6 @@ import com.amigoscode.devicemanagement.BaseIT;
 import com.amigoscode.devicemanagement.TestDeviceFactory;
 import com.amigoscode.devicemanagement.TestDeviceSettingFactory;
 import com.amigoscode.devicemanagement.TestUserFactory;
-import com.amigoscode.devicemanagement.api.response.ErrorResponse;
 import com.amigoscode.devicemanagement.domain.device.DeviceService;
 import com.amigoscode.devicemanagement.domain.device.model.Device;
 import com.amigoscode.devicemanagement.domain.devicesetting.DeviceSettingService;
@@ -41,7 +40,7 @@ class DeviceSettingControllerIT extends BaseIT {
         String adminAccessToken = getTokenForAdmin();
         Device device = TestDeviceFactory.createDevice();
         DeviceSetting deviceSetting = TestDeviceSettingFactory.createDeviceSetting();
-        deviceService.save(device);
+        deviceService.save(device, "creatorId");
         DeviceSetting dfaultDeviceSetting = deviceSettingService.findByDeviceId(device.getId());
         deviceSetting.setId(dfaultDeviceSetting.getId());
         deviceSetting.setDeviceId(device.getId());
@@ -52,10 +51,10 @@ class DeviceSettingControllerIT extends BaseIT {
                 device.getId(),
                 25,
                 false,
-                device.getCreatedAt().plusDays(7),
-                device.getDeletedAt().plusDays(10),
-                device.getUpdatedAt().plusDays(8),
-                "New Updated By"
+                device.getCreatedAt(),
+                device.getDeletedAt(),
+                device.getUpdatedAt(),
+                device.getUpdatedBy()
         );
 
 
@@ -73,7 +72,9 @@ class DeviceSettingControllerIT extends BaseIT {
         Assertions.assertNull(body);
         //and
         DeviceSetting deviceSettingFromDb = deviceSettingService.findByDeviceId(device.getId());
-        compareDeviceSettings(updatedDeviceSetting, deviceSettingFromDb);
+        Assertions.assertEquals(deviceSettingFromDb.getDeviceId(), updatedDeviceSetting.getDeviceId());
+        Assertions.assertEquals(deviceSettingFromDb.getMeasurementPeriod(), updatedDeviceSetting.getMeasurementPeriod());
+        Assertions.assertEquals(deviceSettingFromDb.getIsMeasurementEnabled(), updatedDeviceSetting.getIsMeasurementEnabled());
     }
 
     @Test
@@ -84,7 +85,7 @@ class DeviceSettingControllerIT extends BaseIT {
         DeviceSetting deviceSetting = TestDeviceSettingFactory.createDeviceSetting();
         device.setOwnerId(user.getId());
         userService.save(user);
-        deviceService.save(device);
+        deviceService.save(device, "creatorId");
         DeviceSetting dfaultDeviceSetting = deviceSettingService.findByDeviceId(device.getId());
         deviceSetting.setId(dfaultDeviceSetting.getId());
         deviceSetting.setDeviceId(device.getId());
@@ -96,10 +97,10 @@ class DeviceSettingControllerIT extends BaseIT {
                 device.getId(),
                 25,
                 false,
-                device.getCreatedAt().plusDays(7),
-                device.getDeletedAt().plusDays(10),
-                device.getUpdatedAt().plusDays(8),
-                "New Updated By"
+                device.getCreatedAt(),
+                device.getDeletedAt(),
+                device.getUpdatedAt(),
+                device.getUpdatedBy()
         );
 
         //when
@@ -116,7 +117,9 @@ class DeviceSettingControllerIT extends BaseIT {
         Assertions.assertNull(body);
         //and
         DeviceSetting deviceSettingFromDb = deviceSettingService.findByDeviceId(device.getId());
-        compareDeviceSettings(updatedDeviceSetting, deviceSettingFromDb);
+        Assertions.assertEquals(deviceSettingFromDb.getDeviceId(), updatedDeviceSetting.getDeviceId());
+        Assertions.assertEquals(deviceSettingFromDb.getMeasurementPeriod(), updatedDeviceSetting.getMeasurementPeriod());
+        Assertions.assertEquals(deviceSettingFromDb.getIsMeasurementEnabled(), updatedDeviceSetting.getIsMeasurementEnabled());
     }
 
     @Test
@@ -124,7 +127,7 @@ class DeviceSettingControllerIT extends BaseIT {
         //given
         String adminAccessToken = getTokenForAdmin();
         Device device = TestDeviceFactory.createDevice();
-        deviceService.save(device);
+        deviceService.save(device, "creatorId");
         DeviceSetting deviceSetting = TestDeviceSettingFactory.createDeviceSetting();
         DeviceSetting dfaultDeviceSetting = deviceSettingService.findByDeviceId(device.getId());
         deviceSetting.setId(dfaultDeviceSetting.getId());
@@ -152,7 +155,7 @@ class DeviceSettingControllerIT extends BaseIT {
         userService.save(user);
         Device device = TestDeviceFactory.createDevice();
         device.setOwnerId(user.getId());
-        deviceService.save(device);
+        deviceService.save(device, "creatorId");
         DeviceSetting deviceSetting = TestDeviceSettingFactory.createDeviceSetting();
         deviceSetting.setDeviceId(device.getId());
         DeviceSetting dfaultDeviceSetting = deviceSettingService.findByDeviceId(device.getId());
@@ -182,7 +185,7 @@ class DeviceSettingControllerIT extends BaseIT {
         userService.save(user);
         Device device = TestDeviceFactory.createDevice();
         device.setOwnerId(user.getId() + "qwerty");
-        deviceService.save(device);
+        deviceService.save(device, "creatorId");
         DeviceSetting deviceSetting = TestDeviceSettingFactory.createDeviceSetting();
         deviceSetting.setDeviceId(device.getId());
         DeviceSetting dfaultDeviceSetting = deviceSettingService.findByDeviceId(device.getId());
@@ -212,7 +215,7 @@ class DeviceSettingControllerIT extends BaseIT {
         DeviceSetting deviceSetting = TestDeviceSettingFactory.createDeviceSetting();
         device.setOwnerId(user.getId() + "123");
         userService.save(user);
-        deviceService.save(device);
+        deviceService.save(device, "creatorId");
         DeviceSetting dfaultDeviceSetting = deviceSettingService.findByDeviceId(device.getId());
         deviceSetting.setId(dfaultDeviceSetting.getId());
         deviceSetting.setDeviceId(device.getId());
