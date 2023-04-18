@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.Clock;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Optional;
@@ -18,6 +19,9 @@ public class DeviceSettingServiceTest {
 
     @Mock
     private DeviceSettingRepository deviceSettingRepository;
+
+    @Mock
+    private Clock clock;
 
     @InjectMocks
     private DeviceSettingService deviceSettingService;
@@ -33,14 +37,27 @@ public class DeviceSettingServiceTest {
             "updatedBy"
     );
 
+    private static ZonedDateTime NOW = ZonedDateTime.of(
+            20223,
+            4,
+            17,
+            12,
+            30,
+            20,
+            0,
+            ZoneId.of("UTC")
+    );
+
     @Test
     void save_method_should_return_saved_device_setting_when_device_setting_does_not_exist() {
+        Mockito.when((clock.getZone())).thenReturn(NOW.getZone());
+        Mockito.when((clock.instant())).thenReturn(NOW.toInstant());
         Mockito.when(deviceSettingRepository.save(
                 fakeDeviceSetting
         )).thenReturn(fakeDeviceSetting);
 
         //when
-        DeviceSetting savedDeviceSetting = deviceSettingService.save(fakeDeviceSetting);
+        DeviceSetting savedDeviceSetting = deviceSettingService.save(fakeDeviceSetting, "creatorId");
 
         //then
         Assertions.assertNotNull(savedDeviceSetting);
@@ -56,13 +73,15 @@ public class DeviceSettingServiceTest {
 
     @Test
     void save_method_should_throw_device_setting_already_exist_exception_when_device_setting_exist() {
+        Mockito.when((clock.getZone())).thenReturn(NOW.getZone());
+        Mockito.when((clock.instant())).thenReturn(NOW.toInstant());
         Mockito.when(deviceSettingRepository.save(
                 fakeDeviceSetting
         )).thenThrow(new DeviceSettingAlreadyExistsException());
         //when
         //then
         Assertions.assertThrows(DeviceSettingAlreadyExistsException.class,
-                ()-> deviceSettingService.save(fakeDeviceSetting));
+                ()-> deviceSettingService.save(fakeDeviceSetting, "creatorId"));
     }
 
     @Test
