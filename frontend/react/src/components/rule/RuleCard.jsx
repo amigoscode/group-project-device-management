@@ -15,10 +15,10 @@ import {
     Text,
     useDisclosure
 } from '@chakra-ui/react';
+import {deleteRule} from "../../services/ruleClient.js";
 import {errorNotification, successNotification} from "../../services/notification.js";
 import RuleDrawer from "./RuleDrawer.jsx";
 import React, {useRef} from "react";
-import {deleteRule} from "../../services/ruleClient.js";
 
 
 export default function RuleCard({id, name, isActive, topicPattern, payloadPattern, method, webhookUrl, onSuccess}) {
@@ -39,7 +39,7 @@ export default function RuleCard({id, name, isActive, topicPattern, payloadPatte
         <Card align='center'>
             <CardHeader>
                 { name && <Heading size='md'> {name} </Heading> }
-                { !name && <Heading size='md'> User </Heading> }
+                { !name && <Heading size='md'> Rule </Heading> }
             </CardHeader>
             <CardBody>
                 { id && <> <Text fontSize='lg' as='b'>id: {id}</Text> <br /> </> }

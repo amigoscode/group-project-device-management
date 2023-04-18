@@ -23,6 +23,7 @@ export default function Rules() {
     const fetchRules = () => {
         setLoading(true);
         getRules(page - 1, pageSize).then(res => {
+            //convert boolean isActive to String
             setRules(res.data.rules)
             setCurrentPage(res.data.currentPage)
             setTotalPages(res.data.totalPages)
