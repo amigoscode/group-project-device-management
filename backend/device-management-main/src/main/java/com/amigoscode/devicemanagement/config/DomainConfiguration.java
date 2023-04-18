@@ -29,8 +29,8 @@ public class DomainConfiguration {
     }
 
     @Bean
-    public UserService userService(UserRepository userRepository, EncodingService encoder)  {
-        return new UserService(userRepository, encoder);
+    public UserService userService(UserRepository userRepository, EncodingService encoder, Clock clock)  {
+        return new UserService(userRepository, encoder, clock);
     }
 
     @Bean

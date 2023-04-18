@@ -84,7 +84,7 @@ class DeviceSettingControllerIT extends BaseIT {
         Device device = TestDeviceFactory.createDevice();
         DeviceSetting deviceSetting = TestDeviceSettingFactory.createDeviceSetting();
         device.setOwnerId(user.getId());
-        userService.save(user);
+        userService.save(user, "creatorId");
         deviceService.save(device, "creatorId");
         DeviceSetting dfaultDeviceSetting = deviceSettingService.findByDeviceId(device.getId());
         deviceSetting.setId(dfaultDeviceSetting.getId());
@@ -152,7 +152,7 @@ class DeviceSettingControllerIT extends BaseIT {
     void device_owner_should_be_able_to_get_device_setting_information_about_device_he_owns() {
         //given
         User user = TestUserFactory.createDeviceOwner();
-        userService.save(user);
+        userService.save(user, "creatorId");
         Device device = TestDeviceFactory.createDevice();
         device.setOwnerId(user.getId());
         deviceService.save(device, "creatorId");
@@ -182,7 +182,7 @@ class DeviceSettingControllerIT extends BaseIT {
     void device_owner_should_not_be_able_to_get_device_setting_information_about_device_he_does_not_own() {
         //given
         User user = TestUserFactory.createDeviceOwner();
-        userService.save(user);
+        userService.save(user, "creatorId");
         Device device = TestDeviceFactory.createDevice();
         device.setOwnerId(user.getId() + "qwerty");
         deviceService.save(device, "creatorId");
@@ -214,7 +214,7 @@ class DeviceSettingControllerIT extends BaseIT {
         Device device = TestDeviceFactory.createDevice();
         DeviceSetting deviceSetting = TestDeviceSettingFactory.createDeviceSetting();
         device.setOwnerId(user.getId() + "123");
-        userService.save(user);
+        userService.save(user, "creatorId");
         deviceService.save(device, "creatorId");
         DeviceSetting dfaultDeviceSetting = deviceSettingService.findByDeviceId(device.getId());
         deviceSetting.setId(dfaultDeviceSetting.getId());

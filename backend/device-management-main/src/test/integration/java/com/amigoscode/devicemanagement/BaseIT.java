@@ -138,7 +138,11 @@ public class BaseIT {
             "admin@example.pl",
             "Stefan Burczymucha",
             passwordEncoder.encode("password"),
-            Set.of(UserRole.ADMIN)
+            Set.of(UserRole.ADMIN),
+            null,
+            null,
+            null,
+            null
     );
 
     protected String localUrl(String endpoint) {
@@ -147,7 +151,7 @@ public class BaseIT {
     }
 
     protected void addTestUsers() {
-        userService.save(adminUser);
+        userService.save(adminUser, "creatorId");
     }
 
     protected String getAccessTokenForUser(String email, String password) {

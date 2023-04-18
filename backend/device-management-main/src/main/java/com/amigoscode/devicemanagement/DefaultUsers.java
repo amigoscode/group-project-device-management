@@ -24,7 +24,11 @@ public class DefaultUsers implements CommandLineRunner {
         "jan@example.com",
         "Jan Kowalski",
         "MyPassword",
-        Set.of(UserRole.ADMIN)
+        Set.of(UserRole.ADMIN),
+            null,
+            null,
+            null,
+            null
     );
 
     private final User deviceOwnerUser = new User(
@@ -32,7 +36,11 @@ public class DefaultUsers implements CommandLineRunner {
         "stefan@example.com",
         "Stefan Burczymucha",
         "password",
-        Set.of(UserRole.DEVICE_OWNER)
+        Set.of(UserRole.DEVICE_OWNER),
+            null,
+            null,
+            null,
+            null
     );
 
     @Override
@@ -46,6 +54,6 @@ public class DefaultUsers implements CommandLineRunner {
     }
 
     private void addUser(User user) {
-        userService.save(user);
+        userService.save(user, "defaultUsersCreatorId");
     }
 }

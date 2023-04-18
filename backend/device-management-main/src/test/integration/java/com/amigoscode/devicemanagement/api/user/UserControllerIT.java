@@ -27,7 +27,7 @@ class UserControllerIT extends BaseIT {
     void admin_should_get_information_about_any_user() {
         //given
         User user = TestUserFactory.createDeviceOwner();
-        service.save(user);
+        service.save(user, "creatorId");
         String token = getTokenForAdmin();
 
         //when
@@ -69,8 +69,8 @@ class UserControllerIT extends BaseIT {
         //given
         User user1 = TestUserFactory.createDeviceOwner();
         User user2 = TestUserFactory.createDeviceOwner();
-        service.save(user1);
-        service.save(user2);
+        service.save(user1, "creatorId");
+        service.save(user2, "creatorId");
         String accessToken = getAccessTokenForUser(user1.getEmail(), user1.getPassword());
 
         //when
@@ -88,7 +88,7 @@ class UserControllerIT extends BaseIT {
     void admin_should_get_response_code_conflict_when_user_is_in_db() {
         //given
         User user = TestUserFactory.createDeviceOwner();
-        service.save(user);
+        service.save(user, "creatorId");
         String adminToken = getTokenForAdmin();
 
         //when
@@ -131,7 +131,7 @@ class UserControllerIT extends BaseIT {
     void device_owner_should_get_information_about_himself() {
         //given
         User user = TestUserFactory.createDeviceOwner();
-        service.save(user);
+        service.save(user, "creatorId");
         String accessToken = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
         //when
@@ -157,13 +157,17 @@ class UserControllerIT extends BaseIT {
     void admin_should_be_able_to_update_user() {
         //given
         User user = TestUserFactory.createDeviceOwner();
-        userService.save(user);
+        userService.save(user, "creatorId");
         User toUpdate = new User(
                 user.getId(),
                 "email@email.com",
                 "newPerson",
                 "newpassword",
-                Set.of(UserRole.DEVICE_OWNER)
+                Set.of(UserRole.DEVICE_OWNER),
+                user.getCreatedAt(),
+                user.getDeletedAt(),
+                user.getUpdatedAt(),
+                user.getUpdatedBy()
         );
         String adminAccessToken = getTokenForAdmin();
 
@@ -199,13 +203,17 @@ class UserControllerIT extends BaseIT {
     void device_owner_should_be_not_able_to_update_user() {
         //given
         User user = TestUserFactory.createDeviceOwner();
-        userService.save(user);
+        userService.save(user, "creatorId");
         User userToUpdate = new User(
                 user.getId(),
                 "otherUser@email.com",
                 "Person",
                 "password",
-                Set.of(UserRole.DEVICE_OWNER)
+                Set.of(UserRole.DEVICE_OWNER),
+                user.getCreatedAt(),
+                user.getDeletedAt(),
+                user.getUpdatedAt(),
+                user.getUpdatedBy()
         );
         String token = getAccessTokenForUser(user.getEmail(), user.getPassword());
 
@@ -225,7 +233,7 @@ class UserControllerIT extends BaseIT {
         //given
         User user = TestUserFactory.createDeviceOwner();
         String adminAccessToken = getTokenForAdmin();
-        userService.save(user);
+        userService.save(user, "creatorId");
 
         //when
         var response = callHttpMethod(
@@ -262,8 +270,8 @@ class UserControllerIT extends BaseIT {
         //given
         User firstUser = TestUserFactory.createDeviceOwner();
         User secondUser = TestUserFactory.createDeviceOwner();
-        userService.save(firstUser);
-        userService.save(secondUser);
+        userService.save(firstUser, "creatorId");
+        userService.save(secondUser, "creatorId");
         String token = getAccessTokenForUser(firstUser.getEmail(), firstUser.getPassword());
 
         //when
@@ -283,7 +291,7 @@ class UserControllerIT extends BaseIT {
         //give
         User user = TestUserFactory.createDeviceOwner();
         String adminAccessToken = getTokenForAdmin();
-        userService.save(user);
+        userService.save(user, "creatorId");
 
         //when
         var response = callHttpMethod(
