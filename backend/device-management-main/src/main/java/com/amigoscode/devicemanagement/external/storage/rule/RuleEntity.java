@@ -1,11 +1,11 @@
 package com.amigoscode.devicemanagement.external.storage.rule;
 
+
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.amigoscode.devicemanagement.external.storage.utils.ZonedDateTimeConverter;
 import lombok.*;
 
 import java.time.ZonedDateTime;
-import java.util.Set;
 
 @DynamoDBTable(tableName = "RulesEngine")
 @Builder
@@ -29,7 +29,7 @@ public class RuleEntity {
     @DynamoDBAttribute
     private String payloadPattern;
     @DynamoDBAttribute
-    private Set<String> method;
+    private String method;
     @DynamoDBAttribute
     private String webhookUrl;
 
@@ -46,7 +46,7 @@ public class RuleEntity {
     private String updatedBy;
 
 
-    public RuleEntity(String name, Boolean isActive, String topicPattern, String payloadPattern, Set<String> method, String webhookUrl) {
+    public RuleEntity(String name, Boolean isActive, String topicPattern, String payloadPattern, String method, String webhookUrl) {
         this.name = name;
         this.isActive = isActive;
         this.topicPattern = topicPattern;
