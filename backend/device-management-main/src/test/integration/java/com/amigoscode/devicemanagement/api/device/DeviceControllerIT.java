@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -202,6 +203,7 @@ class DeviceControllerIT extends BaseIT {
         //and
         Assertions.assertEquals(device.getName(), deviceDtoMapper.toDomain(body).getName());
         Assertions.assertEquals(device.getOwnerId(), deviceDtoMapper.toDomain(body).getOwnerId());
+        Assertions.assertTrue(deviceDtoMapper.toDomain(body).getCreatedAt().isAfter(ZonedDateTime.now().minusSeconds(2L)));
     }
 
     @Test
@@ -226,6 +228,7 @@ class DeviceControllerIT extends BaseIT {
         //and
         Assertions.assertEquals(device.getName(), deviceDtoMapper.toDomain(body).getName());
         Assertions.assertEquals(device.getOwnerId(), deviceDtoMapper.toDomain(body).getOwnerId());
+        Assertions.assertTrue(deviceDtoMapper.toDomain(body).getCreatedAt().isAfter(ZonedDateTime.now().minusSeconds(2L)));
     }
 
     @Test
@@ -278,6 +281,7 @@ class DeviceControllerIT extends BaseIT {
         Device deviceFromDb = deviceService.findById(device.getId());
         Assertions.assertEquals(deviceFromDb.getName(), updatedDevice.getName());
         Assertions.assertEquals(deviceFromDb.getOwnerId(), updatedDevice.getOwnerId());
+        Assertions.assertTrue(deviceFromDb.getUpdatedAt().isAfter(ZonedDateTime.now().minusSeconds(2L)));
     }
 
     @Test
@@ -316,6 +320,7 @@ class DeviceControllerIT extends BaseIT {
         Assertions.assertEquals(deviceFromDb.getName(), updatedDevice.getName());
         Assertions.assertEquals(deviceFromDb.getOwnerId(), updatedDevice.getOwnerId());
         Assertions.assertEquals(deviceFromDb.getUpdatedBy(), user.getId());
+        Assertions.assertTrue(deviceFromDb.getUpdatedAt().isAfter(ZonedDateTime.now().minusSeconds(2L)));
     }
 
     @Test
