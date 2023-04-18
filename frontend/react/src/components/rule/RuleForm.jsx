@@ -28,7 +28,7 @@ const MySelect = ({label, ...props}) => {
     return (
         <Box>
             <FormLabel htmlFor={props.id || props.name}>{label}</FormLabel>
-            <Select {...field} {...props} />
+            <Select {...field} {...props}  value={field.value} />
             {meta.touched && meta.error ? (
                  <Alert className="error" status={"error"} mt={2}>
                     <AlertIcon />
@@ -51,6 +51,7 @@ const RuleForm = ({onSuccess, initialValues, ruleId}) => {
     }
 
     const formikInitialValues = initialValues ? {...initialValues} : {...emptyRule};
+    console.log(formikInitialValues);
 
     return (
         <>
@@ -60,20 +61,20 @@ const RuleForm = ({onSuccess, initialValues, ruleId}) => {
                     name: Yup.string()
                         .max(25, 'Must be 25 characters or less')
                         .required('Required'),
-                    isActive: Yup.mixed()
+                    isActive: Yup.boolean()
                         .oneOf([true, false], 'Status is required')
                         .required('Status is required'),
                     topicPattern: Yup.string()
-                        .max(25, 'Must be 25 characters or less')
+                        .max(100, 'Must be 25 characters or less')
                         .required('Required'),
                     payloadPattern: Yup.string()
-                        .max(25, 'Must be 25 characters or less')
+                        .max(100, 'Must be 25 characters or less')
                         .required('Required'),
                     method: Yup.string()
                         .oneOf(['GET','POST'], 'Invalid Method') 
                         .required('Required'), 
                     webhookUrl: Yup.string()
-                        .max(25, 'Must be 25 characters or less')
+                        .max(100, 'Must be 25 characters or less')
                         .required('Required'),  
                 })}
                 onSubmit={(updatedRule, {setSubmitting}) => {
@@ -161,7 +162,7 @@ const RuleForm = ({onSuccess, initialValues, ruleId}) => {
                                 placeholder="https://www.callback.com"
                             />
 
-                            <MySelect label="Status" name="status">
+                            <MySelect label="Status" name="isActive">
                                 <option value="">Select status</option>
                                 <option value={true}>Active</option>
                                 <option value={false}>Inactive</option>

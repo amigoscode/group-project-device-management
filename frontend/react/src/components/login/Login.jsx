@@ -16,6 +16,8 @@ import {Form, Formik, useField} from "formik";
 import * as Yup from 'yup';
 import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
+import bgImage from "../../assets/IOT_BG_4.png";
+import logo from "../../assets/logo.png";
 import {login} from "../../services/userService.js";
 
 const MyTextInput = ({label, ...props}) => {
@@ -95,9 +97,9 @@ const Login = () => {
             <Flex p={8} flex={1} alignItems={'center'} justifyContent={'center'}>
                 <Stack spacing={4} w={'full'} maxW={'md'}>
                     <Image
-                        src={"https://user-images.githubusercontent.com/40702606/210880158-e7d698c2-b19a-4057-b415-09f48a746753.png"}
-                        boxSize={"200px"}
-                        alt={"Amigoscode Logo"}
+                        src={logo}
+                        boxSize={"400px"}
+                        alt={"DevicePulse Logo"}
                         alignSelf={"center"}
                     />
                     <Heading fontSize={'2xl'} mb={15}>Sign in to your account</Heading>
@@ -110,19 +112,17 @@ const Login = () => {
                 flexDirection={"column"}
                 alignItems={"center"}
                 justifyContent={"center"}
-                bgGradient={{sm: 'linear(to-r, blue.600, purple.600)'}}
+                bgGradient={{sm: 'linear(to-r, cyan.600, blue.600)'}}
             >
                 <Text fontSize={"6xl"} color={'white'} fontWeight={"bold"} mb={5}>
                     <Link target={"_blank"} href={"https://github.com/amigoscode/group-project-device-management"}>
-                        Device Management
+                        Device Pulse
                     </Link>
                 </Text>
                 <Image
                     alt={'Login Image'}
                     objectFit={'scale-down'}
-                    src={
-                        'https://user-images.githubusercontent.com/40702606/215539167-d7006790-b880-4929-83fb-c43fa74f429e.png'
-                    }
+                    src={bgImage}
                 />
             </Flex>
         </Stack>

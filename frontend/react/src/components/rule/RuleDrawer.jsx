@@ -34,7 +34,13 @@ const RuleDrawer = ({ onSuccess, initialValues }) => {
 
                 <DrawerBody>
                     <CreateRuleForm
-                        onSuccess={onSuccess}
+                        // onSuccess={onSuccess}
+                        onSuccess={() => {
+                            if (onSuccess) {
+                                onSuccess();
+                            }
+                            onClose();
+                        }}
                         initialValues={initialValues}
                     />
                 </DrawerBody>
