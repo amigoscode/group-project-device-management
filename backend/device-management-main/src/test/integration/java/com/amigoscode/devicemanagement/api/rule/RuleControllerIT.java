@@ -4,7 +4,6 @@ import com.amigoscode.devicemanagement.BaseIT;
 import com.amigoscode.devicemanagement.api.response.ErrorResponse;
 import com.amigoscode.devicemanagement.domain.rule.RuleService;
 import com.amigoscode.devicemanagement.domain.rule.model.Rule;
-import com.amigoscode.devicemanagement.domain.rule.model.RuleCallBackMethod;
 import com.amigoscode.devicemanagement.domain.user.UserService;
 import integration.java.com.amigoscode.devicemanagement.TestRuleFactory;
 import org.junit.jupiter.api.Assertions;
@@ -14,11 +13,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
-import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class RuleControllerIT extends BaseIT {
 
@@ -133,7 +129,7 @@ class RuleControllerIT extends BaseIT {
                 false,
                 "location",
                 "location",
-                Set.of(RuleCallBackMethod.POST),
+                "POST",
                 "http://loaction.com",
                 rule.getCreatedAt().plusDays(7),
                 rule.getDeletedAt().plusDays(10),

@@ -3,7 +3,6 @@ package com.amigoscode.devicemanagement.domain.rule;
 import com.amigoscode.devicemanagement.domain.rule.exception.RuleAlreadyExistsException;
 import com.amigoscode.devicemanagement.domain.rule.exception.RuleNotFoundException;
 import com.amigoscode.devicemanagement.domain.rule.model.Rule;
-import com.amigoscode.devicemanagement.domain.rule.model.RuleCallBackMethod;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +14,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Optional;
-import java.util.Set;
 
 @ExtendWith(MockitoExtension.class)
 class RuleServiceTest {
@@ -32,7 +30,7 @@ class RuleServiceTest {
             true,
             "temperature",
             "test",
-            Set.of(RuleCallBackMethod.GET),
+            "GET",
             "http://iotdevmgr.com",
             ZonedDateTime.of(2023, 2, 22, 12, 40, 00, 0, ZoneId.of("UTC")),
             ZonedDateTime.of(2023, 2, 22, 12, 40, 00, 0, ZoneId.of("UTC")),
