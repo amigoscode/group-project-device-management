@@ -16,7 +16,7 @@ import {Form, Formik, useField} from "formik";
 import * as Yup from 'yup';
 import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
-import bgImage from "../../assets/IOT_BG_4.png";
+import bgImage from "../../assets/iotbg.png";
 import logo from "../../assets/logo.png";
 import {login} from "../../services/userService.js";
 
