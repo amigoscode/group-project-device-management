@@ -70,41 +70,35 @@ class UserServiceTest {
         Assertions.assertDoesNotThrow(() -> userService.removeById(fakeUser.getId()));
     }
 
-//    @Test
-//    void save_method_should_return_saved_user_when_user_does_not_exist() {
-//        Mockito.when((clock.getZone())).thenReturn(NOW.getZone());
-//        Mockito.when((clock.instant())).thenReturn(NOW.toInstant());
-//        Mockito.when(userRepository.save(
-//                fakeUser.withPassword(
-//                        encoder.encode(fakeUser.getPassword())
-//                )
-//        )).thenReturn(fakeUser);
-//
-//        //when
-//        User savedUser = userService.save(fakeUser, "creatorId");
-//
-//        //then
-//        Assertions.assertNotNull(savedUser);
-//        Assertions.assertEquals(fakeUser.getId(), savedUser.getId());
-//        Assertions.assertEquals(fakeUser.getEmail(), savedUser.getEmail());
-//        Assertions.assertEquals(fakeUser.getName(), savedUser.getName());
-//        Assertions.assertEquals(fakeUser.getPassword(), savedUser.getPassword());
-//    }
-//
-//    @Test
-//    void save_method_should_throw_user_already_exist_exception_when_user_exist() {
-//        Mockito.when((clock.getZone())).thenReturn(NOW.getZone());
-//        Mockito.when((clock.instant())).thenReturn(NOW.toInstant());
-//        Mockito.when(userRepository.save(
-//                fakeUser.withPassword(
-//                        encoder.encode(fakeUser.getPassword())
-//                )
-//        )).thenThrow(new UserAlreadyExistsException());
-//        //when
-//        //then
-//        Assertions.assertThrows(UserAlreadyExistsException.class,
-//                ()-> userService.save(fakeUser, "creatorId"));
-//    }
+    @Test
+    void save_method_should_return_saved_user_when_user_does_not_exist() {
+        Mockito.when((clock.getZone())).thenReturn(NOW.getZone());
+        Mockito.when((clock.instant())).thenReturn(NOW.toInstant());
+        Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(fakeUser);
+
+        //when
+        User savedUser = userService.save(fakeUser, "creatorId");
+
+        //then
+        Assertions.assertNotNull(savedUser);
+        Assertions.assertEquals(fakeUser.getId(), savedUser.getId());
+        Assertions.assertEquals(fakeUser.getEmail(), savedUser.getEmail());
+        Assertions.assertEquals(fakeUser.getName(), savedUser.getName());
+        Assertions.assertEquals(fakeUser.getPassword(), savedUser.getPassword());
+    }
+
+    @Test
+    void save_method_should_throw_user_already_exist_exception_when_user_exist() {
+        Mockito.when((clock.getZone())).thenReturn(NOW.getZone());
+        Mockito.when((clock.instant())).thenReturn(NOW.toInstant());
+        Mockito.when(userRepository.save(Mockito.any(User.class)))
+                .thenThrow(new UserAlreadyExistsException());
+
+        //when
+        //then
+        Assertions.assertThrows(UserAlreadyExistsException.class,
+                ()-> userService.save(fakeUser, "creatorId"));
+    }
 
     @Test
     void find_by_email_method_should_return_founded_user_when_user_exist() {
