@@ -3,15 +3,21 @@ package com.amigoscode.devicemanagement.api.device;
 
 import com.amigoscode.devicemanagement.BaseIT;
 import com.amigoscode.devicemanagement.TestDeviceFactory;
+import com.amigoscode.devicemanagement.TestMeasurementFactory;
 import com.amigoscode.devicemanagement.TestUserFactory;
 import com.amigoscode.devicemanagement.api.response.ErrorResponse;
 import com.amigoscode.devicemanagement.domain.device.DeviceService;
 import com.amigoscode.devicemanagement.domain.device.model.Device;
+import com.amigoscode.devicemanagement.domain.measurement.MeasurementService;
+import com.amigoscode.devicemanagement.domain.measurement.model.Measurement;
+import com.amigoscode.devicemanagement.domain.measurement.model.PageMeasurement;
 import com.amigoscode.devicemanagement.domain.user.UserService;
 import com.amigoscode.devicemanagement.domain.user.model.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 
@@ -26,6 +32,9 @@ class DeviceControllerIT extends BaseIT {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    MeasurementService measurementService;
 
     @Autowired
     DeviceService deviceService;
@@ -369,6 +378,49 @@ class DeviceControllerIT extends BaseIT {
 
         //then
         Assertions.assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+    }
+
+    @Test
+    void measurements_made_by_a_given_device_should_be_deleted_when_this_device_is_removed() {
+        //given
+        String adminAccessToken = getTokenForAdmin();
+        Device device = TestDeviceFactory.createDevice();
+        deviceService.save(device, "creatorId");
+        Measurement measurement1 = TestMeasurementFactory.createRandom();
+        Measurement measurement2 = TestMeasurementFactory.createRandom();
+        Measurement measurement3 = TestMeasurementFactory.createRandom();
+        Measurement measurement4 = TestMeasurementFactory.createRandom();
+        Measurement measurement5 = TestMeasurementFactory.createRandom();
+        measurement1.setDeviceId(device.getId());
+        measurement2.setDeviceId(device.getId());
+        measurement3.setDeviceId(device.getId());
+        measurement4.setDeviceId(device.getId() + "1234");
+        measurement5.setDeviceId(device.getId() + "1234");
+        measurementService.save(measurement1);
+        measurementService.save(measurement2);
+        measurementService.save(measurement3);
+        measurementService.save(measurement4);
+        measurementService.save(measurement5);
+
+        //when
+        var response = callHttpMethod(HttpMethod.DELETE,
+                "/api/v1/devices/" + device.getId(),
+                adminAccessToken,
+                deviceDtoMapper.toDto(device),
+                Void.class);
+
+        //then
+        Assertions.assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+
+        int page = 0;
+        int size = 3;
+        Pageable pageable = PageRequest.of(page, size);
+        final PageMeasurement deviceMeasurements = measurementService.findAllByDeviceId(pageable, device.getId());
+        Assertions.assertEquals(0, deviceMeasurements.getTotalElements());
+
+        final PageMeasurement allMeasurements = measurementService.findAll(pageable);
+        Assertions.assertEquals(2, allMeasurements.getTotalElements());
+
     }
 
     @Test
