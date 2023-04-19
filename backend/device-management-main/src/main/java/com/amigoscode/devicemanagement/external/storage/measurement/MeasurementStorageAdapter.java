@@ -44,6 +44,11 @@ class MeasurementStorageAdapter implements MeasurementRepository {
     }
 
     @Override
+    public void removeAllByDeviceId(final String deviceId) {
+        measurementRepository.deleteMeasurementEntitiesByDeviceId(deviceId);
+    }
+
+    @Override
     public Optional<Measurement> findById(String deviceId, ZonedDateTime timestamp) {
         MeasurementEntityId id = new MeasurementEntityId(deviceId, timestamp);
         return measurementRepository.findByMeasurementEntityId(id).map(mapper::toDomain);

@@ -34,8 +34,8 @@ public class DomainConfiguration {
     }
 
     @Bean
-    public DeviceService deviceService(DeviceRepository deviceRepository, DeviceSettingService deviceSettingService, Clock clock) {
-        return new DeviceService(deviceRepository, deviceSettingService, clock);
+    public DeviceService deviceService(DeviceRepository deviceRepository, DeviceSettingService deviceSettingService, MeasurementService measurementService, Clock clock) {
+        return new DeviceService(deviceRepository, deviceSettingService,measurementService, clock);
     }
 
     @Bean

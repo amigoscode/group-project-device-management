@@ -4,6 +4,7 @@ import com.amigoscode.devicemanagement.domain.device.model.Device;
 import com.amigoscode.devicemanagement.domain.device.model.PageDevice;
 import com.amigoscode.devicemanagement.domain.devicesetting.DeviceSettingService;
 import com.amigoscode.devicemanagement.domain.devicesetting.model.DeviceSetting;
+import com.amigoscode.devicemanagement.domain.measurement.MeasurementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 
@@ -15,6 +16,7 @@ public class DeviceService {
 
     private final DeviceRepository deviceRepository;
     private final DeviceSettingService deviceSettingService;
+    private final MeasurementService measurementService;
     private final Clock clock;
 
     public boolean isDeviceRegistered(String deviceId){
@@ -51,6 +53,7 @@ public class DeviceService {
     }
 
     public void removeById(String id){
+        measurementService.removeAllByDeviceId(id);
         DeviceSetting deviceSetting = deviceSettingService.findByDeviceId(id);
         deviceSettingService.removeById(deviceSetting.getId());
         deviceRepository.remove(id);

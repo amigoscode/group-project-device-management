@@ -20,6 +20,10 @@ public class MeasurementService {
         measurementRepository.remove(deviceId, timestamp);
     }
 
+    public void removeAllByDeviceId(String deviceId){
+        measurementRepository.removeAllByDeviceId(deviceId);
+    }
+
     public Measurement findById(String deviceId, ZonedDateTime timestamp){
         return measurementRepository.findById(deviceId, timestamp)
                 .orElseThrow(MeasurementNotFoundException::new);
