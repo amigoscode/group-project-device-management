@@ -8,7 +8,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.ZonedDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -25,4 +24,6 @@ interface DynamoMeasurementRepository extends PagingAndSortingRepository<Measure
     MeasurementEntity save(MeasurementEntity entity);
 
     void deleteByMeasurementEntityId(MeasurementEntityId id);
+
+    void deleteMeasurementEntitiesByDeviceId(String deviceId);
 }

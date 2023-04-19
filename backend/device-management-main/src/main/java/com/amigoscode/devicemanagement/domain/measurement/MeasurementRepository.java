@@ -13,6 +13,8 @@ public interface MeasurementRepository {
 
     void remove(String deviceId, ZonedDateTime timestamp);
 
+    void removeAllByDeviceId(String deviceId);
+
     Optional<Measurement> findById(String deviceId, ZonedDateTime timestamp);
 
     PageMeasurement findAll(Pageable pageable);
