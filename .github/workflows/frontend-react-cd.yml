@@ -43,7 +43,7 @@ jobs:
           REPO=device-management-react \
           TAG=${{ steps.build-number.outputs.BUILD_NUMBER }} \
           ../../.ci/build-publish.sh . \
-            --build-arg api_base_url=http://devicemanagement-env.eba-m3ctwxb5.eu-north-1.elasticbeanstalk.com:8080
+            --build-arg api_base_url=http://DeviceManagement-env.eba-w3zq4zzm.eu-north-1.elasticbeanstalk.com:8080
       - name: Send Slack Message
         run: >
           curl -X POST -H 'Content-type: application/json' 
